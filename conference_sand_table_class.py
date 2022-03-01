@@ -56,6 +56,7 @@ class ConferenceSandTable:
         start_pos = self.theta_motor.get_pos()
         print("start_pos", start_pos)
         self.theta_motor.set_vel(10)
+        print("set velocity")
 
     def stop_theta(self):
         self.theta_motor.set_vel(0)
