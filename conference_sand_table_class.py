@@ -34,6 +34,7 @@ class ConferenceSandTable:
         print("All motors are calibrated!")
 
     def set_mode(self, mirror=False):
+        """Probably don't need to use mirror mode, but I added it just in case"""
         if mirror:
             self.r2.axis.controller.config.axis_to_mirror = 0
             self.r2.axis.controller.config.input_mode = 7
