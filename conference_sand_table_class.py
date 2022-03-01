@@ -51,6 +51,7 @@ class ConferenceSandTable:
             "cos": cos,
         }
         start_pos = self.theta_motor.get_pos()
+        print(start_pos)
         self.theta_motor.set_vel(10)
 
 
