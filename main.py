@@ -7,7 +7,7 @@ table = ConferenceSandTable()
 # time.sleep(5)
 # table.stop_theta()
 
-direction = "in"
+direction = "out"
 while True:
     table.move(direction)
     direction = "in" if direction == "out" else "out"
