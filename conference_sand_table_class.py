@@ -57,8 +57,8 @@ class ConferenceSandTable:
         self.r2.wait()
 
     def home(self):
-        self.r1.set_vel(8)
-        self.r2.set_vel(8)
+        self.r1.set_vel(-10)
+        self.r2.set_vel(-10)
 
         while True:
             if self.r1.get_vel() < 0.05 and self.r2.get_vel() < 0.05:
@@ -68,6 +68,20 @@ class ConferenceSandTable:
                 self.r2.set_vel(0)
                 self.r2.set_home()
                 break
+
+    def find_ball(self):
+        self.home()
+        self.theta_motor.set_vel(5)  # might have to change this value
+        self.r1.set_vel(1)
+        self.r2.set_vel(1)
+
+        while True:
+            if self.r1.get_vel() < 0.05 and self.r2.get_vel() < 0.05:
+                self.r1.set_vel(0)
+                self.r2.set_vel(0)
+                self.theta_motor.set_vel(0)
+                break
+
 
 
     def draw_equation(self, equation: str, period):

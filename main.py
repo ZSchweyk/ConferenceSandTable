@@ -9,7 +9,7 @@ table.move("out")
 
 print("About to home...")
 
-table.home()
+table.find_ball()
 
 
 
