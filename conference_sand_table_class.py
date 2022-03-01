@@ -4,6 +4,7 @@ import ODrive_Ease_Lib
 import numpy as np
 import time
 import os
+from math import *
 
 
 class ConferenceSandTable:
@@ -37,6 +38,19 @@ class ConferenceSandTable:
             self.r2.axis.controller.config.axis_to_mirror = 0
             self.r2.axis.controller.config.input_mode = 7
             self.r2.axis.requested_state = 8
+
+    def draw_equation(self, equation: str, period):
+        builtin_restrictions = {
+            "min": min,
+            "max": max,
+        }
+        other_restrictions = {
+            "sqrt": sqrt,
+            "sin": sin,
+            "cos": cos,
+        }
+        start_pos = self.theta_motor.get_pos()
+        self.theta_motor.set_vel(10)
 
 
 
