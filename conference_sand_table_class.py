@@ -59,19 +59,21 @@ class ConferenceSandTable:
             self.r2.wait()
 
     def home(self):
-        self.r1.set_rel_pos_traj(30, 10, 15, 10)
+        self.r1.set_vel(5)
 
         while True:
             if self.r1.get_vel() == 0:
                 self.r1.set_vel(0)
                 self.r1.set_home()
+                break
 
-        self.r2.set_rel_pos_traj(30, 10, 15, 10)
+        self.r2.set_vel(5)
 
         while True:
             if self.r2.get_vel() == 0:
                 self.r2.set_vel(0)
                 self.r2.set_home()
+                break
 
 
 
