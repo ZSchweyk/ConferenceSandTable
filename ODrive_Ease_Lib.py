@@ -336,6 +336,10 @@ class ODrive_Axis(object):
         self.axis.error = 0
         self.axis.min_endstop.config.enabled = False
 
+    def wait(self):
+        while self.is_busy():
+            time.sleep(.05)
+
     def home_without_endstop(self, vel, offset):
         self.axis.controller.config.homing_speed = vel  # flip sign to turn CW or CCW
         self.set_ramped_vel(self.axis.controller.config.homing_speed, 1)

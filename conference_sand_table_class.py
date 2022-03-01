@@ -22,10 +22,13 @@ class ConferenceSandTable:
         assert self.theta_board.config.enable_brake_resistor, "Check for faulty theta brake resistor."
         assert self.radius_board.config.enable_brake_resistor, "Check for faulty radius brake resistor."
 
+        self.radius_board.clear_errors()
+
+
         # Connect to the actual ODrive motors through ODrive_Axis objects
         self.theta_motor = ODrive_Ease_Lib.ODrive_Axis(self.theta_board.axis0, 10, 30)
         self.r1 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis0, 20, 20)  # Blue tape #
-        self.r2 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis1, 25, 20)  # Orange tape
+        self.r2 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis1, 20, 20)  # Orange tape
 
         # Ensure that all motors are calibrated (which should be completed upon startup). Reboot ODrives until they
         # are calibrated.
@@ -44,33 +47,59 @@ class ConferenceSandTable:
             self.r2.axis.controller.config.input_mode = 7
             self.r2.axis.requested_state = 8
 
-    def move(self, in_or_out):
+    def move(self, in_or_out, wait=True):
         if in_or_out == "in":
-            self.r1.set_relative_pos(25)
-            self.r2.set_relative_pos(25)
+            self.r1.set_rel_pos_traj(25, 10, 15, 10)
+            self.r2.set_rel_pos_traj(25, 10, 15, 10)
         elif in_or_out == "out":
-            self.r1.set_relative_pos(-25)
-            self.r2.set_relative_pos(-25)
+            self.r1.set_rel_pos_traj(-25, 10, 15, 10)
+            self.r2.set_rel_pos_traj(-25, 10, 15, 10)
+
+        if wait:
+            self.r2.wait()
 
     def home(self):
-        # Home r1
+        self.r1.set_rel_pos_traj(30, 10, 15, 10)
+
         while True:
-            before_pos = self.r1.get_pos()
-            self.r1.set_relative_pos(1)
-            after_pos = self.r1.get_pos()
-            if after_pos - before_pos < .0005:
-                print("difference r1", after_pos - before_pos)
+            if self.r1.get_vel() == 0:
+                self.r1.set_vel(0)
                 self.r1.set_home()
-                break
-        # Home r2
+
+        self.r2.set_rel_pos_traj(30, 10, 15, 10)
+
         while True:
-            before_pos = self.r2.get_pos()
-            self.r2.set_relative_pos(1)
-            after_pos = self.r2.get_pos()
-            if after_pos - before_pos < .0005:
-                print("difference r2", after_pos - before_pos)
+            if self.r2.get_vel() == 0:
+                self.r2.set_vel(0)
                 self.r2.set_home()
-                break
+
+
+
+
+
+
+
+
+        # # Home r1
+        # while True:
+        #     before_pos = self.r1.get_pos()
+        #     self.r1.set_rel_pos_traj(1, 10, 15, 10)
+        #     self.r1.wait()
+        #     after_pos = self.r1.get_pos()
+        #     if after_pos - before_pos < .0005:
+        #         print("difference r1", after_pos - before_pos)
+        #         self.r1.set_home()
+        #         break
+        # # Home r2
+        # while True:
+        #     before_pos = self.r2.get_pos()
+        #     self.r2.set_rel_pos_traj(1, 10, 15, 10)
+        #     self.r2.wait()
+        #     after_pos = self.r2.get_pos()
+        #     if after_pos - before_pos < .0005:
+        #         print("difference r2", after_pos - before_pos)
+        #         self.r2.set_home()
+        #         break
 
     def draw_equation(self, equation: str, period):
         builtin_restrictions = {
