@@ -13,8 +13,10 @@ class ConferenceSandTable:
         # what to do.
 
         # Connect to ODrive boards
+        print("Connecting to boards...")
         self.radius_board = odrive.find_any(serial_number="208F3388304B")
         self.theta_board = odrive.find_any(serial_number="388937553437")
+        print("Found both boards")
 
         # Make sure that everything is okay with the brake resistors
         assert self.theta_board.config.enable_brake_resistor, "Check for faulty theta brake resistor."
@@ -29,6 +31,7 @@ class ConferenceSandTable:
         # are calibrated.
         while not (self.r1.is_calibrated() and self.r2.is_calibrated()):
             self.radius_board.reboot()
+            time.sleep(5)
         while not self.theta_motor.is_calibrated():
             self.theta_board.reboot()
         print("All motors are calibrated!")
