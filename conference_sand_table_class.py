@@ -31,9 +31,10 @@ class ConferenceSandTable:
         # are calibrated.
         while not (self.r1.is_calibrated() and self.r2.is_calibrated()):
             self.radius_board.reboot()
-            time.sleep(5)
+            time.sleep(10)
         while not self.theta_motor.is_calibrated():
             self.theta_board.reboot()
+            time.sleep(10)
         print("All motors are calibrated!")
 
     def set_mode(self, mirror=False):
@@ -42,6 +43,14 @@ class ConferenceSandTable:
             self.r2.axis.controller.config.axis_to_mirror = 0
             self.r2.axis.controller.config.input_mode = 7
             self.r2.axis.requested_state = 8
+
+    def move(self, in_or_out):
+        if in_or_out == "in":
+            self.r1.set_relative_pos(25)
+            self.r2.set_relative_pos(25)
+        elif in_or_out == "out":
+            self.r1.set_relative_pos(-25)
+            self.r2.set_relative_pos(-25)
 
     def draw_equation(self, equation: str, period):
         builtin_restrictions = {

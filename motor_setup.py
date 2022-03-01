@@ -32,7 +32,13 @@ r2.axis.requested_state = 8
 
 
 
-
+def move(in_or_out):
+    if in_or_out == "in":
+        r1.set_relative_pos(25)
+        r2.set_relative_pos(25)
+    elif in_or_out == "out":
+        r1.set_relative_pos(-25)
+        r2.set_relative_pos(-25)
 
 
 
