@@ -47,61 +47,28 @@ class ConferenceSandTable:
             self.r2.axis.controller.config.input_mode = 7
             self.r2.axis.requested_state = 8
 
-    def move(self, in_or_out, wait=True):
+    def move(self, in_or_out):
         if in_or_out == "in":
             self.r1.set_rel_pos_traj(25, 10, 15, 10)
             self.r2.set_rel_pos_traj(25, 10, 15, 10)
         elif in_or_out == "out":
             self.r1.set_rel_pos_traj(-25, 10, 15, 10)
             self.r2.set_rel_pos_traj(-25, 10, 15, 10)
-
-        if wait:
-            self.r2.wait()
+        self.r2.wait()
 
     def home(self):
-        self.r1.set_vel(5)
+        self.r1.set_vel(8)
+        self.r2.set_vel(8)
 
         while True:
-            if self.r1.get_vel() == 0:
+            if self.r1.get_vel() < 0.05 and self.r2.get_vel() < 0.05:
                 self.r1.set_vel(0)
                 self.r1.set_home()
-                break
 
-        self.r2.set_vel(5)
-
-        while True:
-            if self.r2.get_vel() == 0:
                 self.r2.set_vel(0)
                 self.r2.set_home()
                 break
 
-
-
-
-
-
-
-
-        # # Home r1
-        # while True:
-        #     before_pos = self.r1.get_pos()
-        #     self.r1.set_rel_pos_traj(1, 10, 15, 10)
-        #     self.r1.wait()
-        #     after_pos = self.r1.get_pos()
-        #     if after_pos - before_pos < .0005:
-        #         print("difference r1", after_pos - before_pos)
-        #         self.r1.set_home()
-        #         break
-        # # Home r2
-        # while True:
-        #     before_pos = self.r2.get_pos()
-        #     self.r2.set_rel_pos_traj(1, 10, 15, 10)
-        #     self.r2.wait()
-        #     after_pos = self.r2.get_pos()
-        #     if after_pos - before_pos < .0005:
-        #         print("difference r2", after_pos - before_pos)
-        #         self.r2.set_home()
-        #         break
 
     def draw_equation(self, equation: str, period):
         builtin_restrictions = {
