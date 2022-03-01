@@ -58,7 +58,7 @@ class ConferenceSandTable:
             before_pos = self.r1.get_pos()
             self.r1.set_relative_pos(1)
             after_pos = self.r1.get_pos()
-            if after_pos - before_pos < .1:
+            if after_pos - before_pos < .0005:
                 print("difference r1", after_pos - before_pos)
                 self.r1.set_home()
                 break
@@ -67,7 +67,7 @@ class ConferenceSandTable:
             before_pos = self.r2.get_pos()
             self.r2.set_relative_pos(1)
             after_pos = self.r2.get_pos()
-            if after_pos - before_pos < .1:
+            if after_pos - before_pos < .0005:
                 print("difference r2", after_pos - before_pos)
                 self.r2.set_home()
                 break
