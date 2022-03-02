@@ -73,8 +73,8 @@ class ConferenceSandTable:
         # This is starter code for homing. I will probably have to adjust constants
         self.home()
         self.theta_motor.set_vel(5)  # might have to change this value
-        self.r1.set_vel(1)
-        self.r2.set_vel(1)
+        self.r1.set_vel(.5)
+        self.r2.set_vel(.5)
 
         while True:
             if self.r1.get_vel() < 0.05 and self.r2.get_vel() < 0.05:
