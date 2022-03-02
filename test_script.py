@@ -14,11 +14,23 @@ theta_board = odrive.find_any(serial_number="388937553437")
 assert theta_board.config.enable_brake_resistor, "Check for faulty theta brake resistor."
 assert radius_board.config.enable_brake_resistor, "Check for faulty radius brake resistor."
 
+radius_board.clear_errors()
+
 theta_motor = ODrive_Ease_Lib.ODrive_Axis(theta_board.axis0, 10, 30)
 r1 = ODrive_Ease_Lib.ODrive_Axis(radius_board.axis0, 20, 20)  # Blue tape #
 r2 = ODrive_Ease_Lib.ODrive_Axis(radius_board.axis1, 20, 20)  # Orange tape
 
-radius_board.clear_errors()
+# Ensure that all motors are calibrated (which should be completed upon startup). Reboot ODrives until they
+# are calibrated.
+while not (r1.is_calibrated() and r2.is_calibrated()):
+    print("r not calibrated")
+    radius_board.reboot()
+    time.sleep(10)
+while not theta_motor.is_calibrated():
+    print("theta not calibrated")
+    theta_board.reboot()
+    time.sleep(10)
+print("All motors are calibrated!")
 
 
 def home():
@@ -45,12 +57,14 @@ def move(in_or_out):
     r2.wait()
 
 
-in_or_out = "in"
-for i in range(5):
-    move(in_or_out)
-    # r1.set_rel_pos_traj(sign * 5, 10, 15, 10)
-    # r2.set_rel_pos_traj(sign * 5, 10, 15, 10)
-    in_or_out = "out" if in_or_out == "in" else "in"
+move("in")
+
+# in_or_out = "in"
+# for i in range(5):
+#     move(in_or_out)
+#     # r1.set_rel_pos_traj(sign * 5, 10, 15, 10)
+#     # r2.set_rel_pos_traj(sign * 5, 10, 15, 10)
+#     in_or_out = "out" if in_or_out == "in" else "in"
 
 home()
 

@@ -1,5 +1,4 @@
 import time
-
 import ODrive_Ease_Lib
 from conference_sand_table_class import ConferenceSandTable
 
@@ -10,18 +9,6 @@ table.move("in")
 print("About to home...")
 
 table.home()
-
-
-
-
-
-
-
-
-
-
-
-
 
 table.r1.idle()
 table.r2.idle()
