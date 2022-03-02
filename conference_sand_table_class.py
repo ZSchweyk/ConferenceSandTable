@@ -5,20 +5,18 @@ import numpy as np
 import time
 import os
 from math import *
-import logging
 
 
 class ConferenceSandTable:
     def __init__(self):
-        logging.basicConfig(level=logging.INFO)
         # Occasionally, it can't connect to radius_board. Power cycling seems like a temporary fix, but I'm not sure
         # what to do.
 
         # Connect to ODrive boards
-        logging.info("Connecting to boards...")
+        print("Connecting to boards...")
         self.radius_board = odrive.find_any(serial_number="208F3388304B")
         self.theta_board = odrive.find_any(serial_number="388937553437")
-        logging.info("Found both boards")
+        print("Found both boards")
 
         # Make sure that everything is okay with the brake resistors
         assert self.theta_board.config.enable_brake_resistor, "Check for faulty theta brake resistor."
@@ -40,7 +38,7 @@ class ConferenceSandTable:
         while not self.theta_motor.is_calibrated():
             self.theta_board.reboot()
             time.sleep(10)
-        logging.info("All motors are calibrated!")
+        print("All motors are calibrated!")
 
     def set_mode(self, mirror=False):
         """Probably don't need to use mirror mode, but I added it just in case"""
