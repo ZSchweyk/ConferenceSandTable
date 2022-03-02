@@ -33,10 +33,13 @@ class ConferenceSandTable:
         # Ensure that all motors are calibrated (which should be completed upon startup). Reboot ODrives until they
         # are calibrated.
         while not (self.r1.is_calibrated() and self.r2.is_calibrated()):
-            self.radius_board.reboot()
+            self.r1.calibrate_encoder()
+            self.r2.calibrate_encoder()
+            # self.radius_board.reboot()
             time.sleep(10)
         while not self.theta_motor.is_calibrated():
-            self.theta_board.reboot()
+            self.theta_motor.calibrate_encoder()
+            # self.theta_board.reboot()
             time.sleep(10)
         print("All motors are calibrated!")
 
@@ -72,18 +75,18 @@ class ConferenceSandTable:
     def find_ball(self):
         # This is starter code for homing. I will probably have to adjust constants
         self.home()
-        self.theta_motor.set_vel(5)  # might have to change this value
-        self.r1.set_vel(-.5)
-        self.r2.set_vel(-.5)
-
-        while True:
-            if self.r1.get_vel() > -0.05 and self.r2.get_vel() > -0.05:
-                self.r1.set_vel(0)
-                self.r2.set_vel(0)
-                self.theta_motor.set_vel(0)
-                # self.r1.home_without_endstop(10, 0)
-                # self.r2.home_without_endstop(10, 0)
-                break
+        # self.theta_motor.set_vel(5)  # might have to change this value
+        # self.r1.set_vel(-.5)
+        # self.r2.set_vel(-.5)
+        #
+        # while True:
+        #     if self.r1.get_vel() > -0.05 and self.r2.get_vel() > -0.05:
+        #         self.r1.set_vel(0)
+        #         self.r2.set_vel(0)
+        #         self.theta_motor.set_vel(0)
+        #         # self.r1.home_without_endstop(10, 0)
+        #         # self.r2.home_without_endstop(10, 0)
+        #         break
 
     def draw_equation(self, equation: str, period):
         builtin_restrictions = {
