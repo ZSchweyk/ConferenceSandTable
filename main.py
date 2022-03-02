@@ -6,8 +6,6 @@ table = ConferenceSandTable()
 
 table.move("out")
 
-print("About to home...")
-
 table.home()
 
 table.r1.idle()

@@ -81,8 +81,8 @@ class ConferenceSandTable:
                 self.r1.set_vel(0)
                 self.r2.set_vel(0)
                 self.theta_motor.set_vel(0)
-                self.r1.home_without_endstop(10, 0)
-                self.r2.home_without_endstop(10, 0)
+                # self.r1.home_without_endstop(10, 0)
+                # self.r2.home_without_endstop(10, 0)
                 break
 
     def draw_equation(self, equation: str, period):
