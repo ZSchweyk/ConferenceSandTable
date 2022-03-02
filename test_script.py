@@ -34,11 +34,11 @@ print("All motors are calibrated!")
 
 
 def home():
-    r1.set_vel(-10)
-    r2.set_vel(-10)
+    r1.set_vel(10)
+    r2.set_vel(10)
 
     while True:
-        if r1.get_vel() > -0.05 and r2.get_vel() > -0.05:
+        if r1.get_vel() < 0.05 and r2.get_vel() < 0.05:
             r1.set_vel(0)
             r1.set_home()
 
@@ -57,7 +57,7 @@ def move(in_or_out):
     r2.wait()
 
 
-move("in")
+move("out")
 
 # in_or_out = "in"
 # for i in range(5):
