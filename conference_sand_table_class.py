@@ -61,7 +61,7 @@ class ConferenceSandTable:
         self.r2.set_vel(-10)
 
         while True:
-            if self.r1.get_vel() < 0.05 and self.r2.get_vel() < 0.05:
+            if self.r1.get_vel() > -0.05 and self.r2.get_vel() > -0.05:
                 self.r1.set_vel(0)
                 self.r1.set_home()
 

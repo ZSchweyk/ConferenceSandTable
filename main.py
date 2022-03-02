@@ -5,12 +5,11 @@ from conference_sand_table_class import ConferenceSandTable
 
 table = ConferenceSandTable()
 
-table.move("out")
 table.move("in")
 
 print("About to home...")
 
-table.find_ball()
+table.home()
 
 
 
