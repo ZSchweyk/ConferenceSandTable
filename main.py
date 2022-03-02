@@ -12,6 +12,5 @@ table.home()
 
 table.r1.idle()
 table.r2.idle()
-
 ODrive_Ease_Lib.dump_errors(table.radius_board)
 
