@@ -60,14 +60,14 @@ class ConferenceSandTable:
         self.r1.set_vel(10)
         self.r2.set_vel(10)
 
-        while True:
-            if self.r1.get_vel() < 0.05 and self.r2.get_vel() < 0.05:
-                self.r1.set_vel(0)
-                self.r1.set_home()
+        print("new implementation")
+        while self.r2.is_busy():
+            pass
+        self.r1.set_vel(0)
+        self.r1.set_home()
 
-                self.r2.set_vel(0)
-                self.r2.set_home()
-                break
+        self.r2.set_vel(0)
+        self.r2.set_home()
 
     def find_ball(self):
         # This is starter code for homing. I will probably have to adjust constants
