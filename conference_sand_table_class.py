@@ -78,8 +78,8 @@ class ConferenceSandTable:
         self.home()
 
         self.theta_motor.set_vel(15)  # might have to change this value
-        self.r1.set_vel(-1.5)
-        self.r2.set_vel(-1.5)
+        self.r1.set_vel(-1.6)
+        self.r2.set_vel(-1.6)
         time.sleep(1)
 
         while self.r2.is_busy() or self.r1.is_busy():
