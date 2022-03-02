@@ -79,24 +79,16 @@ class ConferenceSandTable:
         self.home()
 
         self.theta_motor.set_vel(15)  # might have to change this value
-        time.sleep(5)
+        self.r1.set_vel(-.5)
+        self.r2.set_vel(-.5)
+
+        while self.r2.is_busy():
+            pass
+        self.r1.set_vel(0)
+        self.r2.set_vel(0)
         self.theta_motor.set_vel(0)
 
-        self.theta_motor.set_vel(-15)  # might have to change this value
-        time.sleep(5)
-        self.theta_motor.set_vel(0)
 
-        # self.r1.set_vel(-.5)
-        # self.r2.set_vel(-.5)
-        #
-        # while True:
-        #     if self.r1.get_vel() > -0.05 and self.r2.get_vel() > -0.05:
-        #         self.r1.set_vel(0)
-        #         self.r2.set_vel(0)
-        #         self.theta_motor.set_vel(0)
-        #         # self.r1.home_without_endstop(10, 0)
-        #         # self.r2.home_without_endstop(10, 0)
-        #         break
 
     def draw_equation(self, equation: str, period):
         builtin_restrictions = {
