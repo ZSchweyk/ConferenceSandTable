@@ -65,7 +65,6 @@ class ConferenceSandTable:
         self.r1.set_vel(10)
         self.r2.set_vel(10)
 
-        print("new implementation")
         while self.r2.is_busy():
             pass
         self.r1.set_vel(0)
@@ -79,11 +78,13 @@ class ConferenceSandTable:
         self.home()
 
         self.theta_motor.set_vel(15)  # might have to change this value
-        self.r1.set_vel(-.5)
-        self.r2.set_vel(-.5)
+        self.r1.set_vel(-1.5)
+        self.r2.set_vel(-1.5)
+        time.sleep(1)
 
-        while self.r2.is_busy():
+        while self.r2.is_busy() or self.r1.is_busy():
             pass
+        print("Motors reached the end")
         self.r1.set_vel(0)
         self.r2.set_vel(0)
         self.theta_motor.set_vel(0)

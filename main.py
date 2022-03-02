@@ -8,10 +8,7 @@ table.move("out")
 
 table.find_ball()
 
-# table.theta_motor.set_vel(15)  # might have to change this value
-# time.sleep(5)
-# table.theta_motor.set_vel(0)
-
+print("\n" * 10)
 table.r1.idle()
 table.r2.idle()
 table.theta_motor.idle()
