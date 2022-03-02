@@ -15,7 +15,9 @@ class ConferenceSandTable:
         # Connect to ODrive boards
         print("Connecting to boards...")
         self.radius_board = odrive.find_any(serial_number="208F3388304B")
+        print("Connected to radius board")
         self.theta_board = odrive.find_any(serial_number="388937553437")
+        print("Connected to theta board")
         print("Found both boards")
 
         # Make sure that everything is okay with the brake resistors
@@ -75,7 +77,15 @@ class ConferenceSandTable:
     def find_ball(self):
         # This is starter code for homing. I will probably have to adjust constants
         self.home()
-        # self.theta_motor.set_vel(5)  # might have to change this value
+
+        self.theta_motor.set_vel(15)  # might have to change this value
+        time.sleep(5)
+        self.theta_motor.set_vel(0)
+
+        self.theta_motor.set_vel(-15)  # might have to change this value
+        time.sleep(5)
+        self.theta_motor.set_vel(0)
+
         # self.r1.set_vel(-.5)
         # self.r2.set_vel(-.5)
         #
