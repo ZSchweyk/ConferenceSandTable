@@ -106,7 +106,12 @@ class ConferenceSandTable:
         start_pos = self.theta_motor.get_pos()
         print("start_pos", start_pos)
         self.theta_motor.set_vel(10)
-        print("set velocity")
+        while self.theta_motor.is_busy():
+            print(self.theta_motor.get_pos())
+            if self.theta_motor.get_pos() - start_pos >= start_pos:
+                print(time.perf_counter() - start_time)
+                self.theta_motor.set_vel(0)
+                break
 
     def stop_theta(self):
         self.theta_motor.set_vel(0)

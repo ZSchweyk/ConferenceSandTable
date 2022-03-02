@@ -5,8 +5,9 @@ from conference_sand_table_class import ConferenceSandTable
 table = ConferenceSandTable()
 
 table.move("out")
+table.home()
 
-table.find_ball()
+table.draw_equation("", 4)
 
 print("\n" * 10)
 table.r1.idle()
