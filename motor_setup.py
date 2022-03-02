@@ -5,6 +5,8 @@ import numpy as np
 import time
 import os
 
+# STARTER CODE FOR PYTHON CONSOLE TESTING
+
 # Occasionally, it can't connect to radius_board. Power cycling seems like a temporary fix, but I'm not sure what to do.
 radius_board = odrive.find_any(serial_number="208F3388304B")
 theta_board = odrive.find_any(serial_number="388937553437")
@@ -29,16 +31,6 @@ r2.axis.controller.config.axis_to_mirror = 0
 r2.axis.controller.config.input_mode = 7
 r2.axis.requested_state = 8
 
-
-
-
-def move(in_or_out):
-    if in_or_out == "in":
-        r1.set_relative_pos(25)
-        r2.set_relative_pos(25)
-    elif in_or_out == "out":
-        r1.set_relative_pos(-25)
-        r2.set_relative_pos(-25)
 
 
 
