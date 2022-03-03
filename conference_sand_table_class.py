@@ -37,8 +37,8 @@ class ConferenceSandTable:
 
         # Connect to the actual ODrive motors through ODrive_Axis objects
         self.theta_motor = ODrive_Ease_Lib.ODrive_Axis(self.theta_board.axis0, 20, 30)
-        self.r1 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis0, 20, 20)  # Blue tape #
-        self.r2 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis1, 20, 20)  # Orange tape
+        self.r1 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis0, 20, 30)  # Blue tape #
+        self.r2 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis1, 20, 30)  # Orange tape
 
         # Ensure that all motors are calibrated (which should be completed upon startup). Reboot ODrives until they
         # are calibrated.
@@ -125,36 +125,50 @@ class ConferenceSandTable:
         # Find min and max radii for r1 and r2 to scale properly below.
         all_r1_values = []
         all_r2_values = []
-        for theta1 in np.arange(0, period, pi/100):
+        for theta1 in np.arange(0, period / 2, pi/100):
             theta2 = theta1 + pi
             r1 = eval(equation.replace("theta", "theta1"))
             r2 = eval(equation.replace("theta", "theta2"))
+            # print(theta1, theta2)
+            # print(round(r1, 3), round(r2, 3))
+            assert ((round(r1, 3) >= 0) == (round(r2, 3) >= 0)), "Cannot draw the equation \"" + equation + "\", since motors would have " \
+                                                                                        "to be at 2 places at once."
             all_r1_values.append(r1)
             all_r2_values.append(r2)
 
         smallest_r1, largest_r1 = min(all_r1_values), max(all_r1_values)
         smallest_r2, largest_r2 = min(all_r2_values), max(all_r2_values)
 
+        # print("smallest_r1", smallest_r1)
+        # print("largest_r1", largest_r1)
+        #
+        # print("smallest_r2", smallest_r2)
+        # print("largest_r2", largest_r2)
+
         self.theta_motor.set_home()
-        self.theta_motor.set_vel(20)
+        self.theta_motor.set_vel(6)
         max_rotations = self.gear_ratio * period / (2 * pi)
         while self.theta_motor.get_pos() < max_rotations:
+            start = time.perf_counter()
             theta1 = self.theta_motor.get_pos() / self.gear_ratio * 2 * pi
             theta2 = theta1 + pi
+            # print("theta1", theta1 * 180 / pi)
 
             r1 = eval(equation.replace("theta", "theta1"))
             r2 = eval(equation.replace("theta", "theta2"))
 
-            r1_motor = self.r1
-            r2_motor = self.r2
-
-            if r1 < 0 and r2 < 0:
-                r1_motor = self.r2
-                r2_motor = self.r1
-
-            r1_motor.set_rel_pos_traj(-1 * scale(r1, smallest_r1, largest_r1, 0, 25), 8, 10, 8)
-            r2_motor.set_rel_pos_traj(-1 * scale(r2, smallest_r2, largest_r2, 0, 25), 8, 10, 8)
-            r2_motor.wait()
+            r1 = scale(r1, smallest_r1, largest_r1, -25, 25)
+            r2 = scale(r2, smallest_r2, largest_r2, -25, 25)
+            if r1 >= 0:
+                self.r1.set_pos_traj(-r1, 16, 15, 16)
+                self.r2.set_pos_traj(-r2, 16, 15, 16)
+            else:
+                self.r1.set_pos_traj(r2, 16, 15, 16)
+                self.r2.set_pos_traj(r1, 16, 15, 16)
+            # self.r2.wait()
+            time.sleep(.1)
+            end = time.perf_counter()
+            print("Duration:", end - start)
 
         self.theta_motor.set_vel(0)
 

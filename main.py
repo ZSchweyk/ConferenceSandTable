@@ -7,7 +7,7 @@ table = ConferenceSandTable()
 # table.move("out")
 table.home()
 
-table.draw_equation("sin(theta)", pi)
+table.draw_equation("sin(2 * theta)", 2 * pi)
 
 print("\n" * 10)
 table.r1.idle()
