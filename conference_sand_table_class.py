@@ -8,6 +8,8 @@ from math import *
 
 
 class ConferenceSandTable:
+    # 562.5 rotations of the small gear right above the theta motor corresponds to 1 full revolution of the table's arm
+    gear_ratio = 562.5  # (90/15)×(90/15)×(90÷18)×(50/16)
     def __init__(self):
         # Occasionally, it can't connect to radius_board. Power cycling seems like a temporary fix, but I'm not sure
         # what to do.
@@ -29,7 +31,7 @@ class ConferenceSandTable:
 
 
         # Connect to the actual ODrive motors through ODrive_Axis objects
-        self.theta_motor = ODrive_Ease_Lib.ODrive_Axis(self.theta_board.axis0, 10, 30)
+        self.theta_motor = ODrive_Ease_Lib.ODrive_Axis(self.theta_board.axis0, 20, 30)
         self.r1 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis0, 20, 20)  # Blue tape #
         self.r2 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis1, 20, 20)  # Orange tape
 
@@ -89,6 +91,21 @@ class ConferenceSandTable:
         self.r2.set_vel(0)
         self.theta_motor.set_vel(0)
 
+    def test(self):
+
+        # self.theta_motor.set_home()
+        # start_pos = self.theta_motor.get_pos()
+        # print("start_pos", start_pos)
+        # self.theta_motor.set_vel(20)
+        # for i in range(5100):
+        #     print("new pos", self.theta_motor.get_pos())
+        #
+        # self.theta_motor.set_vel(0)
+        # # 282.1385
+        self.theta_motor.set_home()
+        self.theta_motor.set_pos(562.5)
+        self.theta_motor.wait()
+
 
 
     def draw_equation(self, equation: str, period):
@@ -101,13 +118,18 @@ class ConferenceSandTable:
             "sin": sin,
             "cos": cos,
         }
-        self.theta_motor.set_vel(10)
-        time.sleep(5)
-        self.theta_motor.set_vel(0)
+        theta = 0
+        other_restrictions["theta"] = theta
+
+        try:
+            eval(equation, {"__builtins__": builtin_restrictions}, other_restrictions)
+        except Exception as exception:
+            print("Invalid Input!")
+            print(exception)
+            return
 
 
-    def stop_theta(self):
-        self.theta_motor.set_vel(0)
+
 
 
 

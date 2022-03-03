@@ -4,10 +4,10 @@ from conference_sand_table_class import ConferenceSandTable
 
 table = ConferenceSandTable()
 
-table.move("out")
+# table.move("out")
 table.home()
 
-table.draw_equation("", 4)
+table.test()
 
 print("\n" * 10)
 table.r1.idle()
