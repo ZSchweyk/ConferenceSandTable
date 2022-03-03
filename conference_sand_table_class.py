@@ -120,8 +120,20 @@ class ConferenceSandTable:
             print(exception)
             return
 
-        # Find min and max radii for r1 and r2 to scale properly below.
 
+
+        # Find min and max radii for r1 and r2 to scale properly below.
+        all_r1_values = []
+        all_r2_values = []
+        for theta1 in np.arange(0, period, pi/100):
+            theta2 = theta1 + pi
+            r1 = eval(equation.replace("theta", "theta1"))
+            r2 = eval(equation.replace("theta", "theta2"))
+            all_r1_values.append(r1)
+            all_r2_values.append(r2)
+
+        smallest_r1, largest_r1 = min(all_r1_values), max(all_r1_values)
+        smallest_r2, largest_r2 = min(all_r2_values), max(all_r2_values)
 
         self.theta_motor.set_home()
         self.theta_motor.set_vel(20)
@@ -133,6 +145,17 @@ class ConferenceSandTable:
             r1 = eval(equation.replace("theta", "theta1"))
             r2 = eval(equation.replace("theta", "theta2"))
 
-            r1 = scale(r1, )
+            r1_motor = self.r1
+            r2_motor = self.r2
+
+            if r1 < 0 and r2 < 0:
+                r1_motor = self.r2
+                r2_motor = self.r1
+
+            r1_motor.set_rel_pos_traj(-1 * scale(r1, smallest_r1, largest_r1, 0, 25), 8, 10, 8)
+            r2_motor.set_rel_pos_traj(-1 * scale(r2, smallest_r2, largest_r2, 0, 25), 8, 10, 8)
+            r2_motor.wait()
+
+        self.theta_motor.set_vel(0)
 
 
