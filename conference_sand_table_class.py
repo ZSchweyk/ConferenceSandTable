@@ -10,6 +10,7 @@ from math import *
 class ConferenceSandTable:
     # 562.5 rotations of the small gear right above the theta motor corresponds to 1 full revolution of the table's arm
     gear_ratio = 562.5  # (90/15)×(90/15)×(90÷18)×(50/16)
+
     def __init__(self):
         # Occasionally, it can't connect to radius_board. Power cycling seems like a temporary fix, but I'm not sure
         # what to do.
@@ -28,7 +29,6 @@ class ConferenceSandTable:
 
         self.radius_board.clear_errors()
         self.theta_board.clear_errors()
-
 
         # Connect to the actual ODrive motors through ODrive_Axis objects
         self.theta_motor = ODrive_Ease_Lib.ODrive_Axis(self.theta_board.axis0, 20, 30)
@@ -106,8 +106,6 @@ class ConferenceSandTable:
         self.theta_motor.set_pos(562.5)
         self.theta_motor.wait()
 
-
-
     def draw_equation(self, equation: str, period):
         builtin_restrictions = {
             "min": min,
@@ -127,11 +125,3 @@ class ConferenceSandTable:
             print("Invalid Input!")
             print(exception)
             return
-
-
-
-
-
-
-
-
