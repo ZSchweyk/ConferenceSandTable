@@ -25,6 +25,7 @@ class ConferenceSandTable:
         assert self.radius_board.config.enable_brake_resistor, "Check for faulty radius brake resistor."
 
         self.radius_board.clear_errors()
+        self.theta_board.clear_errors()
 
 
         # Connect to the actual ODrive motors through ODrive_Axis objects
@@ -84,7 +85,6 @@ class ConferenceSandTable:
 
         while self.r2.is_busy() or self.r1.is_busy():
             pass
-        print("Motors reached the end")
         self.r1.set_vel(0)
         self.r2.set_vel(0)
         self.theta_motor.set_vel(0)
@@ -101,17 +101,10 @@ class ConferenceSandTable:
             "sin": sin,
             "cos": cos,
         }
-        start_time = time.perf_counter()
-        print("start_time", start_time)
-        start_pos = self.theta_motor.get_pos()
-        print("start_pos", start_pos)
         self.theta_motor.set_vel(10)
-        while self.theta_motor.is_busy():
-            print(self.theta_motor.get_pos())
-            if self.theta_motor.get_pos() - start_pos >= start_pos:
-                print(time.perf_counter() - start_time)
-                self.theta_motor.set_vel(0)
-                break
+        time.sleep(5)
+        self.theta_motor.set_vel(0)
+
 
     def stop_theta(self):
         self.theta_motor.set_vel(0)
