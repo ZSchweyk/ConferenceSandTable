@@ -7,6 +7,11 @@ import os
 from math import *
 
 
+def scale(value, v_min, v_max, r_min, r_max):
+    percentage = (value - v_min) / (v_max - v_min)
+    return round(r_min + percentage * (r_max - r_min), 2)
+
+
 class ConferenceSandTable:
     # 562.5 rotations of the small gear right above the theta motor corresponds to 1 full revolution of the table's arm
     gear_ratio = 562.5  # (90/15)×(90/15)×(90÷18)×(50/16)
@@ -91,19 +96,8 @@ class ConferenceSandTable:
         self.r2.set_vel(0)
         self.theta_motor.set_vel(0)
 
-    def test(self):
-
-        # self.theta_motor.set_home()
-        # start_pos = self.theta_motor.get_pos()
-        # print("start_pos", start_pos)
-        # self.theta_motor.set_vel(20)
-        # for i in range(5100):
-        #     print("new pos", self.theta_motor.get_pos())
-        #
-        # self.theta_motor.set_vel(0)
-        # # 282.1385
-        self.theta_motor.set_home()
-        self.theta_motor.set_pos(562.5)
+    def rotate(self, rads):
+        self.theta_motor.set_relative_pos(rads / (2 * pi) * self.gear_ratio)
         self.theta_motor.wait()
 
     def draw_equation(self, equation: str, period):
@@ -125,3 +119,20 @@ class ConferenceSandTable:
             print("Invalid Input!")
             print(exception)
             return
+
+        # Find min and max radii for r1 and r2 to scale properly below.
+
+
+        self.theta_motor.set_home()
+        self.theta_motor.set_vel(20)
+        max_rotations = self.gear_ratio * period / (2 * pi)
+        while self.theta_motor.get_pos() < max_rotations:
+            theta1 = self.theta_motor.get_pos() / self.gear_ratio * 2 * pi
+            theta2 = theta1 + pi
+
+            r1 = eval(equation.replace("theta", "theta1"))
+            r2 = eval(equation.replace("theta", "theta2"))
+
+            r1 = scale(r1, )
+
+

@@ -1,13 +1,13 @@
 import time
 import ODrive_Ease_Lib
 from conference_sand_table_class import ConferenceSandTable
-
+from math import *
 table = ConferenceSandTable()
 
 # table.move("out")
 table.home()
 
-table.test()
+table.draw_equation("theta", 2 * pi)
 
 print("\n" * 10)
 table.r1.idle()
