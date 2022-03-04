@@ -2,8 +2,9 @@ import time
 import ODrive_Ease_Lib
 from conference_sand_table_class import ConferenceSandTable
 from math import *
-table = ConferenceSandTable()
 
+
+table = ConferenceSandTable()
 # table.move("out")
 table.home()
 

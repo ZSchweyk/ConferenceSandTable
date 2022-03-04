@@ -37,7 +37,7 @@ class ConferenceSandTable:
 
         # Connect to the actual ODrive motors through ODrive_Axis objects
         self.theta_motor = ODrive_Ease_Lib.ODrive_Axis(self.theta_board.axis0, 20, 30)
-        self.r1 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis0, 20, 30)  # Blue tape #
+        self.r1 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis0, 20, 30)  # Blue tape
         self.r2 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis1, 20, 30)  # Orange tape
 
         # Ensure that all motors are calibrated (which should be completed upon startup). Reboot ODrives until they
@@ -52,6 +52,8 @@ class ConferenceSandTable:
             # self.theta_board.reboot()
             time.sleep(10)
         print("All motors are calibrated!")
+
+        self.radius_motors_homed = False
 
     def set_mode(self, mirror=False):
         """Probably don't need to use mirror mode, but I added it just in case"""
@@ -81,9 +83,12 @@ class ConferenceSandTable:
         self.r2.set_vel(0)
         self.r2.set_home()
 
+        self.radius_motors_homed = True
+
     def find_ball(self):
         # This is starter code for homing. I will probably have to adjust constants
-        self.home()
+        if not self.radius_motors_homed:
+            self.home()
 
         self.theta_motor.set_vel(15)  # might have to change this value
         self.r1.set_vel(-1.6)
@@ -101,6 +106,8 @@ class ConferenceSandTable:
         self.theta_motor.wait()
 
     def draw_equation(self, equation: str, period):
+        if not self.radius_motors_homed:
+            self.home()
         builtin_restrictions = {
             "min": min,
             "max": max,
@@ -120,18 +127,17 @@ class ConferenceSandTable:
             print(exception)
             return
 
-
-
         # Find min and max radii for r1 and r2 to scale properly below.
         all_r1_values = []
         all_r2_values = []
-        for theta1 in np.arange(0, period / 2, pi/100):
+        for theta1 in np.arange(0, period / 2, pi / 100):
             theta2 = theta1 + pi
             r1 = eval(equation.replace("theta", "theta1"))
             r2 = eval(equation.replace("theta", "theta2"))
             # print(theta1, theta2)
             # print(round(r1, 3), round(r2, 3))
-            assert ((round(r1, 3) >= 0) == (round(r2, 3) >= 0)), "Cannot draw the equation \"" + equation + "\", since motors would have " \
+            assert ((round(r1, 3) >= 0) == (
+                        round(r2, 3) >= 0)), "Cannot draw the equation \"" + equation + "\", since motors would have " \
                                                                                         "to be at 2 places at once."
             all_r1_values.append(r1)
             all_r2_values.append(r2)
@@ -165,11 +171,8 @@ class ConferenceSandTable:
             else:
                 self.r1.set_pos_traj(r2, 16, 15, 16)
                 self.r2.set_pos_traj(r1, 16, 15, 16)
-            # self.r2.wait()
-            time.sleep(.1)
+            self.r2.wait()
             end = time.perf_counter()
             print("Duration:", end - start)
 
         self.theta_motor.set_vel(0)
-
-
