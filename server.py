@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import os
 
 app = Flask(__name__)
 
@@ -10,7 +11,7 @@ def index():
 
 @app.route('/my-link/')
 def my_link():
-    print('I got clicked!')
+    os.system("python3 main.py")
 
     return 'Click.'
 
