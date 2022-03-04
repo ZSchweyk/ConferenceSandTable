@@ -154,10 +154,12 @@ class ConferenceSandTable:
         self.theta_motor.set_home()
         self.theta_motor.set_vel(6)
         max_rotations = self.gear_ratio * .5 * period / (2 * pi)
+        previous_thetas = [0]
         while self.theta_motor.get_pos() < max_rotations:
             start = time.perf_counter()
             theta1 = self.theta_motor.get_pos() / self.gear_ratio * 2 * pi
             theta2 = theta1 + pi
+            previous_thetas.append(theta1 * 180 / pi)
             print("theta1", theta1 * 180 / pi)
 
             r1 = eval(equation.replace("theta", "theta1"))
@@ -176,3 +178,9 @@ class ConferenceSandTable:
             # print("Duration:", end - start)
 
         self.theta_motor.set_vel(0)
+        print(np.diff(previous_thetas))
+        print("Average Difference:", np.mean(np.diff(previous_thetas)))
+        print("Min Difference:", min(np.diff(previous_thetas)))
+        print("Max Difference:", max(np.diff(previous_thetas)))
+        print("STD Difference:", np.std(np.diff(previous_thetas)))
+
