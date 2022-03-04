@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Run</title>
+</head>
+<body>
+
+    <h1>Welcome {{fields["First"]}} {{fields["Last"]}}</h1>
+
+    {% for equation in equations %}
+
+        <button>{{equation}}</button>
+        <br>
+
+    {% endfor %}
+
+    <button><a href="/draw_equation/">Draw Equation</a></button>
+
+</body>
+</html>

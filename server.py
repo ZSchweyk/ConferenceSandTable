@@ -1,21 +1,36 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import os
-from conference_sand_table_class import ConferenceSandTable
 
 app = Flask(__name__)
 
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+def login():
+    return render_template('login.html')
 
 
-@app.route('/my-link/')
-def my_link():
+@app.route('/run', methods=["POST", "GET"])
+def send_to_run_page():
+    if request.method == 'POST':
+        fields = request.form
+        equations = [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
+            "g"
+        ]
+        if fields["Password"] == "asdf" and fields["First"] != "" and fields["Last"] != "":
+            return render_template("run.html", fields=fields, equations=equations)
+        else:
+            return login()
+
+@app.route("/draw_equation/")
+def draw_equation():
     os.system("python3 main.py")
-
-    return 'Running!'
-
+    return "Running"
 
 
 
