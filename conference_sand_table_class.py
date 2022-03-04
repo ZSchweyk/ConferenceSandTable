@@ -153,7 +153,7 @@ class ConferenceSandTable:
 
         self.theta_motor.set_home()
         self.theta_motor.set_vel(6)
-        max_rotations = self.gear_ratio * period / (2 * pi)
+        max_rotations = self.gear_ratio * .5 * period / (2 * pi)
         while self.theta_motor.get_pos() < max_rotations:
             start = time.perf_counter()
             theta1 = self.theta_motor.get_pos() / self.gear_ratio * 2 * pi
