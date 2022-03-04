@@ -158,7 +158,7 @@ class ConferenceSandTable:
             start = time.perf_counter()
             theta1 = self.theta_motor.get_pos() / self.gear_ratio * 2 * pi
             theta2 = theta1 + pi
-            # print("theta1", theta1 * 180 / pi)
+            print("theta1", theta1 * 180 / pi)
 
             r1 = eval(equation.replace("theta", "theta1"))
             r2 = eval(equation.replace("theta", "theta2"))
@@ -166,13 +166,13 @@ class ConferenceSandTable:
             r1 = scale(r1, smallest_r1, largest_r1, -25, 25)
             r2 = scale(r2, smallest_r2, largest_r2, -25, 25)
             if r1 >= 0:
-                self.r1.set_pos_traj(-r1, 16, 15, 16)
-                self.r2.set_pos_traj(-r2, 16, 15, 16)
+                self.r1.set_pos_traj(-r1, 25, 25, 25)
+                self.r2.set_pos_traj(-r2, 25, 25, 25)
             else:
-                self.r1.set_pos_traj(r2, 16, 15, 16)
-                self.r2.set_pos_traj(r1, 16, 15, 16)
+                self.r1.set_pos_traj(r2, 25, 25, 25)
+                self.r2.set_pos_traj(r1, 25, 25, 25)
             self.r2.wait()
             end = time.perf_counter()
-            print("Duration:", end - start)
+            # print("Duration:", end - start)
 
         self.theta_motor.set_vel(0)
