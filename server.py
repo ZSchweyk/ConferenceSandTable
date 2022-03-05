@@ -27,11 +27,11 @@ def send_to_run_page():
         else:
             return login()
 
+
 @app.route("/draw_equation/")
 def draw_equation():
     os.system("python3 main.py")
     return "Running"
-
 
 
 if __name__ == '__main__':
