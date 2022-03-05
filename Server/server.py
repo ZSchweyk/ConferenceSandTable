@@ -30,7 +30,7 @@ def send_to_run_page():
 
 @app.route("/draw_equation/")
 def draw_equation():
-    os.system("python3 main.py")
+    # os.system("python3 main.py")
     return "Running"
 
 
