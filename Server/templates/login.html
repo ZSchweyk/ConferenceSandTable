@@ -1,65 +1,24 @@
-<!doctype html>
-
+<!DOCTYPE html>
+<html lang="en" >
     <head>
-        <title>Conference Sand Table</title>
-        <meta charset=utf-8>
+      <meta charset="UTF-8">
+      <title>Login Page with Background Image Example</title>
+      <link rel="stylesheet" href="{{ url_for('static',filename='login.css') }}">
+
     </head>
-
     <body>
-        <h1>Conference Sand Table</h1>
-        <form action="http://localhost:5000/run" method="post">
-            <p>First <input type="text" placeholder="John" name="First"/></p>
-            <p>Last <input type="text" placeholder="Doe" name="Last"/></p>
-            <p>Password <input type="password" name="Password"/></p>
-            <button type="submit">Login</button>
+        <form class="login-form">
+          <p class="login-text">
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-lock fa-stack-1x"></i>
+            </span>
+          </p>
+          <input type="email" class="login-username" autofocus="true" required="true" placeholder="Email" />
+          <input type="password" class="login-password" required="true" placeholder="Password" />
+          <input type="submit" name="Login" value="Login" class="login-submit" />
         </form>
-
+        <a href="#" class="login-forgot-pass">forgot password?</a>
+        <div class="underlay-photo"></div>
+        <div class="underlay-black"></div>
     </body>
-
-
-
-
-
-
-
-
-
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" >-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <title>Login Page with Background Image Example</title>-->
-<!--  <link rel="stylesheet" href="./style.css">-->
-
-<!--</head>-->
-<!--<body>-->
-<!--&lt;!&ndash; partial:index.partial.html &ndash;&gt;-->
-<!--<div id="bg"></div>-->
-
-<!--<form>-->
-<!--  <div class="form-field">-->
-<!--    <input type="email" placeholder="Email / Username" required/>-->
-<!--  </div>-->
-
-<!--  <div class="form-field">-->
-<!--    <input type="password" placeholder="Password" required/>                         </div>-->
-
-<!--  <div class="form-field">-->
-<!--    <button class="btn" type="submit">Log in</button>-->
-<!--  </div>-->
-<!--</form>-->
-<!--&lt;!&ndash; partial &ndash;&gt;-->
-<!--  &lt;!&ndash; Global site tag (gtag.js) - Google Analytics &ndash;&gt;-->
-<!--<script async src="https://www.googletagmanager.com/gtag/js?id=UA-80520768-2"></script>-->
-<!--<script>-->
-<!--  window.dataLayer = window.dataLayer || [];-->
-<!--  function gtag(){dataLayer.push(arguments);}-->
-<!--  gtag('js', new Date());-->
-
-<!--  gtag('config', 'UA-80520768-2');-->
-<!--</script>-->
-
-<!--</body>-->
-<!--</html>-->
