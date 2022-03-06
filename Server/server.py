@@ -22,7 +22,7 @@ def send_to_run_page():
             "f",
             "g"
         ]
-        if fields["Password"] == "asdf" and fields["First"] != "" and fields["Last"] != "":
+        if fields["Email"] == "asdf@gmail.com" and fields["Password"] == "asdf":
             return render_template("run.html", fields=fields, equations=equations)
         else:
             return login()
