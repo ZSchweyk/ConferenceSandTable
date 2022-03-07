@@ -1,3 +1,4 @@
+
 import odrive
 import usb.core
 import ODrive_Ease_Lib
@@ -105,9 +106,8 @@ class ConferenceSandTable:
         self.theta_motor.set_relative_pos(rads / (2 * pi) * self.gear_ratio)
         self.theta_motor.wait()
 
-    def draw_equation(self, equation: str, period):
-        if not self.radius_motors_homed:
-            self.home()
+    @staticmethod
+    def is_equation_valid(equation):
         builtin_restrictions = {
             "min": min,
             "max": max,
@@ -123,9 +123,16 @@ class ConferenceSandTable:
         try:
             eval(equation, {"__builtins__": builtin_restrictions}, other_restrictions)
         except Exception as exception:
-            print("Invalid Input!")
-            print(exception)
-            return
+            return False
+        return True
+
+    def draw_equation(self, equation: str, period):
+
+        if not self.is_equation_valid(equation):
+            raise Exception("Invalid Equation")
+
+        if not self.radius_motors_homed:
+            self.home()
 
         # Find min and max radii for r1 and r2 to scale properly below.
         all_r1_values = []
