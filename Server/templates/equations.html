@@ -11,18 +11,25 @@
 
 {% block content %}
 
-  <div id="myDIV" class="header">
-    <h2 style="margin:5px">Equations</h2>
+<h1>Your Equations</h1>
 
-    <form action="/add_equation" method="post">
-      <input type="text" id="myInput" name="equation" placeholder="sin(4*theta)">
-      <button class="addBtn" type="submit">Add</button>
-    </form>
+<!--  <div id="myDIV" class="header">-->
+<!--    <h2 style="margin:5px">Your Equations</h2>-->
 
-  </div>
+<!--    <form action="/add_equation" method="post">-->
+<!--      <input type="text" id="myInput" name="equation" placeholder="sin(4*theta)">-->
+<!--      <button class="addBtn" type="submit">Add</button>-->
+<!--    </form>-->
 
-  <ol id="myUL">
-  </ol>
+<!--  </div>-->
+
+<!--  <br>-->
+
+<!--  <ol id="myUL">-->
+<!--    {% for equation in equations %}-->
+<!--      <li>{{equation}}</li>-->
+<!--    {% endfor %}-->
+<!--  </ol>-->
 
 {% endblock %}
 

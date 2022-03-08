@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
@@ -16,14 +16,35 @@ class EquationForm(FlaskForm):
     submit = SubmitField("Add")
 
 
+@app.route("/", methods=["POST", "GET"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
+    else:
+        email = request.form["Email"]
+        user = email[:email.index("@")]
+        return redirect(url_for("home", user=user))
 
-@app.route('/')
-def home():
-    return render_template('home.html')
+
+@app.route("/home/<string:email>")
+def home(user):
+    return render_template('home.html', user=user)
+
+
+@app.route("/equations", methods=["GET", "POST"])
+def equations():
+    name = None
+    form = EquationForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        form.name.data = ""
+    return render_template("equations.html", equations=EQUATIONS, name=name, form=form)
+
 
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
+
 
 # @app.route("/equation", methods=["GET", "POST"])
 # def equation():
@@ -33,7 +54,6 @@ def page_not_found(e):
 #         name = form.name.data
 #         form.name.data = ""
 #     return render_template("equations_form", name=name, form=form)
-
 
 
 if __name__ == '__main__':
