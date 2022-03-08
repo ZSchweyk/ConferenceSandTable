@@ -26,18 +26,19 @@ def login():
         return redirect(url_for("home", user=user))
 
 
-@app.route("/home/<string:user>")
+@app.route("/<user>")
 def home(user):
     return render_template('home.html', user=user)
 
 
-@app.route("/equations", methods=["GET", "POST"])
-def equations():
+@app.route("/<user>/equations", methods=["GET", "POST"])
+def equations(user):
     name = None
     form = EquationForm()
     if form.validate_on_submit():
         name = form.name.data
         form.name.data = ""
+    print(user)
     return render_template("equations.html", equations=EQUATIONS, name=name, form=form)
 
 
