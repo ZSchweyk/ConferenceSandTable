@@ -1,46 +1,39 @@
 from flask import Flask, render_template, request
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
 import os
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = "my super secret key that no one is supposed to know"
 
 EQUATIONS = ["sin(4 * theta)", ]
 
 
+# Create a Form Class
+class EquationForm(FlaskForm):
+    equation = StringField("Enter Equation", validators=[DataRequired()])
+    submit = SubmitField("Add")
+
+
+
 @app.route('/')
-def login():
-    return render_template('login.html')
+def home():
+    return render_template('home.html')
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
 
-@app.route('/equations', methods=["POST", "GET"])
-def equations():
-    if request.method == 'POST':
-        fields = request.form
+# @app.route("/equation", methods=["GET", "POST"])
+# def equation():
+#     name = None
+#     form = EquationForm()
+#     if form.validate_on_submit():
+#         name = form.name.data
+#         form.name.data = ""
+#     return render_template("equations_form", name=name, form=form)
 
-        if fields["Email"] == "asdf@gmail.com" and fields["Password"] == "asdf":
-            return render_template("equations.html", equations=EQUATIONS)
-        else:
-            return login()
-
-
-@app.route("/add_equation", methods=["POST", "GET"])
-def add_equation():
-    if request.method == "POST":
-        print(request.form["equation"])
-        EQUATIONS.append(request.form["equation"])
-        return render_template("equations.html", equations=EQUATIONS)
-
-
-@app.route("/remove_equation/<equation>", methods=["POST", "GET"])
-def remove_equation(equation):
-    if request.method == "POST":
-        print("Deleted")
-        pass
-
-
-@app.route("/draw_equation/")
-def draw_equation():
-    # os.system("python3 main.py")
-    return "Running"
 
 
 if __name__ == '__main__':
