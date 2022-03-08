@@ -26,7 +26,7 @@ def login():
         return redirect(url_for("home", user=user))
 
 
-@app.route("/home/<string:email>")
+@app.route("/home/<string:user>")
 def home(user):
     return render_template('home.html', user=user)
 
