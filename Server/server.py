@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
@@ -33,13 +33,13 @@ def home(user):
 
 @app.route("/<user>/equations", methods=["GET", "POST"])
 def equations(user):
-    name = None
     form = EquationForm()
     if form.validate_on_submit():
-        name = form.name.data
-        form.name.data = ""
+        name = form.equation.data
+        form.equation.data = ""
+        flash("Equation successfully added!")
     print(user)
-    return render_template("equations.html", equations=EQUATIONS, name=name, form=form)
+    return render_template("equations.html", equations=EQUATIONS, form=form)
 
 
 @app.errorhandler(404)
