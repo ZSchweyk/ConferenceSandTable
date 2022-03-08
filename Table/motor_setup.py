@@ -1,3 +1,6 @@
+import sys
+
+sys.path.extend(['/home/soft-dev/Documents/Projects/ConferenceSandTable/Table'])
 import odrive
 import usb.core
 import ODrive_Ease_Lib
@@ -25,11 +28,11 @@ while not theta_motor.is_calibrated():
     theta_board.reboot()
 print("All motors are calibrated!")
 
-
 # Mirror Mode: any direct command sent to r1 will also be set for r2.
 r2.axis.controller.config.axis_to_mirror = 0
 r2.axis.controller.config.input_mode = 7
 r2.axis.requested_state = 8
+
 
 
 
@@ -59,7 +62,7 @@ r2.set_gains()
 theta_motor.calibrate()
 
 r1.calibrate_with_current_lim(40)
-r2.calibrate_with_current_lim(40) # might need some more, not exactly sure how much to give
+r2.calibrate_with_current_lim(40)  # might need some more, not exactly sure how much to give
 
 theta_motor.axis.motor.config.pre_calibrated = True
 r1.axis.motor.config.pre_calibrated = True
@@ -69,5 +72,3 @@ r1.axis.config.startup_encoder_offset_calibration = True
 r2.axis.config.startup_encoder_offset_calibration = True
 radius_board.save_configuration()
 theta_board.save_configuration()
-
-
