@@ -3,9 +3,27 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 import os
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+
 app.config["SECRET_KEY"] = "my super secret key that no one is supposed to know"
+
+# Initialize the Database
+db = SQLAlchemy(app)
+
+# Create Model
+class Equations(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    date_added = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Create a String
+    def __repr__(self):
+        return "<Name %r>" % self.name
 
 EQUATIONS = ["sin(4 * theta)", ]
 
