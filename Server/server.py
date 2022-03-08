@@ -1,46 +1,78 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
 import os
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+
+app.config["SECRET_KEY"] = "my super secret key that no one is supposed to know"
+
+# Initialize the Database
+db = SQLAlchemy(app)
+
+# Create Model
+class Equations(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    date_added = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Create a String
+    def __repr__(self):
+        return "<Name %r>" % self.name
 
 EQUATIONS = ["sin(4 * theta)", ]
 
 
-@app.route('/')
+# Create a Form Class
+class EquationForm(FlaskForm):
+    equation = StringField("Enter Equation", validators=[DataRequired()])
+    submit = SubmitField("Add")
+
+
+@app.route("/", methods=["POST", "GET"])
 def login():
-    return render_template('login.html')
+    if request.method == "GET":
+        return render_template("login.html")
+    else:
+        email = request.form["Email"]
+        user = email[:email.index("@")]
+        return redirect(url_for("home", user=user))
 
 
-@app.route('/equations', methods=["POST", "GET"])
-def equations():
-    if request.method == 'POST':
-        fields = request.form
-
-        if fields["Email"] == "asdf@gmail.com" and fields["Password"] == "asdf":
-            return render_template("equations.html", equations=EQUATIONS)
-        else:
-            return login()
+@app.route("/<user>")
+def home(user):
+    return render_template('home.html', user=user)
 
 
-@app.route("/add_equation", methods=["POST", "GET"])
-def add_equation():
-    if request.method == "POST":
-        print(request.form["equation"])
-        EQUATIONS.append(request.form["equation"])
-        return render_template("equations.html", equations=EQUATIONS)
+@app.route("/<user>/equations", methods=["GET", "POST"])
+def equations(user):
+    form = EquationForm()
+    if form.validate_on_submit():
+        name = form.equation.data
+        form.equation.data = ""
+        flash("Equation successfully added!")
+    print(user)
+    return render_template("equations.html", equations=EQUATIONS, form=form)
 
 
-@app.route("/remove_equation/<equation>", methods=["POST", "GET"])
-def remove_equation(equation):
-    if request.method == "POST":
-        print("Deleted")
-        pass
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
 
 
-@app.route("/draw_equation/")
-def draw_equation():
-    # os.system("python3 main.py")
-    return "Running"
+# @app.route("/equation", methods=["GET", "POST"])
+# def equation():
+#     name = None
+#     form = EquationForm()
+#     if form.validate_on_submit():
+#         name = form.name.data
+#         form.name.data = ""
+#     return render_template("equations_form", name=name, form=form)
 
 
 if __name__ == '__main__':
