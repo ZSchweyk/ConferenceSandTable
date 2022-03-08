@@ -30,11 +30,10 @@ def add_equation():
         return render_template("equations.html", equations=EQUATIONS)
 
 
-@app.route("/remove_equation", methods=["POST", "GET"])
-def remove_equation():
+@app.route("/remove_equation/<equation>", methods=["POST", "GET"])
+def remove_equation(equation):
     if request.method == "POST":
-        # Somehow delete the desired equation from EQUATIONS
-        # Then, call add_equation.
+        print("Deleted")
         pass
 
 
