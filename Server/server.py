@@ -67,11 +67,10 @@ def signup():
         email = request.form["Email"]
         password1 = request.form["Password1"]
         password2 = request.form["Password2"]
-        agree_status = request.form["AgreeStatus"]
         if password1 != password2:
             flash("Passwords don't match")
             return redirect(url_for("signup"))
-        if not agree_status:
+        if "AgreeStatus" not in request.form:
             flash("Please agree to the terms and conditions to continue.")
             return redirect(url_for("signup"))
         hash = sha256(email + password1)
