@@ -52,17 +52,31 @@
 	<img class="mb-4" src="{{ url_for('static', filename='images/dpea_logo.jpg') }}" alt="DPEA Logo" width="200" height="200">
 
 	<form action="{{ url_for('login') }}"  method="post">
-		<h1 class="h2 mb-3 fw-normal">Please sign in to</h1>
+		<h1 class="h2 mb-3 fw-normal">Create an Account for</h1>
 		<h2 class="h4 mb-3 fw-normal">The Conference Sand Table</h2>
-		<h6 class="h6 mb-3 fw-normal">or <a href="signup.html">Create an Account</a></h6>
+		<h6 class="h6 mb-3 fw-normal">or <a href="login.html">Login</a></h6>
+
+		<div class="form-floating">
+			<input type="text" class="form-control" name="FirstName" placeholder="">
+			<label>First</label>
+		</div>
+		<div class="form-floating">
+			<input type="text" class="form-control" name="LastName" placeholder="">
+			<label>Last</label>
+		</div>
+
 
 		<div class="form-floating">
 			<input type="email" class="form-control" id="floatingInput" name="Email" placeholder="name@example.com">
 			<label for="floatingInput">Email address</label>
 		</div>
 		<div class="form-floating">
-			<input type="password" class="form-control" id="floatingPassword" name="Password" placeholder="Password">
+			<input type="password" class="form-control" id="floatingPassword" name="Password1" placeholder="Password">
 			<label for="floatingPassword">Password</label>
+		</div>
+		<div class="form-floating">
+			<input type="password" class="form-control" name="Password2" placeholder="Password">
+			<label for="floatingPassword">Confirm Password</label>
 		</div>
 
 		<div class="checkbox mb-3">

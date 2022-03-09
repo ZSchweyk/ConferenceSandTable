@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired
 import os
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import hashlib
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
@@ -14,10 +15,11 @@ app.config["SECRET_KEY"] = "my super secret key that no one is supposed to know"
 # Initialize the Database
 db = SQLAlchemy(app)
 
+
 # Create Model
-class Equations(db.Model):
+class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    equation = db.Column(db.String(200), nullable=False, unique=True)
+    credentials_hash = db.Column(db.String(64), nullable=False, unique=True)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Create a String
@@ -25,9 +27,14 @@ class Equations(db.Model):
         return "<Name %r>" % self.name
 
 
-# @app.route("/")
+# @app.route("/user/add", methods=["GET", "POST"])
+# def
 
 EQUATIONS = ["sin(4 * theta)", ]
+
+
+def sha256(string: str):
+    return hashlib.sha256(string.encode()).hexdigest()
 
 
 # Create a Form Class
@@ -42,6 +49,29 @@ def login():
         return render_template("login.html")
     else:
         email = request.form["Email"]
+        password = request.form["Password"]
+        hash = sha256(email + password)
+        print("HASH:", hash)
+        print("LENGTH:", len(hash))
+        user = email[:email.index("@")]
+        return redirect(url_for("home", user=user))
+
+
+@app.route("/signup", methods=["POST", "GET"])
+def signup():
+    if request.method == "GET":
+        return render_template("signup.html")
+    else:
+        first = request.form["FirstName"]
+        last = request.form["LastName"]
+        email = request.form["Email"]
+        password1 = request.form["Password1"]
+        password2 = request.form["Password2"]
+        if password1 != password2:
+            flash("Passwords don't match")
+        hash = sha256(email + password)
+        print("HASH:", hash)
+        print("LENGTH:", len(hash))
         user = email[:email.index("@")]
         return redirect(url_for("home", user=user))
 
