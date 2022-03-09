@@ -52,7 +52,7 @@
 	<main class="form-signin">
 		<img class="mb-4" src="{{ url_for('static', filename='images/dpea_logo.jpg') }}" alt="DPEA Logo" width="200" height="200">
 
-		<form action="{{ url_for('signup') }}"  method="post">
+		<form action="{{ url_for('signup') }}" method="post">
 
 			{% for message in get_flashed_messages() %}
 				<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -66,31 +66,31 @@
 			<h6 class="h6 mb-3 fw-normal">or <a href="{{ url_for('login') }}">Login</a></h6>
 
 			<div class="form-floating">
-				<input type="text" class="form-control" name="FirstName" placeholder="First">
+				<input type="text" class="form-control" name="FirstName" placeholder="First" onchange="changeButtonStatus()">
 				<label>First Name</label>
 			</div>
 			<div class="form-floating">
-				<input type="text" class="form-control" name="LastName" placeholder="Last">
+				<input type="text" class="form-control" name="LastName" placeholder="Last" onchange="changeButtonStatus()">
 				<label>Last Name</label>
 			</div>
 
 
 			<div class="form-floating">
-				<input type="email" class="form-control" id="floatingInput" name="Email" placeholder="name@example.com">
+				<input type="email" class="form-control" id="floatingInput" name="Email" placeholder="name@example.com" onchange="changeButtonStatus()">
 				<label for="floatingInput">Email address</label>
 			</div>
 			<div class="form-floating">
-				<input type="password" class="form-control" id="floatingPassword" name="Password1" placeholder="Password">
-				<label for="floatingPassword">Password</label>
+				<input type="password" class="form-control" name="Password1" placeholder="Password" onchange="changeButtonStatus()">
+				<label>Password</label>
 			</div>
 			<div class="form-floating">
-				<input type="password" class="form-control" name="Password2" placeholder="Password">
-				<label for="floatingPassword">Confirm Password</label>
+				<input type="password" class="form-control" name="Password2" placeholder="Password" onchange="changeButtonStatus()">
+				<label>Confirm Password</label>
 			</div>
 
 			<div class="checkbox mb-3">
 				<label>
-					<input type="checkbox" value="false" name="AgreeStatus" onchange="changeButtonStatus(this)">
+					<input type="checkbox" value="false" name="AgreeStatus" id="AgreeStatus" onchange="changeButtonStatus()">
 					I agree to the <a href="{{ url_for('terms_page') }}" target="_blank">terms</a>
 				</label>
 			</div>
@@ -103,7 +103,23 @@
 
 	<script>
 		function changeButtonStatus(object) {
-			document.getElementById("CreateButton").disabled = !object.checked;
+			var first = document.getElementsByName("FirstName");
+			var last = document.getElementsByName("LastName");
+			var email = document.getElementsByName("Email");
+			var password1 = document.getElementsByName("Password1");
+			var password2 = document.getElementsByName("Password2");
+			var checkbox = document.getElementById("AgreeStatus");
+			var allStringFields = [first, last, email, password1, password2];
+			document.getElementById("CreateButton").disabled = !(checkbox.checked && areNotBlank(allStringFields));
+		}
+
+		function areNotBlank(list) {
+			for(var i = 0; i < list.length; i++) {
+				if(list[i][0].value === "") {
+					return false;
+				}
+			}
+			return true;
 		}
 
 	</script>
