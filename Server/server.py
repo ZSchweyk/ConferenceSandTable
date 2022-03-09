@@ -71,7 +71,7 @@ def signup():
             flash("Passwords don't match")
         hash = sha256(email + password)
         print("HASH:", hash)
-        print("LENGTH:", len(hash))
+        # Create the user in the database
         user = email[:email.index("@")]
         return redirect(url_for("home", user=user))
 

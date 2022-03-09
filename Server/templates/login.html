@@ -54,7 +54,7 @@
 	<form action="{{ url_for('login') }}"  method="post">
 		<h1 class="h2 mb-3 fw-normal">Please sign in to</h1>
 		<h2 class="h4 mb-3 fw-normal">The Conference Sand Table</h2>
-		<h6 class="h6 mb-3 fw-normal">or <a href="signup.html">Create an Account</a></h6>
+		<h6 class="h6 mb-3 fw-normal">or <a href="{{ url_for('signup') }}">Create an Account</a></h6>
 
 		<div class="form-floating">
 			<input type="email" class="form-control" id="floatingInput" name="Email" placeholder="name@example.com">

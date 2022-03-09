@@ -52,9 +52,17 @@
 	<img class="mb-4" src="{{ url_for('static', filename='images/dpea_logo.jpg') }}" alt="DPEA Logo" width="200" height="200">
 
 	<form action="{{ url_for('login') }}"  method="post">
+
+		{% for message in get_flashed_messages() %}
+			<div class="alert alert-warning alert-dismissible fade show">
+				<strong>Error</strong> {{ message }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{% endfor %}
+
 		<h1 class="h2 mb-3 fw-normal">Create an Account for</h1>
 		<h2 class="h4 mb-3 fw-normal">The Conference Sand Table</h2>
-		<h6 class="h6 mb-3 fw-normal">or <a href="login.html">Login</a></h6>
+		<h6 class="h6 mb-3 fw-normal">or <a href="{{ url_for('login') }}">Login</a></h6>
 
 		<div class="form-floating">
 			<input type="text" class="form-control" name="FirstName" placeholder="">
