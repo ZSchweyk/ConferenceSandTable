@@ -70,9 +70,6 @@ def signup():
         if password1 != password2:
             flash("Passwords don't match")
             return redirect(url_for("signup"))
-        if "AgreeStatus" not in request.form:
-            flash("Please agree to the terms and conditions to continue.")
-            return redirect(url_for("signup"))
         hash = sha256(email + password1)
         print("HASH:", hash)
         # Create the user in the database
