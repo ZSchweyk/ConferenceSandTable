@@ -67,8 +67,11 @@ def signup():
         email = request.form["Email"]
         password1 = request.form["Password1"]
         password2 = request.form["Password2"]
+        agree_status = request.form["AgreeStatus"]
         if password1 != password2:
             flash("Passwords don't match")
+        if not agree_status:
+            flash("Please agree to the terms and conditions to continue.")
         hash = sha256(email + password)
         print("HASH:", hash)
         # Create the user in the database
@@ -90,6 +93,11 @@ def equations(user):
         flash("Equation successfully added!")
     print(user)
     return render_template("equations.html", equations=EQUATIONS, form=form)
+
+
+@app.route("/terms_and_conditions")
+def terms_page():
+    return render_template("terms.html")
 
 
 @app.errorhandler(404)

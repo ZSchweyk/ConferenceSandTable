@@ -51,7 +51,7 @@
 <main class="form-signin">
 	<img class="mb-4" src="{{ url_for('static', filename='images/dpea_logo.jpg') }}" alt="DPEA Logo" width="200" height="200">
 
-	<form action="{{ url_for('login') }}"  method="post">
+	<form action="{{ url_for('signup') }}"  method="post">
 
 		{% for message in get_flashed_messages() %}
 			<div class="alert alert-warning alert-dismissible fade show">
@@ -65,12 +65,12 @@
 		<h6 class="h6 mb-3 fw-normal">or <a href="{{ url_for('login') }}">Login</a></h6>
 
 		<div class="form-floating">
-			<input type="text" class="form-control" name="FirstName" placeholder="">
-			<label>First</label>
+			<input type="text" class="form-control" name="FirstName" placeholder="First">
+			<label>First Name</label>
 		</div>
 		<div class="form-floating">
-			<input type="text" class="form-control" name="LastName" placeholder="">
-			<label>Last</label>
+			<input type="text" class="form-control" name="LastName" placeholder="Last">
+			<label>Last Name</label>
 		</div>
 
 
@@ -89,10 +89,11 @@
 
 		<div class="checkbox mb-3">
 			<label>
-				<input type="checkbox" value="remember-me"> Remember me
+				<input type="checkbox" value="remember-me" name="AgreeStatus">
+				I agree to the <a href="{{ url_for('terms_page') }}">terms</a>
 			</label>
 		</div>
-		<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+		<button class="w-100 btn btn-lg btn-primary" type="submit">Create</button>
 <!--		<p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>-->
 	</form>
 </main>
