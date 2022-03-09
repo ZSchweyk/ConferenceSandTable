@@ -70,9 +70,11 @@ def signup():
         agree_status = request.form["AgreeStatus"]
         if password1 != password2:
             flash("Passwords don't match")
+            return redirect(url_for("signup"))
         if not agree_status:
             flash("Please agree to the terms and conditions to continue.")
-        hash = sha256(email + password)
+            return redirect(url_for("signup"))
+        hash = sha256(email + password1)
         print("HASH:", hash)
         # Create the user in the database
         user = email[:email.index("@")]
