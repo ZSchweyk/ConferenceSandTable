@@ -28,7 +28,7 @@ class Users(db.Model):
 
 
 # @app.route("/user/add", methods=["GET", "POST"])
-# def
+
 
 EQUATIONS = ["sin(4 * theta)", ]
 
