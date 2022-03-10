@@ -15,6 +15,9 @@ app.config["SECRET_KEY"] = "my super secret key that no one is supposed to know"
 # Initialize the Database
 db = SQLAlchemy(app)
 
+# Figure out how to create Flask Forms, style them, and insert user input into
+# SQLAlchemy DBs.
+
 
 # Create Model
 class Users(db.Model):
