@@ -15,6 +15,7 @@ app.config["SECRET_KEY"] = "my super secret key that no one is supposed to know"
 # Initialize the Database
 db = SQLAlchemy(app)
 
+
 # Figure out how to create Flask Forms, style them, and insert user input into
 # SQLAlchemy DBs.
 
@@ -22,7 +23,10 @@ db = SQLAlchemy(app)
 # Create Model
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    credentials_hash = db.Column(db.String(64), nullable=False, unique=True)
+    first_name = db.Column(db.String(64), nullable=False)
+    last_name = db.Column(db.String(64), nullable=False)
+    email = db.Column(db.String(64), unique=True, nullable=False)
+    password_hash = db.Column(db.String(64), nullable=False)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Create a String
@@ -44,6 +48,20 @@ def sha256(string: str):
 class EquationForm(FlaskForm):
     equation = StringField("Enter Equation", validators=[DataRequired()])
     submit = SubmitField("Add")
+
+
+class LoginForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired()])
+    password = StringField("Password", validators=[DataRequired])
+    submit = SubmitField("Login")
+
+
+class SignupForm(FlaskForm):
+    first_name = StringField("First Name", validators=[DataRequired()])
+    last_name = StringField("Last Name", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired()])
+    password1 = StringField("Password", validators=[DataRequired()])
+    password2 = StringField("Confirm Password", validators=[DataRequired()])
 
 
 @app.route("/", methods=["POST", "GET"])
