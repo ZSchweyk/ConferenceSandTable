@@ -57,12 +57,14 @@
 		<h6 class="h6 mb-3 fw-normal">or <a href="{{ url_for('signup') }}">Create an Account</a></h6>
 
 		<div class="form-floating">
-			<input type="email" class="form-control" id="floatingInput" name="Email" placeholder="name@example.com">
-			<label for="floatingInput">Email address</label>
+
+			{{ form.email(class="form-control", id="floatingInput") }}
+			<label>{{ form.email.label }}</label>
 		</div>
 		<div class="form-floating">
-			<input type="password" class="form-control" id="floatingPassword" name="Password" placeholder="Password">
-			<label for="floatingPassword">Password</label>
+
+			{{ form.password(class="form-control", id="floatingPassword") }}
+			<label>{{ form.password.label }}</label>
 		</div>
 
 		<div class="checkbox mb-3">

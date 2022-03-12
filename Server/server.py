@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired
 import os
 from flask_sqlalchemy import SQLAlchemy
@@ -52,7 +52,7 @@ class EquationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired()])
-    password = StringField("Password", validators=[DataRequired])
+    password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")
 
 
@@ -67,7 +67,8 @@ class SignupForm(FlaskForm):
 @app.route("/", methods=["POST", "GET"])
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        form = LoginForm()
+        return render_template("login.html", form=form)
     else:
         email = request.form["Email"]
         password = request.form["Password"]
