@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, RadioField, SelectField, BooleanField
 from wtforms.validators import DataRequired
 import os
 from flask_sqlalchemy import SQLAlchemy
@@ -53,6 +53,7 @@ class EquationForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
+    remember_me = BooleanField("Remember Me")
     submit = SubmitField("Login")
 
 

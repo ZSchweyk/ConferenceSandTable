@@ -57,20 +57,20 @@
 		<h6 class="h6 mb-3 fw-normal">or <a href="{{ url_for('signup') }}">Create an Account</a></h6>
 
 		<div class="form-floating">
-
 			{{ form.email(class="form-control", id="floatingInput") }}
 			<label>{{ form.email.label }}</label>
 		</div>
 		<div class="form-floating">
-
 			{{ form.password(class="form-control", id="floatingPassword") }}
 			<label>{{ form.password.label }}</label>
 		</div>
 
 		<div class="checkbox mb-3">
-			<label>
-				<input type="checkbox" value="remember-me"> Remember me
-			</label>
+			{{ form.remember_me }}
+			{{ form.remember_me.label }}
+<!--			<label>-->
+<!--				<input type="checkbox" value="remember-me"> Remember me-->
+<!--			</label>-->
 		</div>
 		<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
 <!--		<p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>-->
