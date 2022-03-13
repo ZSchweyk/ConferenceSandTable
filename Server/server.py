@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, RadioField, SelectField, BooleanField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, EqualTo
 import os
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -62,24 +62,30 @@ class SignupForm(FlaskForm):
     last_name = StringField("Last Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired()])
     password1 = PasswordField("Password", validators=[DataRequired()])
-    password2 = PasswordField("Confirm Password", validators=[DataRequired()])
+    password2 = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo('password1', message='Passwords must match')])
     agree = BooleanField("I agree to the ", validators=[DataRequired()])
     create = SubmitField("Create")
 
 
 @app.route("/", methods=["POST", "GET"])
 def login():
-    if request.method == "GET":
-        form = LoginForm()
-        return render_template("login.html", form=form)
-    else:
-        email = request.form["Email"]
-        password = request.form["Password"]
-        hash = sha256(email + password)
-        print("HASH:", hash)
-        print("LENGTH:", len(hash))
-        user = email[:email.index("@")]
-        return redirect(url_for("home", user=user))
+    form = LoginForm()
+    if form.validate_on_submit():
+        print("Login Form Validated")
+        return redirect(url_for("home", user="ASDF"))
+    return render_template("login.html", form=form)
+
+    # if request.method == "GET":
+    #     form = LoginForm()
+    #     return render_template("login.html", form=form)
+    # else:
+    #     email = request.form["Email"]
+    #     password = request.form["Password"]
+    #     hash = sha256(email + password)
+    #     print("HASH:", hash)
+    #     print("LENGTH:", len(hash))
+    #     user = email[:email.index("@")]
+    #     return redirect(url_for("home", user=user))
 
 
 @app.route("/signup", methods=["POST", "GET"])
