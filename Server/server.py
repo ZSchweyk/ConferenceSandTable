@@ -61,8 +61,10 @@ class SignupForm(FlaskForm):
     first_name = StringField("First Name", validators=[DataRequired()])
     last_name = StringField("Last Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired()])
-    password1 = StringField("Password", validators=[DataRequired()])
-    password2 = StringField("Confirm Password", validators=[DataRequired()])
+    password1 = PasswordField("Password", validators=[DataRequired()])
+    password2 = PasswordField("Confirm Password", validators=[DataRequired()])
+    agree = BooleanField("I agree to the ", validators=[DataRequired()])
+    create = SubmitField("Create")
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -83,7 +85,8 @@ def login():
 @app.route("/signup", methods=["POST", "GET"])
 def signup():
     if request.method == "GET":
-        return render_template("signup.html")
+        form = SignupForm()
+        return render_template("signup.html", form=form)
     else:
         first = request.form["FirstName"]
         last = request.form["LastName"]

@@ -66,36 +66,36 @@
 			<h6 class="h6 mb-3 fw-normal">or <a href="{{ url_for('login') }}">Login</a></h6>
 
 			<div class="form-floating">
-				<input type="text" class="form-control" name="FirstName" placeholder="First" onchange="changeButtonStatus()">
-				<label>First Name</label>
-			</div>
-			<div class="form-floating">
-				<input type="text" class="form-control" name="LastName" placeholder="Last" onchange="changeButtonStatus()">
-				<label>Last Name</label>
+				{{ form.first_name(class="form-control") }}
+				<label>{{ form.first_name.label }}</label>
 			</div>
 
+			<div class="form-floating">
+				{{ form.last_name(class="form-control") }}
+				<label>{{ form.last_name.label }}</label>
+			</div>
 
 			<div class="form-floating">
-				<input type="email" class="form-control" id="floatingInput" name="Email" placeholder="name@example.com" onchange="changeButtonStatus()">
-				<label for="floatingInput">Email address</label>
+				{{ form.email(class="form-control") }}
+				<label>{{ form.email.label }}</label>
 			</div>
+
 			<div class="form-floating">
-				<input type="password" class="form-control" name="Password1" placeholder="Password" onchange="changeButtonStatus()">
-				<label>Password</label>
+				{{ form.password1(class="form-control") }}
+				<label>{{ form.password1.label }}</label>
 			</div>
+
 			<div class="form-floating">
-				<input type="password" class="form-control" name="Password2" placeholder="Password" onchange="changeButtonStatus()">
-				<label>Confirm Password</label>
+				{{ form.password2(class="form-control") }}
+				<label>{{ form.password2.label }}</label>
 			</div>
 
 			<div class="checkbox mb-3">
-				<label>
-					<input type="checkbox" value="false" name="AgreeStatus" id="AgreeStatus" onchange="changeButtonStatus()">
-					I agree to the <a href="{{ url_for('terms_page') }}" target="_blank">terms</a>
-				</label>
+				{{ form.agree }}
+				<label>{{ form.agree.label }} <a href="{{ url_for('terms_page') }}" target="_blank">terms</a></label>
 			</div>
-			<button class="w-100 btn btn-lg btn-primary" type="submit" disabled="true" id="CreateButton">Create</button>
-	<!--		<p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>-->
+			{{ form.create(class="w-100 btn btn-lg btn-primary") }}
+			<!--		<p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>-->
 		</form>
 	</main>
 
