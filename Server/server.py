@@ -70,12 +70,12 @@ class SignupForm(FlaskForm):
 
 @app.route("/", methods=["POST", "GET"])
 def login():
-    form = LoginForm(request.form)
-    print("Entering if")
+    form = LoginForm()
     if request.method == "POST" and form.validate():
         print("Login Form Validated")
         return redirect(url_for("home", user="ASDF"))
-    return render_template("login.html", form=form)
+    else:
+        return render_template("login.html", form=form)
 
     # if request.method == "GET":
     #     form = LoginForm()
