@@ -14,6 +14,7 @@ app.config["SECRET_KEY"] = "my super secret key that no one is supposed to know"
 
 # Initialize the Database
 db = SQLAlchemy(app)
+db.create_all()
 
 
 # Figure out how to create Flask Forms, style them, and insert user input into
@@ -69,8 +70,9 @@ class SignupForm(FlaskForm):
 
 @app.route("/", methods=["POST", "GET"])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
+    form = LoginForm(request.form)
+    print("Entering if")
+    if request.method == "POST" and form.validate():
         print("Login Form Validated")
         return redirect(url_for("home", user="ASDF"))
     return render_template("login.html", form=form)
