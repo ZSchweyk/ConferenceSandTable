@@ -24,10 +24,11 @@ db = SQLAlchemy(app)
 # Create Model
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(64), nullable=False)
-    last_name = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(64), unique=True, nullable=False)
     password_hash = db.Column(db.String(64), nullable=False)
+
+    first_name = db.Column(db.String(64), nullable=False)
+    last_name = db.Column(db.String(64), nullable=False)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Create a String
@@ -46,7 +47,7 @@ def sha256(string: str):
 
 
 # Create a Form Class
-class EquationForm(Form):
+class EquationForm(FlaskForm):
     equation = StringField("Enter Equation", validators=[DataRequired()])
     submit = SubmitField("Add")
 
@@ -58,7 +59,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 
-class SignupForm(Form):
+class SignupForm(FlaskForm):
     first_name = StringField("First Name", validators=[DataRequired()])
     last_name = StringField("Last Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired()])
@@ -72,21 +73,8 @@ class SignupForm(Form):
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        print("Login Form Validated")
         return redirect(url_for("home", user="ASDF"))
     return render_template("login.html", form=form)
-
-    # if request.method == "GET":
-    #     form = LoginForm()
-    #     return render_template("login.html", form=form)
-    # else:
-    #     email = request.form["Email"]
-    #     password = request.form["Password"]
-    #     hash = sha256(email + password)
-    #     print("HASH:", hash)
-    #     print("LENGTH:", len(hash))
-    #     user = email[:email.index("@")]
-    #     return redirect(url_for("home", user=user))
 
 
 @app.route("/signup", methods=["POST", "GET"])
