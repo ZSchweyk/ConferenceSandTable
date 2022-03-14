@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_wtf import FlaskForm
 from wtforms import Form, StringField, SubmitField, PasswordField, RadioField, SelectField, BooleanField
 from wtforms.validators import DataRequired, EqualTo, InputRequired
@@ -9,13 +9,15 @@ import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
-
 app.config["SECRET_KEY"] = "my super secret key that no one is supposed to know"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+
 
 # Initialize the Database
 db = SQLAlchemy(app)
-# db.create_all()
+
 
 
 # Figure out how to create Flask Forms, style them, and insert user input into
@@ -37,7 +39,7 @@ class User(db.Model):
 
     def __init__(self, email, password, first_name, last_name):
         self.email = email
-        self.email_and_password_hash = sha256(self.email + ": " + self.password)
+        self.email_and_password_hash = sha256(email + ": " + password)
         self.first_name = first_name
         self.last_name = last_name
 
@@ -95,6 +97,7 @@ def login():
             return render_template("login.html", form=form)
 
         if sha256(form.email.data + ": " + form.password.data) == user.email_and_password_hash:
+            session["user"] = user
             return redirect(url_for("home", user="ASDF"))
 
     return render_template("login.html", form=form)
@@ -112,7 +115,9 @@ def signup():
         )
         db.session.add(new_user)
         db.session.commit()
-    return redirect(url_for("login"))
+        flash("You've successfully created an account!")
+
+    return render_template("signup.html", form=form)
 
 
 @app.route("/<user>")
@@ -141,15 +146,6 @@ def page_not_found(e):
     return render_template("404.html"), 404
 
 
-# @app.route("/equation", methods=["GET", "POST"])
-# def equation():
-#     name = None
-#     form = EquationForm()
-#     if form.validate_on_submit():
-#         name = form.name.data
-#         form.name.data = ""
-#     return render_template("equations_form", name=name, form=form)
-
-
 if __name__ == '__main__':
+    db.create_all()
     app.run(debug=True)
