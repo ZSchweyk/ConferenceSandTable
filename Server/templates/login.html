@@ -52,23 +52,22 @@
 	<img class="mb-4" src="{{ url_for('static', filename='images/dpea_logo.jpg') }}" alt="DPEA Logo" width="200" height="200">
 
 	<form action="{{ url_for('login') }}"  method="post">
-		<h1 class="h2 mb-3 fw-normal">Please sign in to</h1>
+		<h1 class="h2 mb-3 fw-normal">Please login to</h1>
 		<h2 class="h4 mb-3 fw-normal">The Conference Sand Table</h2>
 		<h6 class="h6 mb-3 fw-normal">or <a href="{{ url_for('signup') }}">Create an Account</a></h6>
 
 		<div class="form-floating">
-			<input type="email" class="form-control" id="floatingInput" name="Email" placeholder="name@example.com">
-			<label for="floatingInput">Email address</label>
+			{{ form.email(class="form-control", id="floatingInput") }}
+			<label>{{ form.email.label }}</label>
 		</div>
 		<div class="form-floating">
-			<input type="password" class="form-control" id="floatingPassword" name="Password" placeholder="Password">
-			<label for="floatingPassword">Password</label>
+			{{ form.password(class="form-control", id="floatingPassword") }}
+			<label>{{ form.password.label }}</label>
 		</div>
 
 		<div class="checkbox mb-3">
-			<label>
-				<input type="checkbox" value="remember-me"> Remember me
-			</label>
+			{{ form.remember_me }}
+			{{ form.remember_me.label }}
 		</div>
 		<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
 <!--		<p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>-->

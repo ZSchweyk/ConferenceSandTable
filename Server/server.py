@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, SubmitField, PasswordField, RadioField, SelectField, BooleanField
+from wtforms.validators import DataRequired, EqualTo
 import os
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -14,12 +14,20 @@ app.config["SECRET_KEY"] = "my super secret key that no one is supposed to know"
 
 # Initialize the Database
 db = SQLAlchemy(app)
+db.create_all()
+
+
+# Figure out how to create Flask Forms, style them, and insert user input into
+# SQLAlchemy DBs.
 
 
 # Create Model
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    credentials_hash = db.Column(db.String(64), nullable=False, unique=True)
+    first_name = db.Column(db.String(64), nullable=False)
+    last_name = db.Column(db.String(64), nullable=False)
+    email = db.Column(db.String(64), unique=True, nullable=False)
+    password_hash = db.Column(db.String(64), nullable=False)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Create a String
@@ -43,24 +51,50 @@ class EquationForm(FlaskForm):
     submit = SubmitField("Add")
 
 
+class LoginForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    remember_me = BooleanField("Remember Me")
+    submit = SubmitField("Login")
+
+
+class SignupForm(FlaskForm):
+    first_name = StringField("First Name", validators=[DataRequired()])
+    last_name = StringField("Last Name", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired()])
+    password1 = PasswordField("Password", validators=[DataRequired()])
+    password2 = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo('password1', message='Passwords must match')])
+    agree = BooleanField("I agree to the ", validators=[DataRequired()])
+    create = SubmitField("Create")
+
+
 @app.route("/", methods=["POST", "GET"])
 def login():
-    if request.method == "GET":
-        return render_template("login.html")
+    form = LoginForm()
+    if request.method == "POST" and form.validate():
+        print("Login Form Validated")
+        return redirect(url_for("home", user="ASDF"))
     else:
-        email = request.form["Email"]
-        password = request.form["Password"]
-        hash = sha256(email + password)
-        print("HASH:", hash)
-        print("LENGTH:", len(hash))
-        user = email[:email.index("@")]
-        return redirect(url_for("home", user=user))
+        return render_template("login.html", form=form)
+
+    # if request.method == "GET":
+    #     form = LoginForm()
+    #     return render_template("login.html", form=form)
+    # else:
+    #     email = request.form["Email"]
+    #     password = request.form["Password"]
+    #     hash = sha256(email + password)
+    #     print("HASH:", hash)
+    #     print("LENGTH:", len(hash))
+    #     user = email[:email.index("@")]
+    #     return redirect(url_for("home", user=user))
 
 
 @app.route("/signup", methods=["POST", "GET"])
 def signup():
     if request.method == "GET":
-        return render_template("signup.html")
+        form = SignupForm()
+        return render_template("signup.html", form=form)
     else:
         first = request.form["FirstName"]
         last = request.form["LastName"]
