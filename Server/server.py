@@ -6,6 +6,7 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import hashlib
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
@@ -25,7 +26,7 @@ def sha256(string: str):
 
 
 # Create Model
-class Users(db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     email = db.Column(db.String(64), unique=True, nullable=False)
     email_and_password_hash = db.Column(db.String(64), nullable=False, unique=True)
@@ -44,14 +45,22 @@ class Users(db.Model):
         return "<Name %r>" % (self.first_name + " " + self.last_name)
 
 
-# @app.route("/user/add", methods=["GET", "POST"])
+class Equations(db.Model):
+    row = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    id = db.Column(db.Integer, nullable=False)
+    equation = db.Column(db.String(100), nullable=False)
+
+    def __init__(self, user_id, equation):
+        self.id = user_id
+        self.equation = equation
+
+
+
+
+
 
 
 EQUATIONS = ["sin(4 * theta)", ]
-
-
-
-
 
 # Create a Form Class
 class EquationForm(FlaskForm):
@@ -67,12 +76,12 @@ class LoginForm(FlaskForm):
 
 
 class SignupForm(FlaskForm):
-    first_name = StringField("First Name", validators=[DataRequired()])
-    last_name = StringField("Last Name", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired()])
-    password1 = PasswordField("Password", validators=[DataRequired()])
-    password2 = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo('password1', message='Passwords must match')])
-    agree = BooleanField("I agree to the ", validators=[DataRequired()])
+    first_name = StringField("First Name", validators=[InputRequired()])
+    last_name = StringField("Last Name", validators=[InputRequired()])
+    email = StringField("Email", validators=[InputRequired()])
+    password1 = PasswordField("Password", validators=[InputRequired()])
+    password2 = PasswordField("Confirm Password", validators=[InputRequired(), EqualTo('password1', message='Passwords must match')])
+    agree = BooleanField("I agree to the ", validators=[InputRequired()])
     create = SubmitField("Create")
 
 
@@ -80,29 +89,30 @@ class SignupForm(FlaskForm):
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        return redirect(url_for("home", user="ASDF"))
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is None:
+            flash("Incorrect Credentials")
+            return render_template("login.html", form=form)
+
+        if sha256(form.email.data + ": " + form.password.data) == user.email_and_password_hash:
+            return redirect(url_for("home", user="ASDF"))
+
     return render_template("login.html", form=form)
 
 
 @app.route("/signup", methods=["POST", "GET"])
 def signup():
-    if request.method == "GET":
-        form = SignupForm()
-        return render_template("signup.html", form=form)
-    else:
-        first = request.form["FirstName"]
-        last = request.form["LastName"]
-        email = request.form["Email"]
-        password1 = request.form["Password1"]
-        password2 = request.form["Password2"]
-        if password1 != password2:
-            flash("Passwords don't match")
-            return redirect(url_for("signup"))
-        hash = sha256(email + password1)
-        print("HASH:", hash)
-        # Create the user in the database
-        user = email[:email.index("@")]
-        return redirect(url_for("home", user=user))
+    form = SignupForm()
+    if form.validate_on_submit():
+        new_user = User(
+            first_name=form.first_name.data,
+            last_name=form.last_name,
+            email=form.email.data,
+            password=form.password1.data
+        )
+        db.session.add(new_user)
+        db.session.commit()
+    return redirect(url_for("login"))
 
 
 @app.route("/<user>")
