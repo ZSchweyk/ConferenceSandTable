@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, RadioField, SelectField, BooleanField
-from wtforms.validators import DataRequired, EqualTo
+from wtforms import Form, StringField, SubmitField, PasswordField, RadioField, SelectField, BooleanField
+from wtforms.validators import DataRequired, EqualTo, InputRequired
 import os
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -14,7 +14,7 @@ app.config["SECRET_KEY"] = "my super secret key that no one is supposed to know"
 
 # Initialize the Database
 db = SQLAlchemy(app)
-db.create_all()
+# db.create_all()
 
 
 # Figure out how to create Flask Forms, style them, and insert user input into
@@ -46,19 +46,19 @@ def sha256(string: str):
 
 
 # Create a Form Class
-class EquationForm(FlaskForm):
+class EquationForm(Form):
     equation = StringField("Enter Equation", validators=[DataRequired()])
     submit = SubmitField("Add")
 
 
 class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
+    email = StringField("Email", validators=[InputRequired()])
+    password = PasswordField("Password", validators=[InputRequired()])
     remember_me = BooleanField("Remember Me")
     submit = SubmitField("Login")
 
 
-class SignupForm(FlaskForm):
+class SignupForm(Form):
     first_name = StringField("First Name", validators=[DataRequired()])
     last_name = StringField("Last Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired()])
@@ -70,12 +70,13 @@ class SignupForm(FlaskForm):
 
 @app.route("/", methods=["POST", "GET"])
 def login():
-    form = LoginForm()
-    if request.method == "POST" and form.validate():
+    form = LoginForm(request.form)
+    print("Before if")
+    # return str(form.validate_on_submit())
+    if form.validate_on_submit():
         print("Login Form Validated")
         return redirect(url_for("home", user="ASDF"))
-    else:
-        return render_template("login.html", form=form)
+    return render_template("login.html", form=form)
 
     # if request.method == "GET":
     #     form = LoginForm()
