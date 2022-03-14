@@ -70,7 +70,7 @@ class SignupForm(Form):
 
 @app.route("/", methods=["POST", "GET"])
 def login():
-    form = LoginForm(request.form)
+    form = LoginForm()
     print("Before if")
     # return str(form.validate_on_submit())
     if form.validate_on_submit():
