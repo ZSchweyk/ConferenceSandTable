@@ -20,20 +20,28 @@ db = SQLAlchemy(app)
 # Figure out how to create Flask Forms, style them, and insert user input into
 # SQLAlchemy DBs.
 
+def sha256(string: str):
+    return hashlib.sha256(string.encode()).hexdigest()
+
 
 # Create Model
 class Users(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     email = db.Column(db.String(64), unique=True, nullable=False)
-    password_hash = db.Column(db.String(64), nullable=False)
+    email_and_password_hash = db.Column(db.String(64), nullable=False, unique=True)
 
     first_name = db.Column(db.String(64), nullable=False)
     last_name = db.Column(db.String(64), nullable=False)
-    date_added = db.Column(db.DateTime, default=datetime.utcnow)
+    date_added = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
-    # Create a String
+    def __init__(self, email, password, first_name, last_name):
+        self.email = email
+        self.email_and_password_hash = sha256(self.email + ": " + self.password)
+        self.first_name = first_name
+        self.last_name = last_name
+
     def __repr__(self):
-        return "<Name %r>" % self.name
+        return "<Name %r>" % (self.first_name + " " + self.last_name)
 
 
 # @app.route("/user/add", methods=["GET", "POST"])
@@ -42,8 +50,7 @@ class Users(db.Model):
 EQUATIONS = ["sin(4 * theta)", ]
 
 
-def sha256(string: str):
-    return hashlib.sha256(string.encode()).hexdigest()
+
 
 
 # Create a Form Class
