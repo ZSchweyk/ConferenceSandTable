@@ -139,6 +139,18 @@ def logout():
     return redirect(url_for("login"))
 
 
+@app.route("/profile")
+def profile():
+    if "user_id" in session:
+        user_id = session["user_id"]
+        user = User.query.filter_by(id=user_id).first()
+        first_name = user.first_name
+        last_name = user.last_name
+        email = user.email
+
+    pass
+
+
 @app.route("/home/equations", methods=["GET", "POST"])
 def equations():
     form = EquationForm()
