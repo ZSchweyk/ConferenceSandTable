@@ -94,7 +94,8 @@ def login():
         if user is not None and sha256(form.email.data + ": " + form.password.data) == user.email_and_password_hash:
             session.permanent = True
             session["user_id"] = user.id
-            return redirect(url_for("home"))
+            session["flast"] = user.first_name[0].upper() + user.last_name[0].upper() + user.last_name[1:].lower()
+            return redirect(url_for("home", user_flast=session["flast"]))
         else:
             flash("Incorrect Credentials")
             form.email.data = ""
@@ -102,7 +103,7 @@ def login():
             return render_template("login.html", form=form)
     else:
         if "user" in session:
-            return redirect(url_for("home"))
+            return redirect(url_for("home", user_flast=session["flast"]))
         return render_template("login.html", form=form)
 
 
@@ -124,8 +125,8 @@ def signup():
     return render_template("signup.html", form=form)
 
 
-@app.route("/home")
-def home():
+@app.route("/<user_flast>")
+def home(user_flast):
     if "user_id" in session:
         user = User.query.filter_by(id=session["user_id"]).first()
         return render_template('home.html', user=user.first_name + " " + user.last_name)
@@ -133,14 +134,15 @@ def home():
         return redirect(url_for("login"))
 
 
-@app.route("/home/logout")
-def logout():
+@app.route("/<user_flast>/logout")
+def logout(user_flast):
     session.pop("user_id", None)
+    session.pop("flast", None)
     return redirect(url_for("login"))
 
 
-@app.route("/profile")
-def profile():
+@app.route("/<user_flast>/profile")
+def profile(user_flast):
     if "user_id" in session:
         user_id = session["user_id"]
         user = User.query.filter_by(id=user_id).first()
@@ -151,8 +153,8 @@ def profile():
     pass
 
 
-@app.route("/home/equations", methods=["GET", "POST"])
-def equations():
+@app.route("/<user_flast>/equations", methods=["GET", "POST"])
+def equations(user_flast):
     form = EquationForm()
     if form.validate_on_submit():
         name = form.equation.data
