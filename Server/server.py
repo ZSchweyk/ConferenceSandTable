@@ -6,20 +6,18 @@ from wtforms import Form, StringField, SubmitField, PasswordField, RadioField, S
 from wtforms.validators import DataRequired, EqualTo, InputRequired
 import os
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timedelta
 import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "my super secret key that no one is supposed to know"
+app.secret_key = "my super secret key that no one is supposed to know"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-
+app.permanent_session_lifetime = timedelta(minutes=5)
 
 # Initialize the Database
 db = SQLAlchemy(app)
-
 
 
 # Figure out how to create Flask Forms, style them, and insert user input into
@@ -60,12 +58,8 @@ class Equations(db.Model):
         self.equation = equation
 
 
-
-
-
-
-
 EQUATIONS = ["sin(4 * theta)", ]
+
 
 # Create a Form Class
 class EquationForm(FlaskForm):
@@ -85,7 +79,8 @@ class SignupForm(FlaskForm):
     last_name = StringField("Last Name", validators=[InputRequired()])
     email = StringField("Email", validators=[InputRequired()])
     password1 = PasswordField("Password", validators=[InputRequired()])
-    password2 = PasswordField("Confirm Password", validators=[InputRequired(), EqualTo('password1', message='Passwords must match')])
+    password2 = PasswordField("Confirm Password",
+                              validators=[InputRequired(), EqualTo('password1', message='Passwords must match')])
     agree = BooleanField("I agree to the ", validators=[InputRequired()])
     create = SubmitField("Create")
 
@@ -97,6 +92,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
 
         if user is not None and sha256(form.email.data + ": " + form.password.data) == user.email_and_password_hash:
+            session.permanent = True
             session["user_id"] = user.id
             return redirect(url_for("home"))
         else:
