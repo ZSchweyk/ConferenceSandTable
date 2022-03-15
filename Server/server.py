@@ -98,14 +98,16 @@ def login():
 
         if user is not None and sha256(form.email.data + ": " + form.password.data) == user.email_and_password_hash:
             session["user_id"] = user.id
-            return redirect(url_for("home", user=user.first_name + user.last_name))
+            return redirect(url_for("home"))
         else:
             flash("Incorrect Credentials")
             form.email.data = ""
             form.password.data = ""
             return render_template("login.html", form=form)
-
-    return render_template("login.html", form=form)
+    else:
+        if "user" in session:
+            return redirect(url_for("home"))
+        return render_template("login.html", form=form)
 
 
 @app.route("/signup", methods=["POST", "GET"])
@@ -126,8 +128,8 @@ def signup():
     return render_template("signup.html", form=form)
 
 
-@app.route("/<user>")
-def home(user):
+@app.route("/home")
+def home():
     if "user_id" in session:
         user = User.query.filter_by(id=session["user_id"]).first()
         return render_template('home.html', user=user.first_name + " " + user.last_name)
@@ -135,8 +137,14 @@ def home(user):
         return redirect(url_for("login"))
 
 
-@app.route("/<user>/equations", methods=["GET", "POST"])
-def equations(user):
+@app.route("/home/logout")
+def logout():
+    session.pop("user_id", None)
+    return redirect(url_for("login"))
+
+
+@app.route("/home/equations", methods=["GET", "POST"])
+def equations():
     form = EquationForm()
     if form.validate_on_submit():
         name = form.equation.data
