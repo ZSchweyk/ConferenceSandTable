@@ -47,10 +47,12 @@ class ConferenceSandTable:
             self.r1.calibrate_encoder()
             self.r2.calibrate_encoder()
             # self.radius_board.reboot()
+            print("Calibrated r1 and r2")
             time.sleep(10)
         while not self.theta_motor.is_calibrated():
             self.theta_motor.calibrate_encoder()
             # self.theta_board.reboot()
+            print("Calibrated theta")
             time.sleep(10)
         print("All motors are calibrated!")
 
@@ -159,7 +161,7 @@ class ConferenceSandTable:
         # print("largest_r2", largest_r2)
 
         self.theta_motor.set_home()
-        self.theta_motor.set_vel(6)
+        self.theta_motor.set_vel(15)
         max_rotations = self.gear_ratio * .5 * period / (2 * pi)
         previous_thetas = [0]
         while self.theta_motor.get_pos() < max_rotations:
