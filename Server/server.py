@@ -125,7 +125,7 @@ def signup():
     return render_template("signup.html", form=form)
 
 
-@app.route("/<user_flast>")
+@app.route("/<user_flast>/home")
 def home(user_flast):
     if "user_id" in session:
         user = User.query.filter_by(id=session["user_id"]).first()
