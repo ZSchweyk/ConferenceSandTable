@@ -85,6 +85,19 @@ class SignupForm(FlaskForm):
     create = SubmitField("Create")
 
 
+class ProfileForm(FlaskForm):
+    first_name = StringField("First Name", validators=[InputRequired()])
+    last_name = StringField("Last Name", validators=[InputRequired()])
+    email = StringField("Email", validators=[InputRequired()])
+    save = SubmitField("Save")
+
+
+class ChangePasswordForm(FlaskForm):
+    old_password = PasswordField("Password", validators=[InputRequired()])
+    new_password1 = PasswordField("New Password", validators=[InputRequired()])
+    new_password2 = PasswordField("Confirm New Password", validators=[InputRequired()])
+
+
 @app.route("/", methods=["POST", "GET"])
 def login():
     form = LoginForm()
@@ -143,14 +156,19 @@ def logout(user_flast):
 
 @app.route("/<user_flast>/profile")
 def profile(user_flast):
+    form = ProfileForm()
+    if form.validate_on_submit():
+        # Update the user's fields
+        pass
+
     if "user_id" in session:
         user_id = session["user_id"]
         user = User.query.filter_by(id=user_id).first()
         first_name = user.first_name
         last_name = user.last_name
         email = user.email
+        return render_template("profile.html", first_name=first_name, last_name=last_name, email=email)
 
-    pass
 
 
 @app.route("/<user_flast>/equations", methods=["GET", "POST"])
