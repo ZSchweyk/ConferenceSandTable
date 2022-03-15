@@ -46,8 +46,8 @@ class User(db.Model):
         self.last_name = last_name
         self.date_added = timestamp.strftime("%m/%d/%Y %H:%M:%S")
 
-    # def __repr__(self):
-    #     return "<Name %r>" % (self.first_name + " " + self.last_name)
+    def __repr__(self):
+        return "<Name %r>" % (self.first_name + " " + self.last_name)
 
 
 class Equations(db.Model):
@@ -98,7 +98,7 @@ def login():
 
         if user is not None and sha256(form.email.data + ": " + form.password.data) == user.email_and_password_hash:
             session["user_id"] = user.id
-            return redirect(url_for("home", user=user.first_name + " " + user.last_name))
+            return redirect(url_for("home", user=user.first_name + user.last_name))
         else:
             flash("Incorrect Credentials")
             form.email.data = ""
@@ -126,11 +126,13 @@ def signup():
     return render_template("signup.html", form=form)
 
 
-@app.route("/user")
-def home():
+@app.route("/<user>")
+def home(user):
     if "user_id" in session:
         user = User.query.filter_by(id=session["user_id"]).first()
         return render_template('home.html', user=user.first_name + " " + user.last_name)
+    else:
+        return redirect(url_for("login"))
 
 
 @app.route("/<user>/equations", methods=["GET", "POST"])
