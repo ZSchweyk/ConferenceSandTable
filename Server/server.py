@@ -110,7 +110,7 @@ def signup():
     if form.validate_on_submit():
         new_user = User(
             first_name=form.first_name.data,
-            last_name=form.last_name,
+            last_name=form.last_name.data,
             email=form.email.data,
             password=form.password1.data,
             timestamp=datetime.now()
@@ -149,5 +149,5 @@ def page_not_found(e):
 
 
 if __name__ == '__main__':
-    db.create_all()
+    # db.create_all()
     app.run(debug=True)
