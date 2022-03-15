@@ -35,16 +35,17 @@ class User(db.Model):
 
     first_name = db.Column(db.String(64), nullable=False)
     last_name = db.Column(db.String(64), nullable=False)
-    date_added = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    date_added = db.Column(db.String(len("dd/mm/yyyy hh:mm:ss")), nullable=False)
 
-    def __init__(self, email, password, first_name, last_name):
+    def __init__(self, first_name, last_name, email, password, timestamp: datetime):
         self.email = email
         self.email_and_password_hash = sha256(email + ": " + password)
         self.first_name = first_name
         self.last_name = last_name
+        self.date_added = timestamp.strftime("%m/%d/%Y %H:%M:%S")
 
-    def __repr__(self):
-        return "<Name %r>" % (self.first_name + " " + self.last_name)
+    # def __repr__(self):
+    #     return "<Name %r>" % (self.first_name + " " + self.last_name)
 
 
 class Equations(db.Model):
@@ -111,7 +112,8 @@ def signup():
             first_name=form.first_name.data,
             last_name=form.last_name,
             email=form.email.data,
-            password=form.password1.data
+            password=form.password1.data,
+            timestamp=datetime.now()
         )
         db.session.add(new_user)
         db.session.commit()
