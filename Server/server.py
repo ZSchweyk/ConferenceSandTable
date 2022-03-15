@@ -1,3 +1,5 @@
+import time
+
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_wtf import FlaskForm
 from wtforms import Form, StringField, SubmitField, PasswordField, RadioField, SelectField, BooleanField
@@ -93,13 +95,15 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user is None:
-            flash("Incorrect Credentials")
-            return render_template("login.html", form=form)
 
-        if sha256(form.email.data + ": " + form.password.data) == user.email_and_password_hash:
-            session["user"] = user
-            return redirect(url_for("home", user="ASDF"))
+        if user is not None and sha256(form.email.data + ": " + form.password.data) == user.email_and_password_hash:
+            session["user_id"] = user.id
+            return redirect(url_for("home", user=user.first_name + " " + user.last_name))
+        else:
+            flash("Incorrect Credentials")
+            form.email.data = ""
+            form.password.data = ""
+            return render_template("login.html", form=form)
 
     return render_template("login.html", form=form)
 
@@ -122,9 +126,11 @@ def signup():
     return render_template("signup.html", form=form)
 
 
-@app.route("/<user>")
-def home(user):
-    return render_template('home.html', user=user)
+@app.route("/user")
+def home():
+    if "user_id" in session:
+        user = User.query.filter_by(id=session["user_id"]).first()
+        return render_template('home.html', user=user.first_name + " " + user.last_name)
 
 
 @app.route("/<user>/equations", methods=["GET", "POST"])
@@ -134,7 +140,6 @@ def equations(user):
         name = form.equation.data
         form.equation.data = ""
         flash("Equation successfully added!")
-    print(user)
     return render_template("equations.html", equations=EQUATIONS, form=form)
 
 
