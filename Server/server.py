@@ -134,7 +134,10 @@ def signup():
         )
         db.session.add(new_user)
         db.session.commit()
-        flash("You've successfully created an account!")
+        form.first_name.data = ""
+        form.last_name.data = ""
+        form.email.data = ""
+        return redirect(url_for("login"))
 
     return render_template("signup.html", form=form)
 
@@ -190,6 +193,19 @@ def terms_page():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
+
+
+
+
+# def loop(start_string):
+#     previous = start_string
+#     while True:
+#         new = sha256(previous)
+#         print(new)
+#         previous = new
+
+
+
 
 
 if __name__ == '__main__':
