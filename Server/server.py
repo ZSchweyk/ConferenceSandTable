@@ -12,7 +12,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = "my super secret key that no one is supposed to know"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.permanent_session_lifetime = timedelta(minutes=5)
 
@@ -28,20 +28,21 @@ def sha256(string: str):
 
 
 # Create Model
-class User(db.Model):
+class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
-    email = db.Column(db.String(64), unique=True, nullable=False)
-    email_and_password_hash = db.Column(db.String(64), nullable=False, unique=True)
-
     first_name = db.Column(db.String(64), nullable=False)
     last_name = db.Column(db.String(64), nullable=False)
+    email = db.Column(db.String(64), unique=True, nullable=False)
+    salt = db.Column(db.String(64), unique=True, nullable=False)
+    salted_password_hash = db.Column(db.String(64), nullable=False, unique=True)
     date_added = db.Column(db.String(len("dd/mm/yyyy hh:mm:ss")), nullable=False)
 
     def __init__(self, first_name, last_name, email, password, timestamp: datetime):
-        self.email = email
-        self.email_and_password_hash = sha256(email + ": " + password)
         self.first_name = first_name
         self.last_name = last_name
+        self.email = email.lower()
+        self.salt = sha256(self.email)
+        self.salted_password_hash = sha256(self.salt + password)
         self.date_added = timestamp.strftime("%m/%d/%Y %H:%M:%S")
 
     def __repr__(self):
@@ -102,9 +103,9 @@ class ChangePasswordForm(FlaskForm):
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = Users.query.filter_by(email=form.email.data.lower()).first()
 
-        if user is not None and sha256(form.email.data + ": " + form.password.data) == user.email_and_password_hash:
+        if user is not None and sha256(user.salt + form.password.data) == user.salted_password_hash:
             session.permanent = True
             session["user_id"] = user.id
             session["flast"] = user.first_name[0].upper() + user.last_name[0].upper() + user.last_name[1:].lower()
@@ -124,7 +125,7 @@ def login():
 def signup():
     form = SignupForm()
     if form.validate_on_submit():
-        new_user = User(
+        new_user = Users(
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             email=form.email.data,
@@ -141,7 +142,7 @@ def signup():
 @app.route("/<user_flast>/home")
 def home(user_flast):
     if "user_id" in session:
-        user = User.query.filter_by(id=session["user_id"]).first()
+        user = Users.query.filter_by(id=session["user_id"]).first()
         return render_template('home.html', user=user.first_name + " " + user.last_name)
     else:
         return redirect(url_for("login"))
@@ -163,7 +164,7 @@ def profile(user_flast):
 
     if "user_id" in session:
         user_id = session["user_id"]
-        user = User.query.filter_by(id=user_id).first()
+        user = Users.query.filter_by(id=user_id).first()
         first_name = user.first_name
         last_name = user.last_name
         email = user.email
