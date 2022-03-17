@@ -80,10 +80,13 @@
                     <h2>Your Equations</h2>
 
                     {% if form %}
-                    {{ form.equation.label }}
-                    {{ form.equation }}
+                        <form action="{{ url_for('home', user_flast=session['flast']) }}" method="POST">
+                            {{ form.hidden_tag() }}
+                            {{ form.equation.label }}
+                            {{ form.equation }}
 
-                    {{ form.submit }}
+                            {{ form.submit }}
+                        </form>
                     {% endif %}
 
                     <ol>

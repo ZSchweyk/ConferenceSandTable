@@ -10,6 +10,8 @@ from datetime import datetime, timedelta
 import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from flask_forms import *
+
 app = Flask(__name__)
 app.secret_key = "my super secret key that no one is supposed to know"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
@@ -55,49 +57,10 @@ class Equations(db.Model):
     equation = db.Column(db.String(100), nullable=False)
     date_added = db.Column(db.String(len("dd/mm/yyyy hh:mm:ss")), nullable=False)
 
-    def __init__(self, user_id, equation):
+    def __init__(self, user_id, equation, timestamp: datetime):
         self.id = user_id
         self.equation = equation
-
-
-EQUATIONS = ["sin(4 * theta)", ]
-
-
-# Create a Form Class
-class EquationForm(FlaskForm):
-    equation = StringField("Enter Equation", validators=[DataRequired()])
-    submit = SubmitField("Add")
-
-
-class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[InputRequired()])
-    password = PasswordField("Password", validators=[InputRequired()])
-    remember_me = BooleanField("Remember Me")
-    submit = SubmitField("Login")
-
-
-class SignupForm(FlaskForm):
-    first_name = StringField("First Name", validators=[InputRequired()])
-    last_name = StringField("Last Name", validators=[InputRequired()])
-    email = StringField("Email", validators=[InputRequired()])
-    password1 = PasswordField("Password", validators=[InputRequired()])
-    password2 = PasswordField("Confirm Password",
-                              validators=[InputRequired(), EqualTo('password1', message='Passwords must match')])
-    agree = BooleanField("I agree to the ", validators=[InputRequired()])
-    create = SubmitField("Create")
-
-
-class ProfileForm(FlaskForm):
-    first_name = StringField("First Name", validators=[InputRequired()])
-    last_name = StringField("Last Name", validators=[InputRequired()])
-    email = StringField("Email", validators=[InputRequired()])
-    save = SubmitField("Save")
-
-
-class ChangePasswordForm(FlaskForm):
-    old_password = PasswordField("Password", validators=[InputRequired()])
-    new_password1 = PasswordField("New Password", validators=[InputRequired()])
-    new_password2 = PasswordField("Confirm New Password", validators=[InputRequired()])
+        self.date_added = timestamp.strftime("%m/%d/%Y %H:%M:%S")
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -143,22 +106,30 @@ def signup():
     return render_template("signup.html", form=form)
 
 
-@app.route("/<user_flast>/home")
+@app.route("/<user_flast>/home", methods=["POST", "GET"])
 def home(user_flast):
     if "user_id" in session:
         form = EquationForm()
         user = Users.query.filter_by(id=session["user_id"]).first()
-        equations = Equations.query.filter_by(id=session["user_id"]).all()
-        print("equations:", equations)
+        rows = Equations.query.filter_by(id=session["user_id"]).all()
+        print("equations:", rows)
         if form.validate_on_submit():
+            print("Validated")
             # add equation to database.db
-
-            return redirect(url_for("home", user_flast=session["flast"]))
+            new_equation = Equations(
+                user_id=session["user_id"],
+                equation=form.equation.data,
+                timestamp=datetime.now()
+            )
+            db.session.add(new_equation)
+            db.session.commit()
+            form.equation.data = ""
+            return redirect(url_for("home", user_flast=session["flast"], form=None))
         return render_template(
             'home.html',
             user=user.first_name + " " + user.last_name,
             form=form,
-            equations=equations
+            equations=[row.equation for row in rows]
         )
     else:
         return redirect(url_for("login"))
@@ -187,7 +158,6 @@ def profile(user_flast):
         return render_template("profile.html", first_name=first_name, last_name=last_name, email=email)
 
 
-
 @app.route("/<user_flast>/equations", methods=["GET", "POST"])
 def equations(user_flast):
     form = EquationForm()
@@ -208,17 +178,12 @@ def page_not_found(e):
     return render_template("404.html"), 404
 
 
-
-
 # def loop(start_string):
 #     previous = start_string
 #     while True:
 #         new = sha256(previous)
 #         print(new)
 #         previous = new
-
-
-
 
 
 if __name__ == '__main__':
