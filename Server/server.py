@@ -1,5 +1,6 @@
 import time
 
+import sqlalchemy.exc
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_wtf import FlaskForm
 from wtforms import Form, StringField, SubmitField, PasswordField, RadioField, SelectField, BooleanField
@@ -97,11 +98,20 @@ def signup():
             timestamp=datetime.now()
         )
         db.session.add(new_user)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except sqlalchemy.exc.IntegrityError:
+            print("Account already exists")
+            flash("Incorrect Credentials")
         form.first_name.data = ""
         form.last_name.data = ""
         form.email.data = ""
-        return redirect(url_for("login"))
+
+        # Log the user in
+        session.permanent = True
+        session["user_id"] = new_user.id
+        session["flast"] = new_user.first_name[0].upper() + new_user.last_name[0].upper() + new_user.last_name[1:].lower()
+        return redirect(url_for("home", user_flast=session["flast"]))
 
     return render_template("signup.html", form=form)
 
