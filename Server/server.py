@@ -88,13 +88,16 @@ def home(user_flast):
             # add equation to database.db
             new_equation = Equations(
                 user_id=session["user_id"],
-                equation=form.equation.data,
+                equation=remove_spaces(form.equation.data),
                 timestamp=datetime.now()
             )
-            db.session.add(new_equation)
-            db.session.commit()
-            form.equation.data = ""
-            return redirect(url_for("home", user_flast=session["flast"], form=None))
+            if new_equation.equation not in equations:
+                db.session.add(new_equation)
+                db.session.commit()
+                form.equation.data = ""
+                return redirect(url_for("home", user_flast=session["flast"], form=None))
+            else:
+                flash("Equation already exists.")
         return render_template(
             'home.html',
             user=user.first_name + " " + user.last_name,

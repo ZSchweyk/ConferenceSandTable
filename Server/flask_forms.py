@@ -1,4 +1,5 @@
 # Create a Form Class
+from flask import flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, EqualTo, ValidationError
@@ -14,6 +15,7 @@ class EquationForm(FlaskForm):
     @staticmethod
     def validate_equation(form, field):
         if not ConferenceSandTable.is_equation_valid(field.data):
+            flash("Syntax Error")
             raise ValidationError("Invalid Equation")
 
 
