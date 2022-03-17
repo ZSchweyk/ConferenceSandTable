@@ -71,33 +71,31 @@
     </div>
 
     <div class="split right">
-        <div class="">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm" style="text-align: center">
-                        asdf
-                    </div>
-                    <div class="col-sm" style="text-align: center">
-                        <h2>Your Equations</h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm" style="text-align: center">
+                    asdf
+                </div>
+                <div class="col-sm" style="text-align: center">
+                    <h2>Your Equations</h2>
 
-                        {% if form %}
-                        {{ form.equation.label }}
-                        {{ form.equation }}
+                    {% if form %}
+                    {{ form.equation.label }}
+                    {{ form.equation }}
 
-                        {{ form.submit }}
-                        {% endif %}
+                    {{ form.submit }}
+                    {% endif %}
 
-                        <ol>
-                            {% for equation in equations %}
-                            <li>
-                                r = {{ equation }}
-                            </li>
-                            {% endfor %}
-                        </ol>
-                    </div>
-                    <div class="col-sm" style="text-align: center">
-                        asdf
-                    </div>
+                    <ol>
+                        {% for equation in equations %}
+                        <li>
+                            r = {{ equation }}
+                        </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+                <div class="col-sm" style="text-align: center">
+                    asdf
                 </div>
             </div>
         </div>
