@@ -8,10 +8,6 @@
             text-align: center;
         }
 
-        h2 {
-            text-align: right;
-        }
-
         .iframe-parent{
             width: 100vw;
             height: 100vh;
@@ -45,6 +41,7 @@
         .right {
             right: 0;
             background-color: white;
+            /*transform: translate(-50%);*/
         }
 
         /* If you want the content centered horizontally and vertically */
@@ -74,13 +71,13 @@
     </div>
 
     <div class="split right">
-        <div class="centered">
+        <div class="">
             <div class="container">
                 <div class="row">
                     <div class="col-sm" style="text-align: center">
                         asdf
                     </div>
-                    <div class="col-sm">
+                    <div class="col-sm" style="text-align: center">
                         <h2>Your Equations</h2>
 
                         {% if form %}
