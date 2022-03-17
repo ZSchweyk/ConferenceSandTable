@@ -8,6 +8,10 @@
             text-align: center;
         }
 
+        h2 {
+            text-align: right;
+        }
+
         .iframe-parent{
             width: 100vw;
             height: 100vh;
@@ -16,7 +20,40 @@
         /* Expand to the entire container */
         iframe{
             width: 50%;
-            height: 50%;
+            height: 100%;
+        }
+
+
+
+        /* Split the screen in half */
+        .split {
+            height: 100%;
+            width: 50%;
+            position: fixed;
+            z-index: 1;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        /* Control the left side */
+        .left {
+            left: 0;
+            background-color: white;
+        }
+
+        /* Control the right side */
+        .right {
+            right: 0;
+            background-color: white;
+        }
+
+        /* If you want the content centered horizontally and vertically */
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
         }
     </style>
 </head>
@@ -28,9 +65,52 @@
 
     <h1>Welcome, {{user}}!</h1>
 
-    <div class='iframe-parent'>
-        <iframe src="https://www.desmos.com/calculator/bb7igdyblo"></iframe>
+    <div class="split left">
+        <div class="centered">
+            <div class='iframe-parent'>
+                <iframe src="https://www.desmos.com/calculator/bb7igdyblo"></iframe>
+            </div>
+        </div>
     </div>
+
+    <div class="split right">
+        <div class="centered">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm" style="text-align: center">
+                        asdf
+                    </div>
+                    <div class="col-sm">
+                        <h2>Your Equations</h2>
+
+                        {% if form %}
+                        {{ form.equation.label }}
+                        {{ form.equation }}
+
+                        {{ form.submit }}
+                        {% endif %}
+
+                        <ol>
+                            {% for equation in equations %}
+                            <li>
+                                r = {{ equation }}
+                            </li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                    <div class="col-sm" style="text-align: center">
+                        asdf
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
 
 {% endblock %}
 

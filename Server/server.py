@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.secret_key = "my super secret key that no one is supposed to know"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.permanent_session_lifetime = timedelta(minutes=5)
+app.permanent_session_lifetime = timedelta(minutes=10)
 
 # Initialize the Database
 db = SQLAlchemy(app)
@@ -145,8 +145,19 @@ def signup():
 @app.route("/<user_flast>/home")
 def home(user_flast):
     if "user_id" in session:
+        form = EquationForm()
         user = Users.query.filter_by(id=session["user_id"]).first()
-        return render_template('home.html', user=user.first_name + " " + user.last_name)
+        equations = Equations.query.filter_by(id=session["user_id"]).all()
+        print("equations:", equations)
+        if form.validate_on_submit():
+            # add equation to database.db
+            return redirect(url_for("home", user_flast=session["flast"]))
+        return render_template(
+            'home.html',
+            user=user.first_name + " " + user.last_name,
+            form=form,
+            equations=equations
+        )
     else:
         return redirect(url_for("login"))
 
