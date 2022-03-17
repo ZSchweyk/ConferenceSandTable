@@ -103,6 +103,8 @@ def signup():
         except sqlalchemy.exc.IntegrityError:
             print("Account already exists")
             flash("Incorrect Credentials")
+            return render_template("signup.html", form=form)
+
         form.first_name.data = ""
         form.last_name.data = ""
         form.email.data = ""
@@ -122,6 +124,7 @@ def home(user_flast):
         form = EquationForm()
         user = Users.query.filter_by(id=session["user_id"]).first()
         rows = Equations.query.filter_by(id=session["user_id"]).all()
+        equations = [row.equation for row in rows]
         print("equations:", rows)
         if form.validate_on_submit():
             print("Validated")
@@ -139,7 +142,7 @@ def home(user_flast):
             'home.html',
             user=user.first_name + " " + user.last_name,
             form=form,
-            equations=[row.equation for row in rows]
+            equations=equations
         )
     else:
         return redirect(url_for("login"))
