@@ -53,6 +53,7 @@ class Equations(db.Model):
     row = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     id = db.Column(db.Integer, nullable=False)
     equation = db.Column(db.String(100), nullable=False)
+    date_added = db.Column(db.String(len("dd/mm/yyyy hh:mm:ss")), nullable=False)
 
     def __init__(self, user_id, equation):
         self.id = user_id
@@ -151,6 +152,7 @@ def home(user_flast):
         print("equations:", equations)
         if form.validate_on_submit():
             # add equation to database.db
+
             return redirect(url_for("home", user_flast=session["flast"]))
         return render_template(
             'home.html',
