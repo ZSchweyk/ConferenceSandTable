@@ -12,6 +12,7 @@ import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_forms import *
+from useful_functions import *
 
 app = Flask(__name__)
 app.secret_key = "my super secret key that no one is supposed to know"
@@ -21,13 +22,6 @@ app.permanent_session_lifetime = timedelta(minutes=10)
 
 # Initialize the Database
 db = SQLAlchemy(app)
-
-
-# Figure out how to create Flask Forms, style them, and insert user input into
-# SQLAlchemy DBs.
-
-def sha256(string: str):
-    return hashlib.sha256(string.encode()).hexdigest()
 
 
 # Create Model
