@@ -51,8 +51,7 @@ def signup():
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             email=form.email.data,
-            password=form.password1.data,
-            timestamp=datetime.now()
+            password=form.password1.data
         )
         db.session.add(new_user)
         try:
@@ -88,8 +87,7 @@ def home(user_flast):
             # add equation to database.db
             new_equation = Equations(
                 user_id=session["user_id"],
-                equation=remove_spaces(form.equation.data),
-                timestamp=datetime.now()
+                equation=remove_spaces(form.equation.data)
             )
             if new_equation.equation not in equations:
                 db.session.add(new_equation)
