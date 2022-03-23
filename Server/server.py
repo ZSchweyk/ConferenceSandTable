@@ -126,16 +126,6 @@ def profile(user_flast):
         return render_template("profile.html", user=user)
 
 
-@app.route("/<user_flast>/equations", methods=["GET", "POST"])
-def equations(user_flast):
-    form = EquationForm()
-    if form.validate_on_submit():
-        name = form.equation.data
-        form.equation.data = ""
-        flash("Equation successfully added!")
-    return render_template("equations.html", equations=EQUATIONS, form=form)
-
-
 @app.route("/terms_and_conditions")
 def terms_page():
     return render_template("terms.html")
