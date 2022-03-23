@@ -4,7 +4,7 @@
 # ssh pi@conference-sand-table-v2-pi.local
 
 # BE SURE TO ACTIVATE THE Flask VENV!!!!!!
-source packages/Flask/bin/activate
+source packages/Flask/bin/activate  # just run the activate file on Windows
 
 cd projects/ConferenceSandTable/Server
 export FLASK_APP=server  # use set FLASK_APP=server on Windows
