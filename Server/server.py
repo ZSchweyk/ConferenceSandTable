@@ -98,7 +98,7 @@ def home(user_flast):
                 flash("Equation already exists.")
         return render_template(
             'home.html',
-            user=user.first_name + " " + user.last_name,
+            user=user,
             form=form,
             equations=equations
         )

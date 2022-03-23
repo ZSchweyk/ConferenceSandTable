@@ -27,13 +27,11 @@
             <form class="d-flex" action="{{ url_for('logout', user_flast=session['flast']) }}">
 <!--                <button class="btn btn-secondary" type="submit">Log Out</button>-->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Signed in as: {{ user }}
-                    </a>
+                    <li>
+                            <button class="btn btn-secondary" type="submit">Log Out ({{ user.email }})</button>
+                    </li>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li>
-                            <button class="btn btn-secondary" type="submit">Log Out</button>
-                        </li>
+
                     </ul>
                 </li>
             </form>
