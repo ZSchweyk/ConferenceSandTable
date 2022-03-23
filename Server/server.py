@@ -123,10 +123,7 @@ def profile(user_flast):
     if "user_id" in session:
         user_id = session["user_id"]
         user = Users.query.filter_by(id=user_id).first()
-        first_name = user.first_name
-        last_name = user.last_name
-        email = user.email
-        return render_template("profile.html", first_name=first_name, last_name=last_name, email=email)
+        return render_template("profile.html", user=user)
 
 
 @app.route("/<user_flast>/equations", methods=["GET", "POST"])
