@@ -127,6 +127,22 @@ class ConferenceSandTable:
             return False
         return True
 
+    def calculate_period(self, equation):
+        if not self.is_equation_valid(equation):
+            raise Exception("Invalid Equation")
+
+        theta = 0
+        coordinates = []
+        while True:
+
+            r = eval(equation)
+            print((theta, r))
+            if (theta - (2 * pi), r) in coordinates:
+                return theta
+            coordinates.append((theta, r))
+            theta += .001
+
+
     def draw_equation(self, equation: str, period, theta_speed=5, scale_factor=1):
         if not self.is_equation_valid(equation):
             raise Exception("Invalid Equation")
