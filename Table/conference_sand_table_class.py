@@ -128,7 +128,7 @@ class ConferenceSandTable:
             return False
         return True
 
-    def draw_equation(self, equation: str, period, theta_speed=5):
+    def draw_equation(self, equation: str, period, theta_speed=5, scale_factor=1):
 
         if not self.is_equation_valid(equation):
             raise Exception("Invalid Equation")
@@ -174,8 +174,8 @@ class ConferenceSandTable:
             r1 = eval(equation.replace("theta", "theta1"))
             r2 = eval(equation.replace("theta", "theta2"))
 
-            r1 = scale(r1, smallest_r1, largest_r1, -25, 25)
-            r2 = scale(r2, smallest_r2, largest_r2, -25, 25)
+            r1 = scale(r1, smallest_r1, largest_r1, -25 * scale_factor, 25 * scale_factor)
+            r2 = scale(r2, smallest_r2, largest_r2, -25 * scale_factor, 25 * scale_factor)
             if r1 >= 0:
                 self.r1.set_pos_traj(-r1, 25, 25, 25)
                 self.r2.set_pos_traj(-r2, 25, 25, 25)
