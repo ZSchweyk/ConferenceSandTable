@@ -1,7 +1,7 @@
 
 import odrive
 import usb.core
-import Table.ODrive_Ease_Lib
+import ODrive_Ease_Lib
 import numpy as np
 import time
 import os
@@ -128,7 +128,7 @@ class ConferenceSandTable:
             return False
         return True
 
-    def draw_equation(self, equation: str, period):
+    def draw_equation(self, equation: str, period, theta_speed=5):
 
         if not self.is_equation_valid(equation):
             raise Exception("Invalid Equation")
@@ -161,7 +161,7 @@ class ConferenceSandTable:
         # print("largest_r2", largest_r2)
 
         self.theta_motor.set_home()
-        self.theta_motor.set_vel(15)
+        self.theta_motor.set_vel(theta_speed)
         max_rotations = self.gear_ratio * .5 * period / (2 * pi)
         previous_thetas = [0]
         while self.theta_motor.get_pos() < max_rotations:
