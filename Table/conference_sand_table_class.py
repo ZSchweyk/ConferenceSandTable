@@ -1,4 +1,3 @@
-
 import odrive
 import usb.core
 import ODrive_Ease_Lib
@@ -129,7 +128,6 @@ class ConferenceSandTable:
         return True
 
     def draw_equation(self, equation: str, period, theta_speed=5, scale_factor=1):
-
         if not self.is_equation_valid(equation):
             raise Exception("Invalid Equation")
 
@@ -146,8 +144,8 @@ class ConferenceSandTable:
             # print(theta1, theta2)
             # print(round(r1, 3), round(r2, 3))
             assert ((round(r1, 3) >= 0) == (
-                        round(r2, 3) >= 0)), "Cannot draw the equation \"" + equation + "\", since motors would have " \
-                                                                                        "to be at 2 places at once."
+                    round(r2, 3) >= 0)), "Cannot draw the equation \"" + equation + "\", since motors would have " \
+                                                                                    "to be at 2 places at once."
             all_r1_values.append(r1)
             all_r2_values.append(r2)
 
@@ -159,6 +157,8 @@ class ConferenceSandTable:
         #
         # print("smallest_r2", smallest_r2)
         # print("largest_r2", largest_r2)
+
+        scale_factor = max(min(scale_factor, 1), 0)  # This bounds scale_factor between 0 and 1
 
         self.theta_motor.set_home()
         self.theta_motor.set_vel(theta_speed)
@@ -184,7 +184,7 @@ class ConferenceSandTable:
                 self.r2.set_pos_traj(r1, 25, 25, 25)
             self.r2.wait()
             end = time.perf_counter()
-            # print("Duration:", end - start)
+            print("Duration:", end - start)
 
         self.theta_motor.set_vel(0)
         print(np.diff(previous_thetas))
@@ -192,4 +192,3 @@ class ConferenceSandTable:
         print("Min Difference:", min(np.diff(previous_thetas)))
         print("Max Difference:", max(np.diff(previous_thetas)))
         print("STD Difference:", np.std(np.diff(previous_thetas)))
-
