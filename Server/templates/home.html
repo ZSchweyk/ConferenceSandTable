@@ -103,8 +103,14 @@
                     <ol>
                         {% for equation in equations %}
                         <li>
-                            <img class="mb-4" src="{{ url_for('static', filename='images/pencil_icon.jpg') }}" width="30" height="30">
-                            <img class="mb-4" src="{{ url_for('static', filename='images/trash_can.jpg') }}" width="30" height="30">
+                            <a href="{{ url_for('draw_equation', user_flast=session['flast']) }}">
+                                <img class="mb-4" src="{{ url_for('static', filename='images/pencil_icon.jpg') }}" width="30" height="30">
+                            </a>
+
+                            <a href="{{ url_for('delete_equation', user_flast=session['flast']) }}">
+                                <img class="mb-4" src="{{ url_for('static', filename='images/trash_can.jpg') }}" width="30" height="30">
+                            </a>
+
                             r = {{ equation }}
                         </li>
                         {% endfor %}

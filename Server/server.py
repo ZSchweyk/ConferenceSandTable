@@ -106,6 +106,16 @@ def home(user_flast):
         return redirect(url_for("login"))
 
 
+@app.route("/<user_flast>/home/draw-equation")
+def draw_equation(user_flast):
+    pass
+
+
+@app.route("/<user_flast>/home/delete-equation")
+def delete_equation(user_flast):
+    pass
+
+
 @app.route("/<user_flast>/logout")
 def logout(user_flast):
     session.pop("user_id", None)
