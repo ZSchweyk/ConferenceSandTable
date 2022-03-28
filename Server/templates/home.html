@@ -77,7 +77,7 @@
 
                 </div>
                 <div class="col-sm" style="text-align: center">
-                    <h2>Your Equations</h2>
+
 
                     {% for message in get_flashed_messages() %}
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -89,13 +89,17 @@
                     {% if form %}
                         <form action="{{ url_for('home', user_flast=session['flast']) }}" method="POST">
                             {{ form.hidden_tag() }}
-                            {{ form.equation.label }}
-                            {{ form.equation }}
+                            <div class="form-floating">
+                                {{ form.equation(class="form-control", id="floatingInput") }}
+                                <label>{{ form.equation.label }}</label>
+                            </div>
 
-                            {{ form.submit }}
+                            {{ form.submit(class="w-100 btn btn-lg btn-primary") }}
                         </form>
                     {% endif %}
 
+                    <br>
+                    <h2>Your Equations</h2>
                     <ol>
                         {% for equation in equations %}
                         <li>
