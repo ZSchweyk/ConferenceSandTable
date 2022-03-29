@@ -7,9 +7,7 @@ from math import *
 table = ConferenceSandTable()
 # table.home()
 
-period = table.calculate_period("sin(2 * theta)")
-print("period", period)
-# table.draw_equation("sin(2 * theta)", 2 * pi, theta_speed=15, scale_factor=.5)
+table.draw_equation("sin(2 * theta)", 2 * pi, theta_speed=.5, scale_factor=1)
 
 print("\n" * 10)
 table.r1.idle()

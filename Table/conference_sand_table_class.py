@@ -36,9 +36,9 @@ class ConferenceSandTable:
         self.theta_board.clear_errors()
 
         # Connect to the actual ODrive motors through ODrive_Axis objects
-        self.theta_motor = ODrive_Ease_Lib.ODrive_Axis(self.theta_board.axis0, 20, 30)
-        self.r1 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis0, 20, 30)  # Blue tape
-        self.r2 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis1, 20, 30)  # Orange tape
+        self.theta_motor = ODrive_Ease_Lib.ODrive_Axis(self.theta_board.axis0, current_lim=20, vel_lim=30)
+        self.r1 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis0, current_lim=20, vel_lim=30)  # Blue tape
+        self.r2 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis1, current_lim=20, vel_lim=30)  # Orange tape
 
         # Ensure that all motors are calibrated (which should be completed upon startup). Reboot ODrives until they
         # are calibrated.
@@ -134,7 +134,6 @@ class ConferenceSandTable:
         theta = 0
         coordinates = []
         while True:
-
             r = eval(equation)
             print((theta, r))
             if (theta - (2 * pi), r) in coordinates:
@@ -143,13 +142,16 @@ class ConferenceSandTable:
             theta += .001
 
 
-    def draw_equation(self, equation: str, period, theta_speed=5, scale_factor=1):
+    def draw_equation(self, equation: str, period, theta_speed=1, scale_factor=1):
         if not self.is_equation_valid(equation):
             raise Exception("Invalid Equation")
 
         if not self.radius_motors_homed:
             self.home()
 
+        assert 0 <= theta_speed <= 1, "Incorrect theta_speed bounds. Must be between 0 and 1."
+        theta_speed = theta_speed * (self.theta_motor.get_vel_limit() * .85)  # capped max vel to 85% of max speed because I don't want to lose connection to the motor
+        print("theta_speed:", theta_speed)
         # Find min and max radii for r1 and r2 to scale properly below.
         all_r1_values = []
         all_r2_values = []
@@ -200,7 +202,7 @@ class ConferenceSandTable:
                 self.r2.set_pos_traj(r1, 25, 25, 25)
             self.r2.wait()
             end = time.perf_counter()
-            print("Duration:", end - start)
+            # print("Duration:", end - start)
 
         self.theta_motor.set_vel(0)
         print(np.diff(previous_thetas))
