@@ -141,6 +141,14 @@ class ConferenceSandTable:
             coordinates.append((theta, r))
             theta += .001
 
+    def draw_2_equations(self, equation1, equation2):
+        if (not self.is_equation_valid(equation1)) or (not self.is_equation_valid(equation2)):
+            raise Exception("Invalid Equation(s)")
+
+        if not self.radius_motors_homed:
+            self.home()
+
+
 
     def draw_equation(self, equation: str, period, theta_speed=1, scale_factor=1):
         if not self.is_equation_valid(equation):
