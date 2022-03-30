@@ -8,7 +8,9 @@ table = ConferenceSandTable()
 # table.home()
 # table.find_ball()
 
-# table.draw_equation("4*sin(4 * theta)", 10 * pi, theta_speed=.1, scale_factor=1)
+# table.emergency_stop()
+
+table.draw_equation("sin(10 * theta)", 2 * pi, theta_speed=.1, scale_factor=1)
 
 print("\n" * 10)
 table.r1.idle()

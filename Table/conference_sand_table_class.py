@@ -5,6 +5,7 @@ import numpy as np
 import time
 import os
 from math import *
+from odrive.utils import start_liveplotter
 
 
 def scale(value, v_min, v_max, r_min, r_max):
@@ -39,6 +40,9 @@ class ConferenceSandTable:
         self.theta_motor = ODrive_Ease_Lib.ODrive_Axis(self.theta_board.axis0, current_lim=20, vel_lim=30)
         self.r1 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis0, current_lim=20, vel_lim=30)  # Blue tape
         self.r2 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis1, current_lim=20, vel_lim=30)  # Orange tape
+
+        self.r1.axis.controller.config.enable_overspeed_error = False
+        self.r2.axis.controller.config.enable_overspeed_error = False
 
         # Ensure that all motors are calibrated (which should be completed upon startup). Reboot ODrives until they
         # are calibrated.
@@ -157,6 +161,8 @@ class ConferenceSandTable:
         if not self.radius_motors_homed:
             self.home()
 
+        start_liveplotter(lambda: [self.r1.axis.encoder.pos_estimate, self.r1.axis.controller.input_pos])
+
         assert 0 <= theta_speed <= 1, "Incorrect theta_speed bounds. Must be between 0 and 1."
         theta_speed = theta_speed * (self.theta_motor.get_vel_limit() * .85)  # capped max vel to 85% of max speed because I don't want to lose connection to the motor
         print("theta_speed:", theta_speed)
@@ -201,12 +207,13 @@ class ConferenceSandTable:
             r1 = scale(r1, smallest_r1, largest_r1, -25 * scale_factor, 25 * scale_factor)
             r2 = scale(r2, smallest_r2, largest_r2, -25 * scale_factor, 25 * scale_factor)
             if r1 >= 0:
-                self.r1.set_pos_traj(-r1, 25, 25, 25)
-                self.r2.set_pos_traj(-r2, 25, 25, 25)
+                self.r1.set_pos_filter(-r1, 100)
+                self.r2.set_pos_filter(-r2, 100)
             else:
-                self.r1.set_pos_traj(r2, 25, 25, 25)
-                self.r2.set_pos_traj(r1, 25, 25, 25)
-            self.r2.wait()
+                self.r1.set_pos_filter(r2, 100)
+                self.r2.set_pos_filter(r1, 100)
+            # self.r2.wait()
+            # time.sleep(.1)
             end = time.perf_counter()
             # print("Duration:", end - start)
 
