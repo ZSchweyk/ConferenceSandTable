@@ -216,3 +216,9 @@ class ConferenceSandTable:
         print("Min Difference:", min(np.diff(previous_thetas)))
         print("Max Difference:", max(np.diff(previous_thetas)))
         print("STD Difference:", np.std(np.diff(previous_thetas)))
+
+
+    def emergency_stop(self):
+        self.theta_motor.set_vel(0)
+        self.r1.set_vel(0)
+        self.r2.set_vel(0)
