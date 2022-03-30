@@ -167,8 +167,6 @@ class ConferenceSandTable:
             theta2 = theta1 + pi
             r1 = eval(equation.replace("theta", "theta1"))
             r2 = eval(equation.replace("theta", "theta2"))
-            # print(theta1, theta2)
-            # print(round(r1, 3), round(r2, 3))
             assert ((round(r1, 3) >= 0) == (
                     round(r2, 3) >= 0)), "Cannot draw the equation \"" + equation + "\", since motors would have " \
                                                                                     "to be at 2 places at once."

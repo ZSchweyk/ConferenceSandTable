@@ -6,8 +6,9 @@ from math import *
 
 table = ConferenceSandTable()
 # table.home()
+# table.find_ball()
 
-table.draw_equation("sin(2 * theta)", 2 * pi, theta_speed=.5, scale_factor=1)
+table.draw_equation("4*sin(4.3 * theta)", 12 * pi, theta_speed=1, scale_factor=1)
 
 print("\n" * 10)
 table.r1.idle()
