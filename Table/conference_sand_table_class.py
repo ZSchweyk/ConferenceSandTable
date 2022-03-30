@@ -41,8 +41,8 @@ class ConferenceSandTable:
         self.r1 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis0, current_lim=20, vel_lim=30)  # Blue tape
         self.r2 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis1, current_lim=20, vel_lim=30)  # Orange tape
 
-        self.r1.axis.controller.config.enable_overspeed_error = False
-        self.r2.axis.controller.config.enable_overspeed_error = False
+        # self.r1.axis.controller.config.enable_overspeed_error = False
+        # self.r2.axis.controller.config.enable_overspeed_error = False
 
         # Ensure that all motors are calibrated (which should be completed upon startup). Reboot ODrives until they
         # are calibrated.
@@ -51,12 +51,12 @@ class ConferenceSandTable:
             self.r2.calibrate_encoder()
             # self.radius_board.reboot()
             print("Calibrated r1 and r2")
-            time.sleep(10)
+            # time.sleep(10)
         while not self.theta_motor.is_calibrated():
             self.theta_motor.calibrate_encoder()
             # self.theta_board.reboot()
             print("Calibrated theta")
-            time.sleep(10)
+            # time.sleep(10)
         print("All motors are calibrated!")
 
         self.radius_motors_homed = False
@@ -154,14 +154,14 @@ class ConferenceSandTable:
 
 
 
-    def draw_equation(self, equation: str, period, theta_speed=1, scale_factor=1):
+    def draw_equation(self, equation: str, period, theta_speed=1, scale_factor=1, bandwidth=50):
         if not self.is_equation_valid(equation):
             raise Exception("Invalid Equation")
 
         if not self.radius_motors_homed:
             self.home()
 
-        start_liveplotter(lambda: [self.r1.axis.encoder.pos_estimate, self.r1.axis.controller.input_pos])
+        # start_liveplotter(lambda: [self.r1.axis.encoder.pos_estimate, self.r1.axis.controller.input_pos])
 
         assert 0 <= theta_speed <= 1, "Incorrect theta_speed bounds. Must be between 0 and 1."
         theta_speed = theta_speed * (self.theta_motor.get_vel_limit() * .85)  # capped max vel to 85% of max speed because I don't want to lose connection to the motor
@@ -207,13 +207,13 @@ class ConferenceSandTable:
             r1 = scale(r1, smallest_r1, largest_r1, -25 * scale_factor, 25 * scale_factor)
             r2 = scale(r2, smallest_r2, largest_r2, -25 * scale_factor, 25 * scale_factor)
             if r1 >= 0:
-                self.r1.set_pos_filter(-r1, 100)
-                self.r2.set_pos_filter(-r2, 100)
+                self.r1.set_pos_filter(-r1, bandwidth)
+                self.r2.set_pos_filter(-r2, bandwidth)
             else:
-                self.r1.set_pos_filter(r2, 100)
-                self.r2.set_pos_filter(r1, 100)
+                self.r1.set_pos_filter(r2, bandwidth)
+                self.r2.set_pos_filter(r1, bandwidth)
             # self.r2.wait()
-            # time.sleep(.1)
+            # time.sleep(0)
             end = time.perf_counter()
             # print("Duration:", end - start)
 
@@ -229,3 +229,4 @@ class ConferenceSandTable:
         self.theta_motor.set_vel(0)
         self.r1.set_vel(0)
         self.r2.set_vel(0)
+
