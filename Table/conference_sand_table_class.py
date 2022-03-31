@@ -161,8 +161,6 @@ class ConferenceSandTable:
         if not self.radius_motors_homed:
             self.home()
 
-        # start_liveplotter(lambda: [self.r1.axis.encoder.pos_estimate, self.r1.axis.controller.input_pos])
-
         assert 0 <= theta_speed <= 1, "Incorrect theta_speed bounds. Must be between 0 and 1."
         theta_speed = theta_speed * (self.theta_motor.get_vel_limit() * .85)  # capped max vel to 85% of max speed because I don't want to lose connection to the motor
         print("theta_speed:", theta_speed)
