@@ -224,7 +224,7 @@ class ConferenceSandTable:
 
         self.theta_motor.set_vel(0)
         # print(np.diff(previous_thetas))
-        print("\n" * 10)
+        print("\n" * 5)
         print("Average time Difference:", np.mean(time_intervals))
         print("Average Angle Difference:", np.mean(np.diff(previous_thetas)))
         print("Min Angle Difference:", min(np.diff(previous_thetas)))
@@ -234,6 +234,6 @@ class ConferenceSandTable:
 
     def emergency_stop(self):
         self.theta_motor.set_vel(0)
-        self.r1.set_vel(0)
-        self.r2.set_vel(0)
+        self.r1.set_relative_pos(0)
+        self.r1.set_relative_pos(0)
 
