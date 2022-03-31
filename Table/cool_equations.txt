@@ -1,0 +1,1 @@
+theta * sin(3 * theta) | 0 <= theta <= 12 * pi
