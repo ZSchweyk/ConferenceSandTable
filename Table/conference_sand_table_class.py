@@ -5,6 +5,7 @@ import numpy as np
 import time
 import os
 from math import *
+from Table.settings import *
 from odrive.utils import start_liveplotter
 
 
@@ -162,7 +163,7 @@ class ConferenceSandTable:
             self.home()
 
         assert 0 <= theta_speed <= 1, "Incorrect theta_speed bounds. Must be between 0 and 1."
-        theta_speed = theta_speed * (self.theta_motor.get_vel_limit() * .85)  # capped max vel to 85% of max speed because I don't want to lose connection to the motor
+        theta_speed = theta_speed * (self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed because I don't want to lose connection to the motor
         print("theta_speed:", theta_speed)
         # Find min and max radii for r1 and r2 to scale properly below.
         all_r1_values = []
