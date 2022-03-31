@@ -154,7 +154,7 @@ class ConferenceSandTable:
 
 
 
-    def draw_equation(self, equation: str, period, theta_speed=1, scale_factor=1, bandwidth=50):
+    def draw_equation(self, equation: str, period, theta_speed=1, scale_factor=1, sleep=.05):
         if not self.is_equation_valid(equation):
             raise Exception("Invalid Equation")
 
@@ -190,7 +190,7 @@ class ConferenceSandTable:
 
         scale_factor = max(min(scale_factor, 1), 0)  # This bounds scale_factor between 0 and 1
 
-        time_intervals = []
+        time_intervals = [sleep + .04]
         self.theta_motor.set_home()
         self.theta_motor.set_vel(theta_speed)
         max_rotations = self.gear_ratio * .5 * period / (2 * pi)
@@ -207,6 +207,8 @@ class ConferenceSandTable:
 
             r1 = scale(r1, smallest_r1, largest_r1, -25 * scale_factor, 25 * scale_factor)
             r2 = scale(r2, smallest_r2, largest_r2, -25 * scale_factor, 25 * scale_factor)
+
+            bandwidth = (1/np.mean(time_intervals))
             if r1 >= 0:
                 self.r1.set_pos_filter(-r1, bandwidth)
                 self.r2.set_pos_filter(-r2, bandwidth)
@@ -214,19 +216,20 @@ class ConferenceSandTable:
                 self.r1.set_pos_filter(r2, bandwidth)
                 self.r2.set_pos_filter(r1, bandwidth)
             # self.r2.wait() Does not work with set_pos_filter
-            time.sleep(.05)
+            time.sleep(sleep)
             end = time.perf_counter()
             time_intervals.append(end-start)
-            print("Duration:", end - start)
+            # print("Duration:", end - start)
 
 
         self.theta_motor.set_vel(0)
-        print(np.diff(previous_thetas))
+        # print(np.diff(previous_thetas))
+        print("\n" * 10)
         print("Average time Difference:", np.mean(time_intervals))
-        print("Average Difference:", np.mean(np.diff(previous_thetas)))
-        print("Min Difference:", min(np.diff(previous_thetas)))
-        print("Max Difference:", max(np.diff(previous_thetas)))
-        print("STD Difference:", np.std(np.diff(previous_thetas)))
+        print("Average Angle Difference:", np.mean(np.diff(previous_thetas)))
+        print("Min Angle Difference:", min(np.diff(previous_thetas)))
+        print("Max Angle Difference:", max(np.diff(previous_thetas)))
+        print("STD Angle Difference:", np.std(np.diff(previous_thetas)))
 
 
     def emergency_stop(self):
