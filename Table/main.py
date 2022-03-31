@@ -10,7 +10,9 @@ table = ConferenceSandTable()
 
 # table.emergency_stop()
 
-table.draw_equation("sin(10 * theta)", 2 * pi, theta_speed=.5, scale_factor=1, sleep=.005)
+info = table.draw_equation("sin(10 * theta)", 2 * pi, theta_speed=.5, scale_factor=1, sleep=.005)
+
+print("info:", info)
 
 print("\n" * 10)
 table.r1.idle()

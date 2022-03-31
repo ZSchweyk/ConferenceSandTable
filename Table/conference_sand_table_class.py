@@ -153,7 +153,8 @@ class ConferenceSandTable:
         if not self.radius_motors_homed:
             self.home()
 
-
+    def draw_equation_with_1_motor(self, equation: str, period, theta_speed=1, scale_factor=1, sleep=.05):
+        pass
 
     def draw_equation(self, equation: str, period, theta_speed=1, scale_factor=1, sleep=.05):
         if not self.is_equation_valid(equation):
@@ -163,8 +164,10 @@ class ConferenceSandTable:
             self.home()
 
         assert 0 <= theta_speed <= 1, "Incorrect theta_speed bounds. Must be between 0 and 1."
-        theta_speed = theta_speed * (self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed because I don't want to lose connection to the motor
-        print("theta_speed:", theta_speed)
+        theta_speed = theta_speed * (
+                self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
+        # because I don't want to lose connection to the motor
+
         # Find min and max radii for r1 and r2 to scale properly below.
         all_r1_values = []
         all_r2_values = []
@@ -199,7 +202,7 @@ class ConferenceSandTable:
             theta1 = self.theta_motor.get_pos() / self.gear_ratio * 2 * pi
             theta2 = theta1 + pi
             previous_thetas.append(theta1 * 180 / pi)
-            print("theta1", theta1 * 180 / pi)
+            # print("theta1", theta1 * 180 / pi)
 
             r1 = eval(equation.replace("theta", "theta1"))
             r2 = eval(equation.replace("theta", "theta2"))
@@ -207,7 +210,7 @@ class ConferenceSandTable:
             r1 = scale(r1, smallest_r1, largest_r1, -25 * scale_factor, 25 * scale_factor)
             r2 = scale(r2, smallest_r2, largest_r2, -25 * scale_factor, 25 * scale_factor)
 
-            bandwidth = (1/np.mean(time_intervals))
+            bandwidth = (1 / np.mean(time_intervals))
             if r1 >= 0:
                 self.r1.set_pos_filter(-r1, bandwidth)
                 self.r2.set_pos_filter(-r2, bandwidth)
@@ -217,22 +220,21 @@ class ConferenceSandTable:
             # self.r2.wait() Does not work with set_pos_filter
             time.sleep(sleep)
             end = time.perf_counter()
-            time_intervals.append(end-start)
+            time_intervals.append(end - start)
             # print("Duration:", end - start)
-
 
         self.theta_motor.set_vel(0)
         # print(np.diff(previous_thetas))
         print("\n" * 5)
-        print("Average time Difference:", np.mean(time_intervals))
-        print("Average Angle Difference:", np.mean(np.diff(previous_thetas)))
-        print("Min Angle Difference:", min(np.diff(previous_thetas)))
-        print("Max Angle Difference:", max(np.diff(previous_thetas)))
-        print("STD Angle Difference:", np.std(np.diff(previous_thetas)))
-
+        return {
+            "Average Time Difference": np.mean(time_intervals),
+            "Average Angle Difference": np.mean(np.diff(previous_thetas)),
+            "Min Angle Difference": min(np.diff(previous_thetas)),
+            "Max Angle Difference": max(np.diff(previous_thetas)),
+            "STD Angle Difference": np.std(np.diff(previous_thetas))
+        }
 
     def emergency_stop(self):
         self.theta_motor.set_vel(0)
         self.r1.set_relative_pos(0)
         self.r1.set_relative_pos(0)
-
