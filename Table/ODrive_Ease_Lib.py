@@ -207,10 +207,6 @@ class ODrive_Axis(object):
         self.set_pos_traj(rel_pos + self.get_raw_pos() - self.home, accel, vel, decel, inertia)
 
     def set_pos_filter(self, pos, bandwidth):
-        # BUG: trajectory control not working when invoked after a velocity control, this line is used to
-        # uselessly revert back to position control
-        self.set_relative_pos(0)
-
         if self.axis.current_state != AXIS_STATE_CLOSED_LOOP_CONTROL:
             self.axis.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
         self.axis.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL

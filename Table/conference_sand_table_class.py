@@ -83,10 +83,10 @@ class ConferenceSandTable:
 
         while self.r2.is_busy():
             pass
-        self.r1.set_vel(0)
+        self.r1.set_relative_pos(0)
         self.r1.set_home()
 
-        self.r2.set_vel(0)
+        self.r2.set_relative_pos(0)
         self.r2.set_home()
 
         self.radius_motors_homed = True
@@ -190,6 +190,7 @@ class ConferenceSandTable:
 
         scale_factor = max(min(scale_factor, 1), 0)  # This bounds scale_factor between 0 and 1
 
+        time_intervals = []
         self.theta_motor.set_home()
         self.theta_motor.set_vel(theta_speed)
         max_rotations = self.gear_ratio * .5 * period / (2 * pi)
@@ -212,13 +213,16 @@ class ConferenceSandTable:
             else:
                 self.r1.set_pos_filter(r2, bandwidth)
                 self.r2.set_pos_filter(r1, bandwidth)
-            # self.r2.wait()
-            # time.sleep(0)
+            # self.r2.wait() Does not work with set_pos_filter
+            time.sleep(.05)
             end = time.perf_counter()
-            # print("Duration:", end - start)
+            time_intervals.append(end-start)
+            print("Duration:", end - start)
+
 
         self.theta_motor.set_vel(0)
         print(np.diff(previous_thetas))
+        print("Average time Difference:", np.mean(time_intervals))
         print("Average Difference:", np.mean(np.diff(previous_thetas)))
         print("Min Difference:", min(np.diff(previous_thetas)))
         print("Max Difference:", max(np.diff(previous_thetas)))
