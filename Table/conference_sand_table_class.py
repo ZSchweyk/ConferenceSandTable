@@ -132,7 +132,6 @@ class ConferenceSandTable:
             return False
         return True
 
-
     def pre_check(self, equation, theta_speed):
         if not self.is_equation_valid(equation):
             raise Exception("Invalid Equation")
@@ -151,20 +150,52 @@ class ConferenceSandTable:
 
         scale_factor = max(min(scale_factor, 1), 0)  # This bounds scale_factor between 0 and 1
 
-        all_r_values = [eval(equation) for theta in np.arange(0, period, pi/100)]
+        all_r_values = [eval(equation) for theta in np.arange(0, period, pi / 100)]
 
+        smallest_r, largest_r = min(all_r_values), max(all_r_values)
 
+        time_intervals = [sleep + .04]
+        self.theta_motor.set_home()
+        self.theta_motor.set_vel(theta_speed)
+        max_rotations = self.gear_ratio * period / (2 * pi)
+        previous_thetas = [0]
+        self.r2.set_pos(0)
+        while self.theta_motor.get_pos() < max_rotations:
+            start = time.perf_counter()
+            theta = self.theta_motor.get_pos() / self.gear_ratio * 2 * pi
+            previous_thetas.append(theta * 180 / pi)
+            # print("theta1", theta1 * 180 / pi)
 
+            r = eval(equation)
 
+            r = scale(r, smallest_r, largest_r, -25 * scale_factor, 25 * scale_factor)
+
+            bandwidth = (1 / np.mean(time_intervals))
+            if r >= 0:
+                print("+")
+                self.r1.set_pos_filter(-r, bandwidth)
+            else:
+                print("-")
+                self.r2.set_pos_filter(r, bandwidth)
+            # self.r2.wait() Does not work with set_pos_filter
+            time.sleep(sleep)
+            end = time.perf_counter()
+            time_intervals.append(end - start)
+            # print("Duration:", end - start)
+
+        self.theta_motor.set_vel(0)
+        # print(np.diff(previous_thetas))
+        print("\n" * 5)
+        return {
+            "Average Time Difference": np.mean(time_intervals),
+            "Average Angle Difference": np.mean(np.diff(previous_thetas)),
+            "Min Angle Difference": min(np.diff(previous_thetas)),
+            "Max Angle Difference": max(np.diff(previous_thetas)),
+            "STD Angle Difference": np.std(np.diff(previous_thetas))
+        }
 
     def draw_equation(self, equation: str, period, theta_speed=1, scale_factor=1, sleep=.05):
         self.pre_check(equation, theta_speed)
-
-        theta_speed = theta_speed * (
-                self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
-        # because I don't want to lose connection to the motor
-
-        scale_factor = max(min(scale_factor, 1), 0)  # This bounds scale_factor between 0 and 1
 
         # Find min and max radii for r1 and r2 to scale properly below.
         all_r1_values = []
@@ -174,9 +205,9 @@ class ConferenceSandTable:
             r1 = eval(equation.replace("theta", "theta1"))
             r2 = eval(equation.replace("theta", "theta2"))
             if (round(r1, 3) >= 0) != (round(r2, 3) >= 0):
-                # Call draw_equation_with_1_motor
-                raise Exception("Cannot draw the equation \"" + equation + "\", since motors would have " \
-                                                                           "to be at 2 places at once.")
+                print("Drawing with only 1 motor!")
+                return self.draw_equation_with_1_motor(equation, period, theta_speed=theta_speed, scale_factor=scale_factor,
+                                                sleep=sleep)
 
             all_r1_values.append(r1)
             all_r2_values.append(r2)
@@ -189,6 +220,12 @@ class ConferenceSandTable:
         #
         # print("smallest_r2", smallest_r2)
         # print("largest_r2", largest_r2)
+
+        theta_speed = theta_speed * (
+                self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
+        # because I don't want to lose connection to the motor
+
+        scale_factor = max(min(scale_factor, 1), 0)  # This bounds scale_factor between 0 and 1
 
         time_intervals = [sleep + .04]
         self.theta_motor.set_home()
