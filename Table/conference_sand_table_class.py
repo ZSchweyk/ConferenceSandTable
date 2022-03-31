@@ -132,31 +132,17 @@ class ConferenceSandTable:
             return False
         return True
 
-    def calculate_period(self, equation):
+
+    def pre_check(self, equation, theta_speed):
         if not self.is_equation_valid(equation):
             raise Exception("Invalid Equation")
-
-        theta = 0
-        coordinates = []
-        while True:
-            r = eval(equation)
-            print((theta, r))
-            if (theta - (2 * pi), r) in coordinates:
-                return theta
-            coordinates.append((theta, r))
-            theta += .001
-
-    def draw_2_equations(self, equation1, equation2):
-        if (not self.is_equation_valid(equation1)) or (not self.is_equation_valid(equation2)):
-            raise Exception("Invalid Equation(s)")
 
         if not self.radius_motors_homed:
             self.home()
 
-    def draw_equation_with_1_motor(self, equation: str, period, theta_speed=1, scale_factor=1, sleep=.05):
-        pass
+        assert 0 <= theta_speed <= 1, "Incorrect theta_speed bounds. Must be between 0 and 1."
 
-    def draw_equation(self, equation: str, period, theta_speed=1, scale_factor=1, sleep=.05):
+    def draw_equation_with_1_motor(self, equation: str, period, theta_speed=1, scale_factor=1, sleep=.05):
         if not self.is_equation_valid(equation):
             raise Exception("Invalid Equation")
 
@@ -167,6 +153,15 @@ class ConferenceSandTable:
         theta_speed = theta_speed * (
                 self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
         # because I don't want to lose connection to the motor
+
+    def draw_equation(self, equation: str, period, theta_speed=1, scale_factor=1, sleep=.05):
+        self.pre_check(equation, theta_speed)
+
+        theta_speed = theta_speed * (
+                self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
+        # because I don't want to lose connection to the motor
+
+        scale_factor = max(min(scale_factor, 1), 0)  # This bounds scale_factor between 0 and 1
 
         # Find min and max radii for r1 and r2 to scale properly below.
         all_r1_values = []
@@ -190,7 +185,6 @@ class ConferenceSandTable:
         # print("smallest_r2", smallest_r2)
         # print("largest_r2", largest_r2)
 
-        scale_factor = max(min(scale_factor, 1), 0)  # This bounds scale_factor between 0 and 1
 
         time_intervals = [sleep + .04]
         self.theta_motor.set_home()
