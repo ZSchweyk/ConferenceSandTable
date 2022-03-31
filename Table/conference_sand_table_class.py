@@ -151,6 +151,11 @@ class ConferenceSandTable:
 
         scale_factor = max(min(scale_factor, 1), 0)  # This bounds scale_factor between 0 and 1
 
+        all_r_values = [eval(equation) for theta in np.arange(0, period, pi/100)]
+
+
+
+
 
     def draw_equation(self, equation: str, period, theta_speed=1, scale_factor=1, sleep=.05):
         self.pre_check(equation, theta_speed)
@@ -168,9 +173,11 @@ class ConferenceSandTable:
             theta2 = theta1 + pi
             r1 = eval(equation.replace("theta", "theta1"))
             r2 = eval(equation.replace("theta", "theta2"))
-            assert ((round(r1, 3) >= 0) == (
-                    round(r2, 3) >= 0)), "Cannot draw the equation \"" + equation + "\", since motors would have " \
-                                                                                    "to be at 2 places at once."
+            if (round(r1, 3) >= 0) != (round(r2, 3) >= 0):
+                # Call draw_equation_with_1_motor
+                raise Exception("Cannot draw the equation \"" + equation + "\", since motors would have " \
+                                                                           "to be at 2 places at once.")
+
             all_r1_values.append(r1)
             all_r2_values.append(r2)
 
@@ -182,7 +189,6 @@ class ConferenceSandTable:
         #
         # print("smallest_r2", smallest_r2)
         # print("largest_r2", largest_r2)
-
 
         time_intervals = [sleep + .04]
         self.theta_motor.set_home()
