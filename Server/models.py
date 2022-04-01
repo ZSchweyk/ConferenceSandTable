@@ -34,3 +34,6 @@ class Equations(db.Model):
     def __init__(self, user_id, equation):
         self.id = user_id
         self.equation = equation
+
+    def __repr__(self):
+        return "<Equation %r>" % self.equation

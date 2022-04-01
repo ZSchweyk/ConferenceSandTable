@@ -81,7 +81,6 @@ def home(user_flast):
         user = Users.query.filter_by(id=session["user_id"]).first()
         rows = Equations.query.filter_by(id=session["user_id"]).all()
         equations = [row.equation for row in rows]
-        print("equations:", rows)
         if form.validate_on_submit():
             print("Validated")
             # add equation to database.db
@@ -105,6 +104,10 @@ def home(user_flast):
     else:
         return redirect(url_for("login"))
 
+
+@app.route("/<user_flast>/edit-equation")
+def edit_equation(user_flast):
+    pass
 
 @app.route("/<user_flast>/home/draw-equation")
 def draw_equation(user_flast):

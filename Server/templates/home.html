@@ -112,6 +112,12 @@
                                 </a>
 
                                 r = {{ equation }}
+
+<!--                                <form id="{{ loop.index }}" method="POST" action="{{ url_for('edit_equation', user_flast=session['flast']) }}">-->
+<!--                                    <a href="javascript:;" onclick="document.getElementById('{{ loop.index }}').submit()">r = {{ equation }}</a>-->
+<!--                                </form>-->
+
+
                             </li>
                         {% endfor %}
                     </ol>
