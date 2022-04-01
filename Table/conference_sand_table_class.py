@@ -142,6 +142,7 @@ class ConferenceSandTable:
         assert 0 <= theta_speed <= 1, "Incorrect theta_speed bounds. Must be between 0 and 1."
 
     def draw_equation_with_1_motor(self, equation: str, period, theta_speed=1, scale_factor=1, sleep=.05):
+        method_start_time = time.perf_counter()
         self.pre_check(equation, theta_speed)
 
         theta_speed = theta_speed * (
@@ -171,6 +172,7 @@ class ConferenceSandTable:
             r = scale(r, smallest_r, largest_r, -25 * scale_factor, 25 * scale_factor)
 
             bandwidth = (1 / np.mean(time_intervals))
+            print("bandwidth", bandwidth)
             if r >= 0:
                 print("+")
                 self.r1.set_pos_filter(-r, bandwidth)
@@ -186,7 +188,9 @@ class ConferenceSandTable:
         self.theta_motor.set_vel(0)
         # print(np.diff(previous_thetas))
         print("\n" * 5)
+        method_end_time = time.perf_counter()
         return {
+            "Time Taken": method_end_time - method_start_time,  # seconds
             "Average Time Difference": np.mean(time_intervals),
             "Average Angle Difference": np.mean(np.diff(previous_thetas)),
             "Min Angle Difference": min(np.diff(previous_thetas)),
@@ -195,6 +199,7 @@ class ConferenceSandTable:
         }
 
     def draw_equation(self, equation: str, period, theta_speed=1, scale_factor=1, sleep=.05):
+        method_start_time = time.perf_counter()
         self.pre_check(equation, theta_speed)
 
         # Find min and max radii for r1 and r2 to scale properly below.
@@ -246,6 +251,7 @@ class ConferenceSandTable:
             r2 = scale(r2, smallest_r2, largest_r2, -25 * scale_factor, 25 * scale_factor)
 
             bandwidth = (1 / np.mean(time_intervals))
+            print("bandwidth", bandwidth)
             if r1 >= 0:
                 self.r1.set_pos_filter(-r1, bandwidth)
                 self.r2.set_pos_filter(-r2, bandwidth)
@@ -261,7 +267,9 @@ class ConferenceSandTable:
         self.theta_motor.set_vel(0)
         # print(np.diff(previous_thetas))
         print("\n" * 5)
+        method_end_time = time.perf_counter()
         return {
+            "Time Taken": method_end_time - method_start_time,  # seconds
             "Average Time Difference": np.mean(time_intervals),
             "Average Angle Difference": np.mean(np.diff(previous_thetas)),
             "Min Angle Difference": min(np.diff(previous_thetas)),
