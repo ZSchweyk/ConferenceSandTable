@@ -163,12 +163,15 @@ class ConferenceSandTable:
         self.r2.set_pos(0)
         while self.theta_motor.get_pos() < max_rotations:
             start = time.perf_counter()
+
+            percent_complete = self.theta_motor.get_pos() / max_rotations
+            print("Percent Complete: " + str(round(percent_complete * 100, 2)) + "%")
+
             theta = self.theta_motor.get_pos() / self.gear_ratio * 2 * pi
             previous_thetas.append(theta * 180 / pi)
             # print("theta1", theta1 * 180 / pi)
 
             r = eval(equation)
-
             r = scale(r, smallest_r, largest_r, -25 * scale_factor, 25 * scale_factor)
 
             bandwidth = (1 / np.mean(time_intervals))
@@ -239,6 +242,8 @@ class ConferenceSandTable:
         previous_thetas = [0]
         while self.theta_motor.get_pos() < max_rotations:
             start = time.perf_counter()
+            percent_complete = self.theta_motor.get_pos() / max_rotations
+            print("Percent Complete: " + str(round(percent_complete * 100, 2)) + "%")
             theta1 = self.theta_motor.get_pos() / self.gear_ratio * 2 * pi
             theta2 = theta1 + pi
             previous_thetas.append(theta1 * 180 / pi)
@@ -251,7 +256,6 @@ class ConferenceSandTable:
             r2 = scale(r2, smallest_r2, largest_r2, -25 * scale_factor, 25 * scale_factor)
 
             bandwidth = (1 / np.mean(time_intervals))
-            print("bandwidth", bandwidth)
             if r1 >= 0:
                 self.r1.set_pos_filter(-r1, bandwidth)
                 self.r2.set_pos_filter(-r2, bandwidth)
