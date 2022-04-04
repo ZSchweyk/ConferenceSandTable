@@ -11,7 +11,7 @@ class Users(db.Model):
     email = db.Column(db.String(64), unique=True, nullable=False)
     salt = db.Column(db.String(64), unique=True, nullable=False)
     salted_password_hash = db.Column(db.String(64), nullable=False, unique=True)
-    date_added = db.Column(db.DateTime, default=datetime.now)  # 2022-03-21 13:46:34.242217 %Y-%m-%d %H:%M:%S.%f
+    date_added = db.Column(db.DateTime, default=datetime.now)  # %Y-%m-%d %H:%M:%S.%f
 
     def __init__(self, first_name, last_name, email, password):
         self.first_name = first_name
