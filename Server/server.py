@@ -80,21 +80,32 @@ def signup():
         # if there's an IntegrityError, that means that a user with the same email address exists.
         # since the email field is the primary key, which I defined when making the model, sqlalchemy will throw an error.
         except sqlalchemy.exc.IntegrityError:
-
+            # technically speaking, an account with that email address already exists, so print that to the console
+            # just to remind myself mostly
             print("Account already exists")
+            # flash an error message that warns "Incorrect Credentials".
+            # don't want to explicitly inform the user that an account with the same email address already exists.
             flash("Incorrect Credentials")
+            # render the signup page again for the user to try again
             return render_template("signup.html", form=form)
 
+        # A new user has been succesfully created.
+
+        # clear the first name, last name, and email address fields.
         form.first_name.data = ""
         form.last_name.data = ""
         form.email.data = ""
 
         # Log the user in
-        session.permanent = True
-        session["user_id"] = new_user.id
+        session.permanent = True  # create a permanent session with a lifetime of app.permanent_session_lifetime
+        session["user_id"] = new_user.id  # create a cookie that stores the user's id
+        # create a cookie that stores the user's flast, mainly to just display in the url
         session["flast"] = new_user.first_name[0].upper() + new_user.last_name[0].upper() + new_user.last_name[1:].lower()
+        # log the newly created user in, so that they don't have to retype in all their credentials to log in, after
+        # creating an account.
         return redirect(url_for("home", user_flast=session["flast"]))
 
+    # if the form isn't submitted, render the html signup page with the signup form
     return render_template("signup.html", form=form)
 
 
