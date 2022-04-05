@@ -23,40 +23,64 @@ from models import *  # models imports db above, explaining why I have this impo
 
 @app.route("/", methods=["POST", "GET"])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
+    form = LoginForm()  # render the login form
+    if form.validate_on_submit():  # if all form data is valid on submit...
+        # get the user object/row from the db whose email matches whatever was submitted
         user = Users.query.filter_by(email=form.email.data.lower()).first()
 
+        # if the user exists in the db, and the salt + input password matches what's stored in the db, log them in
         if user is not None and sha256(user.salt + form.password.data) == user.salted_password_hash:
+            # Log the user in
+
+            # make the session permanent; erase session/cookies after app.permanent_session_lifetime, defined above
             session.permanent = True
+            # create a cookie that stores the user's id so that switching between pages is easy
             session["user_id"] = user.id
+            # create a cookie that stores the user's flast, to ultimately display in the url. This really won't have any
+            # effect, with the exception of showing in the url so that the user knows who they are. This follows
+            # GitHub's convention/style, which I really like.
             session["flast"] = user.first_name[0].upper() + user.last_name[0].upper() + user.last_name[1:].lower()
+            # redirect the user to the home page, and pass in their flast into the url
             return redirect(url_for("home", user_flast=session["flast"]))
         else:
+            # Wrong password, but I flash incorrect credentials to make them think that it also could be an incorrect
+            # email address.
             flash("Incorrect Credentials")
+            # reset the form's email field to ""
             form.email.data = ""
+            # reset the form's password field to ""
             form.password.data = ""
+            # render the login page again, because they entered incorrect credentials
             return render_template("login.html", form=form)
     else:
+        # if the user is saved in the session/cookie, automatically redirect them to the home page, instead of manually
+        # making them login again
         if "user" in session:
+            # as stated above, redirect them to the home page; this essentially "logs them in"
             return redirect(url_for("home", user_flast=session["flast"]))
+        # render the login page again
         return render_template("login.html", form=form)
 
 
 @app.route("/signup", methods=["POST", "GET"])
 def signup():
-    form = SignupForm()
-    if form.validate_on_submit():
+    form = SignupForm()  # render the signup form
+    if form.validate_on_submit():  # if the form is submitted and all the data is valid
+        # create a new Users object, representing the user who just created an account
         new_user = Users(
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             email=form.email.data,
             password=form.password1.data
         )
-        db.session.add(new_user)
-        try:
+
+        db.session.add(new_user)  # Add that user to the db
+        try:  # try committing that change
             db.session.commit()
+        # if there's an IntegrityError, that means that a user with the same email address exists.
+        # since the email field is the primary key, which I defined when making the model, sqlalchemy will throw an error.
         except sqlalchemy.exc.IntegrityError:
+
             print("Account already exists")
             flash("Incorrect Credentials")
             return render_template("signup.html", form=form)
