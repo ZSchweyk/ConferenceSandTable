@@ -175,12 +175,12 @@ class ConferenceSandTable:
             r = scale(r, smallest_r, largest_r, -25 * scale_factor, 25 * scale_factor)
 
             bandwidth = (1 / np.mean(time_intervals))
-            print("bandwidth", bandwidth)
+            # print("bandwidth", bandwidth)
             if r >= 0:
-                print("+")
+                # print("+")
                 self.r1.set_pos_filter(-r, bandwidth)
             else:
-                print("-")
+                # print("-")
                 self.r2.set_pos_filter(r, bandwidth)
             # self.r2.wait() Does not work with set_pos_filter
             time.sleep(sleep)
