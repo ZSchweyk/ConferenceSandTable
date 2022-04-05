@@ -12,7 +12,7 @@ from useful_functions import *
 app = Flask(__name__)
 app.secret_key = "my super secret key that no one is supposed to know"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False  # removes an annoying warning message
 app.permanent_session_lifetime = timedelta(minutes=10)
 
 # Initialize the Database
