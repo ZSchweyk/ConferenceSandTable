@@ -73,12 +73,11 @@ def signup():
             email=form.email.data,
             password=form.password1.data
         )
-
         db.session.add(new_user)  # Add that user to the db
         try:  # try committing that change
             db.session.commit()
-        # if there's an IntegrityError, that means that a user with the same email address exists.
-        # since the email field is the primary key, which I defined when making the model, sqlalchemy will throw an error.
+        # if there's an IntegrityError, that means that a user with the same email address exists. since the email
+        # field is the primary key, which I defined when making the model, sqlalchemy will throw an error.
         except sqlalchemy.exc.IntegrityError:
             # technically speaking, an account with that email address already exists, so print that to the console
             # just to remind myself mostly
