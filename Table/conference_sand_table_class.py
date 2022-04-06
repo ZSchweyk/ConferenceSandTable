@@ -278,7 +278,6 @@ class ConferenceSandTable:
             "Average Angle Difference": np.mean(np.diff(previous_thetas)),
             "Min Angle Difference": min(np.diff(previous_thetas)),
             "Max Angle Difference": max(np.diff(previous_thetas)),
-            "STD Angle Difference": np.std(np.diff(previous_thetas))
         }
 
     def emergency_stop(self):
