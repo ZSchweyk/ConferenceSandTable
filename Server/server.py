@@ -111,33 +111,39 @@ def signup():
 
 @app.route("/<user_flast>/home", methods=["POST", "GET"])
 def home(user_flast):
+    # if the user already exists in the session dictionary...the user manually types in ipaddr:5000/FLast/home
     if "user_id" in session:
-        form = EquationForm()
+        form = EquationForm()  # render the equations form
+        # retrieve the user object who's id matches what's in the session
         user = Users.query.filter_by(id=session["user_id"]).first()
+        # find all row objects in the Equations table belonging to that user
         rows = Equations.query.filter_by(id=session["user_id"]).all()
-        equations = [row.equation for row in rows]
-        if form.validate_on_submit():
+        equations = [row.equation for row in rows]  # obtain a list of the pure equations
+        if form.validate_on_submit():  # if the form is submitted and the data is valid...
             print("Validated")
-            # add equation to database.db
+            # create a new equation for that user
             new_equation = Equations(
                 user_id=session["user_id"],
                 equation=remove_spaces(form.equation.data)
             )
+            # test if that new equation already exists. if not...
             if new_equation.equation not in equations:
-                db.session.add(new_equation)
-                db.session.commit()
-                form.equation.data = ""
+                db.session.add(new_equation)  # add that new equation to the db session
+                db.session.commit()  # commit it (permanently modify the db)
+                form.equation.data = ""  # clear the equation field
+                # redirect the user to the same page; home
                 return redirect(url_for("home", user_flast=session["flast"], form=None))
-            else:
-                flash("Equation already exists.")
+            else:  # if the new equation DOES exist...
+                flash("Equation already exists.")  # flash an error warning that the equation already exists
+        # if the form is NOT submitted, render the home.html template for the logged in user.
         return render_template(
             'home.html',
             user=user,
             form=form,
             equations=equations
         )
-    else:
-        return redirect(url_for("login"))
+    else:  # if the user is not in the session
+        return redirect(url_for("login"))  # redirect the user to the login page
 
 
 @app.route("/<user_flast>/edit-equation")
@@ -156,8 +162,10 @@ def delete_equation(user_flast):
 
 @app.route("/<user_flast>/logout")
 def logout(user_flast):
+    # clear the users cookies, specifically their id and flast.
     session.pop("user_id", None)
     session.pop("flast", None)
+    # redirect the user to the login page
     return redirect(url_for("login"))
 
 
