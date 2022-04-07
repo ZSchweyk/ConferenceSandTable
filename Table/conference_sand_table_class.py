@@ -17,6 +17,7 @@ def scale(value, v_min, v_max, r_min, r_max):
 class ConferenceSandTable:
     # 562.5 rotations of the small gear right above the theta motor corresponds to 1 full revolution of the table's arm
     gear_ratio = 562.5  # (90/15)×(90/15)×(90÷18)×(50/16)
+    radius_motor_max_rotations = 25
 
     def __init__(self):
         # Occasionally, it can't connect to radius_board. Power cycling seems like a temporary fix, but I'm not sure
@@ -71,18 +72,18 @@ class ConferenceSandTable:
 
     def move(self, in_or_out):
         if in_or_out == "in":
-            self.r1.set_rel_pos_traj(25, 10, 15, 10)
-            self.r2.set_rel_pos_traj(25, 10, 15, 10)
+            self.r1.set_rel_pos_traj(self.radius_motor_max_rotations, 10, 15, 10)
+            self.r2.set_rel_pos_traj(self.radius_motor_max_rotations, 10, 15, 10)
         elif in_or_out == "out":
-            self.r1.set_rel_pos_traj(-25, 10, 15, 10)
-            self.r2.set_rel_pos_traj(-25, 10, 15, 10)
+            self.r1.set_rel_pos_traj(-self.radius_motor_max_rotations, 10, 15, 10)
+            self.r2.set_rel_pos_traj(-self.radius_motor_max_rotations, 10, 15, 10)
         self.r2.wait()
 
     def home(self):
         self.r1.set_vel(10)
         self.r2.set_vel(10)
 
-        while self.r2.is_busy():
+        while self.r1.is_busy() or self.r2.is_busy():  # must wait for both radius motors to stop moving
             pass
         self.r1.set_relative_pos(0)
         self.r1.set_home()
@@ -172,7 +173,7 @@ class ConferenceSandTable:
             # print("theta1", theta1 * 180 / pi)
 
             r = eval(equation)
-            r = scale(r, smallest_r, largest_r, -25 * scale_factor, 25 * scale_factor)
+            r = scale(r, smallest_r, largest_r, -self.radius_motor_max_rotations * scale_factor, self.radius_motor_max_rotations * scale_factor)
 
             bandwidth = (1 / np.mean(time_intervals))
             # print("bandwidth", bandwidth)
@@ -252,8 +253,8 @@ class ConferenceSandTable:
             r1 = eval(equation.replace("theta", "theta1"))
             r2 = eval(equation.replace("theta", "theta2"))
 
-            r1 = scale(r1, smallest_r1, largest_r1, -25 * scale_factor, 25 * scale_factor)
-            r2 = scale(r2, smallest_r2, largest_r2, -25 * scale_factor, 25 * scale_factor)
+            r1 = scale(r1, smallest_r1, largest_r1, -self.radius_motor_max_rotations * scale_factor, self.radius_motor_max_rotations * scale_factor)
+            r2 = scale(r2, smallest_r2, largest_r2, -self.radius_motor_max_rotations * scale_factor, self.radius_motor_max_rotations * scale_factor)
 
             bandwidth = (1 / np.mean(time_intervals))
             if r1 >= 0:
