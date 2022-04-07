@@ -143,8 +143,8 @@ class ConferenceSandTable:
         assert 0 <= theta_speed <= 1, "Incorrect theta_speed bounds. Must be between 0 and 1."
 
     def draw_equation_with_1_motor(self, equation: str, period, theta_speed=.75, scale_factor=1, sleep=.005):
-        method_start_time = time.perf_counter()
-        self.pre_check(equation, theta_speed)
+        method_start_time = time.perf_counter()  # start timing how long the method takes
+        self.pre_check(equation, theta_speed)  # validate inputs
 
         theta_speed = theta_speed * (
                 self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
@@ -152,8 +152,9 @@ class ConferenceSandTable:
 
         scale_factor = max(min(scale_factor, 1), 0)  # This bounds scale_factor between 0 and 1
 
-        all_r_values = [eval(equation) for theta in np.arange(0, period, pi / 100)]
+        all_r_values = [eval(equation) for theta in np.arange(0, period, pi / 100)]  # calculate all r values
 
+        # find the range of the r values to later deal with scaling them properly.
         smallest_r, largest_r = min(all_r_values), max(all_r_values)
 
         time_intervals = [sleep + .04]
