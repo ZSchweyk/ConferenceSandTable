@@ -37,3 +37,7 @@ class Equations(db.Model):
 
     def __repr__(self):
         return "<Equation %r>" % self.equation
+
+
+
+

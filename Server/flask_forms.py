@@ -14,7 +14,7 @@ class EquationForm(FlaskForm):
 
     @staticmethod
     def validate_equation(form, field):
-        if not ConferenceSandTable.is_equation_valid(field.data):
+        if not ConferenceSandTable.is_equation_valid(field.data):  # ensures that the syntax is correct
             flash("Syntax Error")
             raise ValidationError("Invalid Equation")
 
