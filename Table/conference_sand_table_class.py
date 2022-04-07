@@ -173,7 +173,8 @@ class ConferenceSandTable:
             # print("theta1", theta1 * 180 / pi)
 
             r = eval(equation)
-            r = scale(r, smallest_r, largest_r, -self.radius_motor_max_rotations * scale_factor, self.radius_motor_max_rotations * scale_factor)
+            r = scale(r, smallest_r, largest_r, -self.radius_motor_max_rotations * scale_factor,
+                      self.radius_motor_max_rotations * scale_factor)
 
             bandwidth = (1 / np.mean(time_intervals))
             # print("bandwidth", bandwidth)
@@ -215,8 +216,9 @@ class ConferenceSandTable:
             r2 = eval(equation.replace("theta", "theta2"))
             if (round(r1, 3) >= 0) != (round(r2, 3) >= 0):
                 print("Drawing with only 1 motor!")
-                return self.draw_equation_with_1_motor(equation, period, theta_speed=theta_speed, scale_factor=scale_factor,
-                                                sleep=sleep)
+                return self.draw_equation_with_1_motor(equation, period, theta_speed=theta_speed,
+                                                       scale_factor=scale_factor,
+                                                       sleep=sleep)
 
             all_r1_values.append(r1)
             all_r2_values.append(r2)
@@ -253,8 +255,10 @@ class ConferenceSandTable:
             r1 = eval(equation.replace("theta", "theta1"))
             r2 = eval(equation.replace("theta", "theta2"))
 
-            r1 = scale(r1, smallest_r1, largest_r1, -self.radius_motor_max_rotations * scale_factor, self.radius_motor_max_rotations * scale_factor)
-            r2 = scale(r2, smallest_r2, largest_r2, -self.radius_motor_max_rotations * scale_factor, self.radius_motor_max_rotations * scale_factor)
+            r1 = scale(r1, smallest_r1, largest_r1, -self.radius_motor_max_rotations * scale_factor,
+                       self.radius_motor_max_rotations * scale_factor)
+            r2 = scale(r2, smallest_r2, largest_r2, -self.radius_motor_max_rotations * scale_factor,
+                       self.radius_motor_max_rotations * scale_factor)
 
             bandwidth = (1 / np.mean(time_intervals))
             if r1 >= 0:
