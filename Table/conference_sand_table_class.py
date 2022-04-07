@@ -141,7 +141,7 @@ class ConferenceSandTable:
 
         assert 0 <= theta_speed <= 1, "Incorrect theta_speed bounds. Must be between 0 and 1."
 
-    def draw_equation_with_1_motor(self, equation: str, period, theta_speed=1, scale_factor=1, sleep=.05):
+    def draw_equation_with_1_motor(self, equation: str, period, theta_speed=.75, scale_factor=1, sleep=.005):
         method_start_time = time.perf_counter()
         self.pre_check(equation, theta_speed)
 
@@ -201,7 +201,7 @@ class ConferenceSandTable:
             "STD Angle Difference": np.std(np.diff(previous_thetas))
         }
 
-    def draw_equation(self, equation: str, period, theta_speed=1, scale_factor=1, sleep=.05):
+    def draw_equation(self, equation: str, period, theta_speed=.75, scale_factor=1, sleep=.005):
         method_start_time = time.perf_counter()
         self.pre_check(equation, theta_speed)
 
