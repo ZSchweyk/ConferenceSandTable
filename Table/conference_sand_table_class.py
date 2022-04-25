@@ -1,6 +1,6 @@
 import odrive
 import usb.core
-import ODrive_Ease_Lib
+import Table.ODrive_Ease_Lib as ODrive_Ease_Lib
 import numpy as np
 import time
 import os
