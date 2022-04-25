@@ -5,12 +5,12 @@ from math import *
 
 
 table = ConferenceSandTable()
-# table.home()
+table.home()
 # table.find_ball()
 
 # table.emergency_stop()
 
-info = table.draw_equation("sin(3 * theta)", pi, theta_speed=.75, scale_factor=1, sleep=.005)
+info = table.draw_equation("sin(5.4 * theta)", 5 * pi, theta_speed=1, scale_factor=1, sleep=.005)
 
 print("info:", info)
 
