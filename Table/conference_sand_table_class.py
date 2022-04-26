@@ -39,9 +39,9 @@ class ConferenceSandTable:
         self.theta_board.clear_errors()
 
         # Connect to the actual ODrive motors through ODrive_Axis objects
-        self.theta_motor = ODrive_Ease_Lib.ODrive_Axis(self.theta_board.axis0, current_lim=20, vel_lim=30)
-        self.r1 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis0, current_lim=20, vel_lim=30)  # Blue tape
-        self.r2 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis1, current_lim=20, vel_lim=30)  # Orange tape
+        self.theta_motor = ODrive_Ease_Lib.ODrive_Axis(self.theta_board.axis0, current_lim=30, vel_lim=30)
+        self.r1 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis0, current_lim=30, vel_lim=30)  # Blue tape
+        self.r2 = ODrive_Ease_Lib.ODrive_Axis(self.radius_board.axis1, current_lim=30, vel_lim=30)  # Orange tape
 
         # self.r1.axis.controller.config.enable_overspeed_error = False
         # self.r2.axis.controller.config.enable_overspeed_error = False

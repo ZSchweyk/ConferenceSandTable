@@ -10,7 +10,7 @@ table.home()
 
 # table.emergency_stop()
 
-info = table.draw_equation("sin(5.4 * theta)", 5 * pi, theta_speed=1, scale_factor=1, sleep=.005)
+info = table.draw_equation("sin(6 * theta)", 2 * pi, theta_speed=.5, scale_factor=1, sleep=.005)
 
 print("info:", info)
 
