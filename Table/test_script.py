@@ -1,6 +1,9 @@
+# This is all intended to run in a Python Console, hence the reference to the ease lib as Table.ODrive_Ease_Lib
+
 import odrive
 import usb.core
-import ODrive_Ease_Lib
+import sys
+import Table.ODrive_Ease_Lib as ODrive_Ease_Lib
 import numpy as np
 import time
 import os
@@ -16,9 +19,9 @@ assert radius_board.config.enable_brake_resistor, "Check for faulty radius brake
 
 radius_board.clear_errors()
 
-theta_motor = ODrive_Ease_Lib.ODrive_Axis(theta_board.axis0, 10, 30)
-r1 = ODrive_Ease_Lib.ODrive_Axis(radius_board.axis0, 20, 20)  # Blue tape #
-r2 = ODrive_Ease_Lib.ODrive_Axis(radius_board.axis1, 20, 20)  # Orange tape
+theta_motor = ODrive_Ease_Lib.ODrive_Axis(theta_board.axis0, 30, 30)
+r1 = ODrive_Ease_Lib.ODrive_Axis(radius_board.axis0, 30, 30)  # Blue tape #
+r2 = ODrive_Ease_Lib.ODrive_Axis(radius_board.axis1, 30, 30)  # Orange tape
 
 # Ensure that all motors are calibrated (which should be completed upon startup). Reboot ODrives until they
 # are calibrated.
