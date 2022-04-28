@@ -19,6 +19,7 @@ class ConferenceSandTable:
     gear_ratio = 562.5  # (90/15)×(90/15)×(90÷18)×(50/16)
     radius_motor_max_rotations = 25
     rotations_from_center = 2
+    homing_speed = 5
 
     def __init__(self):
         # Occasionally, it can't connect to radius_board. Power cycling seems like a temporary fix, but I'm not sure
@@ -81,17 +82,20 @@ class ConferenceSandTable:
         self.r2.wait()
 
     def home(self):
-        self.r1.set_vel(10)
-        self.r2.set_vel(10)
+        self.r1.set_vel(self.homing_speed)
+        self.r2.set_vel(self.homing_speed)
 
         while self.r1.is_busy() or self.r2.is_busy():  # must wait for both radius motors to stop moving
             pass
+        time.sleep(1)
         self.r1.set_relative_pos(-self.rotations_from_center)
         self.r1.set_home()
 
+        time.sleep(1)
         self.r2.set_relative_pos(-self.rotations_from_center)
         self.r2.set_home()
 
+        time.sleep(1)
         self.radius_motors_homed = True
 
     def find_ball(self):
