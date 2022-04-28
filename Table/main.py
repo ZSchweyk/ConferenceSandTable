@@ -30,6 +30,10 @@ if __name__ == "__main__":
         # print("info:", info)
 
         print("\n" * 10)
+
+    except KeyboardInterrupt as e:
+        table.emergency_stop()
+    finally:
         table.r1.idle()
         table.r2.idle()
         table.theta_motor.idle()
@@ -38,6 +42,3 @@ if __name__ == "__main__":
 
         table.radius_board.clear_errors()
         table.theta_motor.clear_errors()
-    except KeyboardInterrupt as e:
-        print(e)
-        table.emergency_stop()
