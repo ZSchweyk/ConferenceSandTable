@@ -17,12 +17,12 @@ def scale(value, v_min, v_max, r_min, r_max):
 class ConferenceSandTable:
     # 562.5 rotations of the small gear right above the theta motor corresponds to 1 full revolution of the table's arm
     gear_ratio = 562.5  # (90/15)×(90/15)×(90÷18)×(50/16)
-    radius_motor_max_rotations = 24
-    rotations_from_center = 1
+    radius_motor_max_rotations = 25
+    rotations_from_center = 2
 
     def __init__(self):
         # Occasionally, it can't connect to radius_board. Power cycling seems like a temporary fix, but I'm not sure
-        # what to do.
+        # what to do. Another temporary fix is to unplug the fuse for the radius board and plug it back in.
 
         # Connect to ODrive boards
         print("Connecting to boards...")

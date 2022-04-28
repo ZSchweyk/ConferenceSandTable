@@ -12,7 +12,7 @@ table.home()
 
 
 
-info = table.draw_equation("sin(6 * theta)", 2 * pi, theta_speed=.8, scale_factor=1, sleep=.005)
+info = table.draw_equation("2 * sin(5.4 * theta)", 2 * pi, theta_speed=.7, scale_factor=1, sleep=.005)
 
 print("info:", info)
 
