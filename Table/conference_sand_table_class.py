@@ -17,7 +17,8 @@ def scale(value, v_min, v_max, r_min, r_max):
 class ConferenceSandTable:
     # 562.5 rotations of the small gear right above the theta motor corresponds to 1 full revolution of the table's arm
     gear_ratio = 562.5  # (90/15)×(90/15)×(90÷18)×(50/16)
-    radius_motor_max_rotations = 25
+    radius_motor_max_rotations = 24
+    rotations_from_center = 1
 
     def __init__(self):
         # Occasionally, it can't connect to radius_board. Power cycling seems like a temporary fix, but I'm not sure
@@ -85,10 +86,10 @@ class ConferenceSandTable:
 
         while self.r1.is_busy() or self.r2.is_busy():  # must wait for both radius motors to stop moving
             pass
-        self.r1.set_relative_pos(0)
+        self.r1.set_relative_pos(-self.rotations_from_center)
         self.r1.set_home()
 
-        self.r2.set_relative_pos(0)
+        self.r2.set_relative_pos(-self.rotations_from_center)
         self.r2.set_home()
 
         self.radius_motors_homed = True
@@ -181,9 +182,11 @@ class ConferenceSandTable:
             # print("bandwidth", bandwidth)
             if r >= 0:
                 # print("+")
+                r = max(r, self.rotations_from_center)
                 self.r1.set_pos_filter(-r, bandwidth)
             else:
                 # print("-")
+                r = min(r, -self.rotations_from_center)
                 self.r2.set_pos_filter(r, bandwidth)
             # self.r2.wait() Does not work with set_pos_filter
             time.sleep(sleep)
@@ -263,9 +266,13 @@ class ConferenceSandTable:
 
             bandwidth = (1 / np.mean(time_intervals))
             if r1 >= 0:
+                r1 = max(r1, self.rotations_from_center)
+                r2 = max(r2, self.rotations_from_center)
                 self.r1.set_pos_filter(-r1, bandwidth)
                 self.r2.set_pos_filter(-r2, bandwidth)
             else:
+                r1 = min(r1, -self.rotations_from_center)
+                r2 = min(r2, -self.rotations_from_center)
                 self.r1.set_pos_filter(r2, bandwidth)
                 self.r2.set_pos_filter(r1, bandwidth)
             # self.r2.wait() Does not work with set_pos_filter
