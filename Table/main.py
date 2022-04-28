@@ -7,13 +7,12 @@ from math import *
 if __name__ == "__main__":
     table = ConferenceSandTable()
     try:
-
         table.home()
         # table.find_ball()
 
         # table.emergency_stop()
 
-        info = table.draw_equation("2 * sin(5.4 * theta)", 1 * pi, theta_speed=.7, scale_factor=1, sleep=.005)
+        info = table.draw_equation("2 * sin(5.4 * theta)", 5 * pi, theta_speed=.7, scale_factor=1, sleep=.005)
 
         print("info:", info)
 

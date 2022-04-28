@@ -298,8 +298,8 @@ class ConferenceSandTable:
         }
 
     def emergency_stop(self):
-        print("Starting")
+        print("Stopping motors..")
         self.theta_motor.set_vel(0)
         self.r1.set_relative_pos(0)
         self.r1.set_relative_pos(0)
-        print("Finished")
+        print("Stopped")
