@@ -38,5 +38,6 @@ if __name__ == "__main__":
 
         table.radius_board.clear_errors()
         table.theta_motor.clear_errors()
-    except SystemExit:
+    except KeyboardInterrupt as e:
+        print(e)
         table.emergency_stop()
