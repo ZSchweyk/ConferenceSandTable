@@ -14,6 +14,27 @@ info = table.draw_equation("sin(6 * theta)", 2 * pi, theta_speed=.8, scale_facto
 
 print("info:", info)
 
+
+
+# info = table.draw_equation("2 * sin(5.4 * theta)", 5 * pi, theta_speed=.8, scale_factor=1, sleep=.005)
+#
+# print("info:", info)
+#
+#
+#
+#
+# info = table.draw_equation("theta * sin(3 * theta)", 12 * pi, theta_speed=.75, scale_factor=1, sleep=.005)
+#
+# print("info:", info)
+
+
+
+
+
+
+
+
+
 print("\n" * 10)
 table.r1.idle()
 table.r2.idle()
