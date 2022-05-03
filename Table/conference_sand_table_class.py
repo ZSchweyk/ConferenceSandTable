@@ -20,7 +20,7 @@ class ConferenceSandTable:
     # 562.5 rotations of the small gear right above the theta motor corresponds to 1 full revolution of the table's arm
     gear_ratio = 562.5  # (90/15)×(90/15)×(90÷18)×(50/16)
     radius_motor_max_rotations = 25
-    rotations_from_center = 2
+    rotations_from_center = 1.5
     homing_speed = 5
 
     def __init__(self):
@@ -91,10 +91,12 @@ class ConferenceSandTable:
             pass
         time.sleep(1)
         self.r1.set_relative_pos(-self.rotations_from_center)
+        # TODO self.r1.set_home_to(self.r1.get_raw_pos() - self.rotations_from_center)
         self.r1.set_home()
 
         time.sleep(1)
         self.r2.set_relative_pos(-self.rotations_from_center)
+        # TODO self.r2.set_home_to(self.r1.get_raw_pos() - self.rotations_from_center)
         self.r2.set_home()
 
         time.sleep(1)
@@ -105,7 +107,7 @@ class ConferenceSandTable:
         if not self.radius_motors_homed:
             self.home()
 
-        self.theta_motor.set_vel(15)  # might have to change this value
+        self.theta_motor.set_vel(15)  # TODO might have to change this value
         self.r1.set_vel(-1.6)
         self.r2.set_vel(-1.6)
         time.sleep(1)
