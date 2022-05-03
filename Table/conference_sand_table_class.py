@@ -20,7 +20,7 @@ class ConferenceSandTable:
     # 562.5 rotations of the small gear right above the theta motor corresponds to 1 full revolution of the table's arm
     gear_ratio = 562.5  # (90/15)×(90/15)×(90÷18)×(50/16)
     radius_motor_max_rotations = 25
-    rotations_from_center = 1.5
+    rotations_from_center = 2  # TODO: test out making this smaller (1.5 maybe)
     homing_speed = 5
 
     def __init__(self):
