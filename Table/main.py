@@ -1,6 +1,8 @@
+import sys
+sys.path.append("~/projects/ConferenceSandTable/Table")
 import time
-import Table.ODrive_Ease_Lib as ODrive_Ease_Lib
-from Table.conference_sand_table_class import ConferenceSandTable
+import ODrive_Ease_Lib as ODrive_Ease_Lib
+from conference_sand_table_class import ConferenceSandTable
 from math import *
 
 

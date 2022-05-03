@@ -1,11 +1,13 @@
+import sys
+sys.path.append("~/projects/ConferenceSandTable/Table")
 import odrive
 import usb.core
-import Table.ODrive_Ease_Lib as ODrive_Ease_Lib
+import ODrive_Ease_Lib
 import numpy as np
 import time
 import os
 from math import *
-from Table.settings import *
+from settings import *
 from odrive.utils import start_liveplotter
 
 
