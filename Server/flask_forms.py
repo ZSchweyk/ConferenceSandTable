@@ -4,8 +4,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, EqualTo, ValidationError
 import sys
-sys.path.insert(0, "/home/pi/projects/ConferenceSandTable")
-from Table.conference_sand_table_class import ConferenceSandTable
+sys.path.insert(0, "/home/pi/projects/ConferenceSandTable/Table")
+from conference_sand_table_class import ConferenceSandTable
 
 
 class EquationForm(FlaskForm):
