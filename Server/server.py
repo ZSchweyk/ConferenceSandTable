@@ -179,6 +179,7 @@ def profile(user_flast):
         user_id = session["user_id"]
         user = Users.query.filter_by(id=user_id).first()
         return render_template("profile.html", user=user)
+    return redirect(url_for("login"))
 
 
 @app.route("/terms_and_conditions")
