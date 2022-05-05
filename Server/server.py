@@ -168,6 +168,7 @@ def equations(user_flast, eq_num=1):
         user = Users.query.filter_by(id=user_id).first()
         args = request.args
         print(args)
+        # the default parameter ensures that if the argument can't be converted into an int, it defaults to 1.
         eq_num = args.get("eq_num", default=eq_num, type=int)
         print("Equation Number:", eq_num)
         rows = Equations.query.filter_by(id=user.id).all()
