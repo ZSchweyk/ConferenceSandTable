@@ -5,6 +5,7 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.urls import url_encode
 
 from flask_forms import *
 from useful_functions import *
@@ -145,8 +146,18 @@ def home(user_flast):
         return redirect(url_for("login"))  # redirect the user to the login page
 
 
+@app.template_global()
+def modify_query(**new_values):
+    args = request.args.copy()
+
+    for key, value in new_values.items():
+        args[key] = value
+
+    return '{}?{}'.format(request.path, url_encode(args))
+
+
 @app.route("/<user_flast>/equations")
-def equations(user_flast):
+def equations(user_flast, eq_num=1):
     form = DrawEquationForm()
     if form.validate_on_submit():
         # Update the user's fields
@@ -157,7 +168,7 @@ def equations(user_flast):
         user = Users.query.filter_by(id=user_id).first()
         args = request.args
         print(args)
-        eq_num = args.get("eq_num", default=1, type=int)
+        eq_num = args.get("eq_num", default=eq_num, type=int)
         print("Equation Number:", eq_num)
         rows = Equations.query.filter_by(id=user.id).all()
         if 0 < eq_num <= len(rows):

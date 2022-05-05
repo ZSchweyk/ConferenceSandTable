@@ -103,7 +103,7 @@
                     <ol>
                         {% for equation in equations %}
                             <li>
-                                <a href="{{ url_for('draw_equation', user_flast=session['flast']) }}">
+                                <a href="{{ url_for('equations', user_flast=session['flast'], eq_num=loop.index) }}">
                                     <img class="mb-4" src="{{ url_for('static', filename='images/pencil_icon.jpg') }}" width="30" height="30">
                                 </a>
 
