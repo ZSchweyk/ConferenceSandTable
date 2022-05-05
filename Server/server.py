@@ -175,7 +175,7 @@ def equations(user_flast, eq_num=1):
         if 0 < eq_num <= len(rows):
             equation = rows[eq_num-1].equation
             return render_template("equations.html", user=user, equation=equation)
-        return render_template("404.html")
+        return "Please add at least 1 equation"
     return redirect(url_for("login"))
 
 
