@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Equations</title>
 <style>
 </style>
 </head>
@@ -20,17 +21,11 @@
     {% endfor %}
 
     <h1>Your Equations</h1>
+    <h2>Name: {{ user.first_name }} {{ user.last_name }}</h2>
+    <h3>Equation: {{ equation }}</h3>
     <br>
 
-    <h1>Add Equation</h1>
-    <br>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        {{ form.equation.label(class="form-label") }}
-        {{ form.equation(class="form-control") }}
-        <br>
-        {{ form.submit(class="btn btn-secondary") }}
-    </form>
+
 
 {% endblock %}
 

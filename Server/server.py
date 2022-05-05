@@ -145,6 +145,25 @@ def home(user_flast):
         return redirect(url_for("login"))  # redirect the user to the login page
 
 
+@app.route("/<user_flast>/equations/<eq_num>")
+def equations(user_flast, eq_num):
+    form = DrawEquationForm()
+    if form.validate_on_submit():
+        # Update the user's fields
+        pass
+
+    if "user_id" in session:
+        user_id = session["user_id"]
+        user = Users.query.filter_by(id=user_id).first()
+        print("Equation Number:", eq_num)
+        rows = Equations.query.filter_by(id=user.id).all()
+        if isinstance(int(eq_num), int) and 0 < eq_num <= len(rows):
+            equation = rows[eq_num-1].equation
+            return render_template("equations.html", user=user, equation=equation)
+        return redirect(url_for("page_not_found"))
+    return redirect(url_for("login"))
+
+
 @app.route("/<user_flast>/edit-equation")
 def edit_equation(user_flast):
     pass

@@ -18,6 +18,9 @@ class EquationForm(FlaskForm):
             flash("Syntax Error")
             raise ValidationError("Invalid Equation")
 
+class DrawEquationForm(FlaskForm):
+    pass
+
 
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[InputRequired()])
