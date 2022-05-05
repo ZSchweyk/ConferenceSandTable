@@ -145,13 +145,8 @@ def home(user_flast):
         return redirect(url_for("login"))  # redirect the user to the login page
 
 
-@app.route("/<user_flast>/equations/<eq_num>")
-def equations(user_flast, eq_num):
-    try:
-        eq_num = int(eq_num)
-    except:
-        return render_template("404.html")
-
+@app.route("/<user_flast>/equations")
+def equations(user_flast):
     form = DrawEquationForm()
     if form.validate_on_submit():
         # Update the user's fields
@@ -160,12 +155,20 @@ def equations(user_flast, eq_num):
     if "user_id" in session:
         user_id = session["user_id"]
         user = Users.query.filter_by(id=user_id).first()
-        print("Equation Number:", eq_num)
-        rows = Equations.query.filter_by(id=user.id).all()
-        if 0 < eq_num <= len(rows):
-            equation = rows[eq_num-1].equation
-            return render_template("equations.html", user=user, equation=equation)
-        return render_template("404.html")
+        if request.args:
+            args = request.args
+            print(args)
+            if "eq_num" not in args:
+                args["eq_num"] = 1
+            eq_num = int(args["eq_num"])
+            print("Equation Number:", eq_num)
+            rows = Equations.query.filter_by(id=user.id).all()
+            if 0 < eq_num <= len(rows):
+                equation = rows[eq_num-1].equation
+                return render_template("equations.html", user=user, equation=equation)
+            return render_template("404.html")
+        else:
+            return "No query string received", 200
     return redirect(url_for("login"))
 
 
