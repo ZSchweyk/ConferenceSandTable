@@ -1,3 +1,6 @@
+# IMPORTANT!!!!!!!!!!!!!!!!!!!!!!
+# THIS FILE SERVERS AS STARTER CODE FOR PYTHON CONSOLE TESTING, AND IS NOT AT ALL NECESSARY FOR THE TABLE TO RUN
+
 import sys
 
 sys.path.extend(['/home/soft-dev/Documents/Projects/ConferenceSandTable/Table'])
@@ -8,7 +11,6 @@ import numpy as np
 import time
 import os
 
-# STARTER CODE FOR PYTHON CONSOLE TESTING
 
 # Occasionally, it can't connect to radius_board. Power cycling seems like a temporary fix, but I'm not sure what to do.
 radius_board = odrive.find_any(serial_number="208F3388304B")
