@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
         # table.emergency_stop()
 
-        info = table.draw_equation("2 * sin(5.4 * theta)", 3 * pi, theta_speed=.7, scale_factor=1, sleep=.005)
+        info = table.draw_equation("sin(6 * theta)", 2 * pi, theta_speed=.7, scale_factor=1, sleep=.005)
 
         print("info:", info)
 
