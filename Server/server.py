@@ -1,4 +1,8 @@
+import sys
+sys.path.append("~/projects/ConferenceSandTable/Table")
+
 import time
+from math import pi
 import sqlalchemy.exc
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import os
@@ -9,6 +13,8 @@ from werkzeug.urls import url_encode
 
 from flask_forms import *
 from useful_functions import *
+
+from conference_sand_table_class import ConferenceSandTable
 
 app = Flask(__name__)
 app.secret_key = "my super secret key that no one is supposed to know"
@@ -170,6 +176,17 @@ def equations(user_flast, eq_num=1):
 
         if form.validate_on_submit():
             print("Call draw_equation method to draw!")
+            rows = Equations.query.filter_by(id=user.id).all()
+            equation = rows[eq_num - 1].equation
+            table = ConferenceSandTable()
+            info = table.draw_equation(
+                equation,
+                form.theta_max.data * pi,
+                theta_speed=form.theta_speed.data,
+                scale_factor=form.scale_factor.data,
+                sleep=.005
+            )
+            print("About to redirect back to this page...")
             return redirect(url_for("equations", user_flast=session["flast"], eq_num=eq_num))
 
         rows = Equations.query.filter_by(id=user.id).all()
