@@ -20,7 +20,7 @@ class EquationForm(FlaskForm):
 
 
 class DrawEquationForm(FlaskForm):
-    theta_max = IntegerField("&theta; range (num of &pi;s)", validators=[InputRequired(), NumberRange(min=0)])
+    theta_max = FloatField("&theta; range (num of &pi;s)", validators=[InputRequired(), NumberRange(min=0)])
     theta_speed = FloatField("&theta; speed ratio (from 0 to 1)", validators=[InputRequired(), NumberRange(min=0, max=1)])
     scale_factor = FloatField("Scale Factor (from 0 to 1)", validators=[InputRequired(), NumberRange(min=0, max=1)])
     submit = SubmitField("Draw Equation")

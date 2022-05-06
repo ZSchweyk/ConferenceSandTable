@@ -27,6 +27,9 @@ db = SQLAlchemy(app)
 from models import *  # models imports db above, explaining why I have this import here. It avoids circular import
 # errors.
 
+table = None
+is_connected_to_table = False
+
 
 @app.route("/", methods=["POST", "GET"])
 def login():
@@ -164,6 +167,8 @@ def modify_query(**new_values):
 
 @app.route("/<user_flast>/equations", methods=["POST", "GET"])
 def equations(user_flast, eq_num=1):
+    global table
+    global is_connected_to_table
     if "user_id" in session:
         form = DrawEquationForm()
         user_id = session["user_id"]
@@ -178,7 +183,10 @@ def equations(user_flast, eq_num=1):
             print("Call draw_equation method to draw!")
             rows = Equations.query.filter_by(id=user.id).all()
             equation = rows[eq_num - 1].equation
-            table = ConferenceSandTable()
+            if not is_connected_to_table:
+                table = ConferenceSandTable()
+                is_connected_to_table = True
+            table.home()
             info = table.draw_equation(
                 equation,
                 form.theta_max.data * pi,
