@@ -1,7 +1,7 @@
 # Create a Form Class
 from flask import flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, IntegerField, FloatField
 from wtforms.validators import InputRequired, EqualTo, ValidationError
 import sys
 sys.path.insert(0, "/home/pi/projects/ConferenceSandTable/Table")
@@ -19,7 +19,10 @@ class EquationForm(FlaskForm):
             raise ValidationError("Invalid Equation")
 
 class DrawEquationForm(FlaskForm):
-    pass
+    theta_max = IntegerField("&theta; range (num of &pi;s)")
+    theta_speed = FloatField("&theta; speed ratio (from 0 to 1)")
+    scale_factor = FloatField("Scale Factor (from 0 to 1)")
+    submit = SubmitField("Draw Equation")
 
 
 class LoginForm(FlaskForm):
