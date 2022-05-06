@@ -158,12 +158,10 @@ def modify_query(**new_values):
 
 @app.route("/<user_flast>/equations")
 def equations(user_flast, eq_num=1):
-    form = DrawEquationForm()
-    if form.validate_on_submit():
-        # Update the user's fields
-        pass
+
 
     if "user_id" in session:
+        form = DrawEquationForm()
         user_id = session["user_id"]
         user = Users.query.filter_by(id=user_id).first()
         args = request.args
@@ -171,6 +169,12 @@ def equations(user_flast, eq_num=1):
         # the default parameter ensures that if the argument can't be converted into an int, it defaults to 1.
         eq_num = args.get("eq_num", default=eq_num, type=int)
         print("Equation Number:", eq_num)
+
+
+        if form.validate_on_submit():
+            # Update the user's fields
+            pass
+
         rows = Equations.query.filter_by(id=user.id).all()
         if 0 < eq_num <= len(rows):
             equation = rows[eq_num-1].equation

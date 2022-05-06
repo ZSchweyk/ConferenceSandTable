@@ -2,7 +2,7 @@
 from flask import flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField, IntegerField, FloatField
-from wtforms.validators import InputRequired, EqualTo, ValidationError
+from wtforms.validators import InputRequired, EqualTo, ValidationError, NumberRange
 import sys
 sys.path.insert(0, "/home/pi/projects/ConferenceSandTable/Table")
 from conference_sand_table_class import ConferenceSandTable
@@ -18,10 +18,11 @@ class EquationForm(FlaskForm):
             flash("Syntax Error")
             raise ValidationError("Invalid Equation")
 
+
 class DrawEquationForm(FlaskForm):
-    theta_max = IntegerField("&theta; range (num of &pi;s)")
-    theta_speed = FloatField("&theta; speed ratio (from 0 to 1)")
-    scale_factor = FloatField("Scale Factor (from 0 to 1)")
+    theta_max = IntegerField("&theta; range (num of &pi;s)", validators=[InputRequired(), NumberRange(min=0)])
+    theta_speed = FloatField("&theta; speed ratio (from 0 to 1)", validators=[InputRequired(), NumberRange(min=0, max=1)])
+    scale_factor = FloatField("Scale Factor (from 0 to 1)", validators=[InputRequired(), NumberRange(min=0, max=1)])
     submit = SubmitField("Draw Equation")
 
 
