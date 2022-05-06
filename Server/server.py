@@ -156,10 +156,8 @@ def modify_query(**new_values):
     return '{}?{}'.format(request.path, url_encode(args))
 
 
-@app.route("/<user_flast>/equations")
+@app.route("/<user_flast>/equations", methods=["POST", "GET"])
 def equations(user_flast, eq_num=1):
-
-
     if "user_id" in session:
         form = DrawEquationForm()
         user_id = session["user_id"]
@@ -170,15 +168,14 @@ def equations(user_flast, eq_num=1):
         eq_num = args.get("eq_num", default=eq_num, type=int)
         print("Equation Number:", eq_num)
 
-
         if form.validate_on_submit():
-            # Update the user's fields
-            pass
+            print("Call draw_equation method to draw!")
+            return redirect(url_for("equations", user_flast=session["flast"], eq_num=eq_num))
 
         rows = Equations.query.filter_by(id=user.id).all()
         if 0 < eq_num <= len(rows):
             equation = rows[eq_num-1].equation
-            return render_template("equations.html", user=user, equation=equation)
+            return render_template("equations.html", user=user, equation=equation, eq_num=eq_num, form=form)
         return "Please add at least 1 equation"
     return redirect(url_for("login"))
 

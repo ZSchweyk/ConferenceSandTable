@@ -23,8 +23,30 @@
     <h1>Your Equations</h1>
 <!--    <h2>Name: {{ user.first_name }} {{ user.last_name }}</h2>-->
     <h3>Equation: {{ equation }}</h3>
-    <h4>&theta; range (num of &pi;s)</h4>
+    <h4>Num: {{ eq_num }}</h4>
     <br>
+
+    {% if form %}
+    <form action="{{ url_for('equations', user_flast=session['flast'], eq_num=eq_num) }}" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-floating">
+            {{ form.theta_max(class="form-control", id="floatingInput") }}
+            <label>{{ form.theta_max.label }}</label>
+        </div>
+
+        <div class="form-floating">
+            {{ form.theta_speed(class="form-control", id="floatingInput") }}
+            <label>{{ form.theta_speed.label }}</label>
+        </div>
+
+        <div class="form-floating">
+            {{ form.scale_factor(class="form-control", id="floatingInput") }}
+            <label>{{ form.scale_factor.label }}</label>
+        </div>
+
+        {{ form.submit(class="w-100 btn btn-lg btn-primary") }}
+    </form>
+    {% endif %}
 
 
 
