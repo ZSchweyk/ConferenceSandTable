@@ -346,7 +346,7 @@ class ODrive_Axis(object):
 
     def wait(self):
         while self.is_busy():
-            time.sleep(.05)
+            pass
 
     def home_without_endstop(self, vel, offset):
         self.axis.controller.config.homing_speed = vel  # flip sign to turn CW or CCW
