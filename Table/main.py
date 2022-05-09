@@ -20,17 +20,18 @@ if __name__ == "__main__":
             table.move("out")
             table.move("in")
 
-    except KeyboardInterrupt as e:
+    except (AttributeError, KeyboardInterrupt, Exception) as e:
         table.emergency_stop()
-        for email in ["zeynschweyk@dpengineering.org", "zschweyk@gmail.com"]:
-            send_email(
-                os.environ["EMAIL_ADDRESS"],
-                os.environ["EMAIL_ADDRESS_PASSWORD"],
-                email,
-                "ConferenceSandTable Error",
-                "The ConferenceSandTable's radius board most likely lost connection!",
-                ""
-            )
+        if isinstance(e, AttributeError):
+            for email in ["zeynschweyk@dpengineering.org", "zschweyk@gmail.com"]:
+                send_email(
+                    os.environ["EMAIL_ADDRESS"],
+                    os.environ["EMAIL_ADDRESS_PASSWORD"],
+                    email,
+                    "ConferenceSandTable Error",
+                    "The ConferenceSandTable's radius board lost connection!",
+                    ""
+                )
     finally:
         table.r1.idle()
         table.r2.idle()
