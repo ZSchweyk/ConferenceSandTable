@@ -3,7 +3,7 @@
 
 import sys
 
-sys.path.extend(['/home/soft-dev/Documents/Projects/ConferenceSandTable/Table'])
+sys.path.append("~/projects/ConferenceSandTable/Table")
 import odrive
 import usb.core
 import ODrive_Ease_Lib
@@ -30,10 +30,12 @@ while not theta_motor.is_calibrated():
     theta_board.reboot()
 print("All motors are calibrated!")
 
-# Mirror Mode: any direct command sent to r1 will also be set for r2.
-r2.axis.controller.config.axis_to_mirror = 0
-r2.axis.controller.config.input_mode = 7
-r2.axis.requested_state = 8
+
+
+# # Mirror Mode: any direct command sent to r1 will also be set for r2.
+# r2.axis.controller.config.axis_to_mirror = 0
+# r2.axis.controller.config.input_mode = 7
+# r2.axis.requested_state = 8
 
 
 
