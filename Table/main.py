@@ -3,6 +3,8 @@ sys.path.append("~/projects/ConferenceSandTable/Table")
 import time
 import ODrive_Ease_Lib as ODrive_Ease_Lib
 from conference_sand_table_class import ConferenceSandTable
+from email_script import send_email
+import os
 from math import *
 
 
@@ -20,6 +22,15 @@ if __name__ == "__main__":
 
     except KeyboardInterrupt as e:
         table.emergency_stop()
+        for email in ["zeynschweyk@dpengineering.org", "zschweyk@gmail.com"]:
+            send_email(
+                os.environ["EMAIL_ADDRESS"],
+                os.environ["EMAIL_ADDRESS_PASSWORD"],
+                email,
+                "ConferenceSandTable Error",
+                "The ConferenceSandTable's radius board lost connection!",
+                ""
+            )
     finally:
         table.r1.idle()
         table.r2.idle()

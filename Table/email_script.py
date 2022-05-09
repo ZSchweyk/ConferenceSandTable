@@ -28,11 +28,4 @@ def send_email(sender, password, recipient, body, subject, file_path):
     return
 
 
-send_email(
-    os.environ["EMAIL_ADDRESS"],
-    os.environ["EMAIL_ADDRESS_PASSWORD"],
-    "zeynschweyk@dpengineering.org",
-    "ConferenceSandTable Error",
-    "The ConferenceSandTable's radius board lost connection!",
-    ""
-)
+
