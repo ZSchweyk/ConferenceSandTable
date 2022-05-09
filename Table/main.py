@@ -10,13 +10,10 @@ if __name__ == "__main__":
     table = ConferenceSandTable()
     try:
         table.home()
-        while True:
+        for i in range(25):
+            print(i+1)
             table.move("out")
-            time.sleep(4)
             table.move("in")
-            time.sleep(4)
-
-
 
     except KeyboardInterrupt as e:
         table.emergency_stop()

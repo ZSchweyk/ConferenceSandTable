@@ -76,12 +76,14 @@ class ConferenceSandTable:
 
     def move(self, in_or_out):
         if in_or_out == "in":
-            self.r1.set_rel_pos_traj(self.radius_motor_max_rotations, 10, 15, 10)
-            self.r2.set_rel_pos_traj(self.radius_motor_max_rotations, 10, 15, 10)
+            self.r1.set_rel_pos_traj(self.radius_motor_max_rotations-1, 10, 15, 10)
+            self.r2.set_rel_pos_traj(self.radius_motor_max_rotations-1, 10, 15, 10)
         elif in_or_out == "out":
-            self.r1.set_rel_pos_traj(-self.radius_motor_max_rotations, 10, 15, 10)
-            self.r2.set_rel_pos_traj(-self.radius_motor_max_rotations, 10, 15, 10)
-        self.r2.wait()
+            self.r1.set_rel_pos_traj(-self.radius_motor_max_rotations+1, 10, 15, 10)
+            self.r2.set_rel_pos_traj(-self.radius_motor_max_rotations+1, 10, 15, 10)
+
+        while self.r1.is_busy() or self.r2.is_busy():
+            pass
 
     def home(self):
         self.r1.set_vel(self.homing_speed)
