@@ -120,9 +120,10 @@ class ConferenceSandTable:
         self.r2.set_vel(0)
         self.theta_motor.set_vel(0)
 
-    def rotate(self, rads):
-        self.theta_motor.set_relative_pos(rads / (2 * pi) * self.gear_ratio)
-        self.theta_motor.wait()
+    def rotate(self, rads, wait=True):
+        self.theta_motor.set_rel_pos_traj(rads / (2 * pi) * self.gear_ratio, 10, 15, 10)
+        if wait:
+            self.theta_motor.wait()
 
     @staticmethod
     def is_equation_valid(equation):
