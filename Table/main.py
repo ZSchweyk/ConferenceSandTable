@@ -28,7 +28,7 @@ if __name__ == "__main__":
                 os.environ["EMAIL_ADDRESS_PASSWORD"],
                 email,
                 "ConferenceSandTable Error",
-                "The ConferenceSandTable's radius board lost connection!",
+                "The ConferenceSandTable's radius board most likely lost connection!",
                 ""
             )
     finally:
