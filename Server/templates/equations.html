@@ -20,7 +20,6 @@
 
     {% endfor %}
 
-    <h1>Your Equations</h1>
 <!--    <h2>Name: {{ user.first_name }} {{ user.last_name }}</h2>-->
     <h3>Equation: {{ equation }}</h3>
     <h4>Num: {{ eq_num }}</h4>
@@ -31,17 +30,17 @@
         {{ form.hidden_tag() }}
         <div class="form-floating">
             {{ form.theta_max(class="form-control", id="floatingInput") }}
-            <label>{{ form.theta_max.label }}</label>
+            <label>&theta; Range (number of &pi;s)</label>
         </div>
 
         <div class="form-floating">
             {{ form.theta_speed(class="form-control", id="floatingInput") }}
-            <label>{{ form.theta_speed.label }}</label>
+            <label>&theta; Speed Ratio (0 <= input <= 1)</label>
         </div>
 
         <div class="form-floating">
             {{ form.scale_factor(class="form-control", id="floatingInput") }}
-            <label>{{ form.scale_factor.label }}</label>
+            <label>Scale Factor (0 <= input <= 1)</label>
         </div>
 
         {{ form.submit(class="w-100 btn btn-lg btn-primary") }}
