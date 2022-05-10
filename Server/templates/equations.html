@@ -4,6 +4,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Equations</title>
 <style>
+    h1, h2 {
+        text-align: center;
+    }
+
+    .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
 </style>
 </head>
 <body>
@@ -21,12 +32,12 @@
     {% endfor %}
 
 <!--    <h2>Name: {{ user.first_name }} {{ user.last_name }}</h2>-->
-    <h3>Equation: {{ equation }}</h3>
-    <h4>Num: {{ eq_num }}</h4>
+    <h2>Equation {{ eq_num }}</h2>
+    <h1>{{ equation }}</h1>
     <br>
 
     {% if form %}
-    <form action="{{ url_for('equations', user_flast=session['flast'], eq_num=eq_num) }}" method="POST">
+    <form class="centered" action="{{ url_for('equations', user_flast=session['flast'], eq_num=eq_num) }}" method="POST">
         {{ form.hidden_tag() }}
         <div class="form-floating">
             {{ form.theta_max(class="form-control", id="floatingInput") }}
