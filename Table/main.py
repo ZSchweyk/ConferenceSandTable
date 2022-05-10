@@ -12,13 +12,14 @@ if __name__ == "__main__":
     table = ConferenceSandTable()
     try:
         table.home()
-        angle = pi/4
-        for i in range(10):
-            print(i+1)
-            table.rotate(angle)
-            angle *= -1
-            table.move("out")
-            table.move("in")
+        table.draw_equation("4 * sin(3.4 * theta)", 5*pi, theta_speed=.75, scale_factor=1, sleep=.005)
+        # angle = pi/4
+        # for i in range(10):
+        #     print(i+1)
+        #     table.rotate(angle)
+        #     angle *= -1
+        #     table.move("out")
+        #     table.move("in")
 
     except (AttributeError, KeyboardInterrupt, Exception) as e:
         table.emergency_stop()
