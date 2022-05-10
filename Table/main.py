@@ -12,8 +12,8 @@ if __name__ == "__main__":
     table = ConferenceSandTable()
     try:
         table.home()
-        angle = pi/2
-        for i in range(25):
+        angle = pi/4
+        for i in range(10):
             print(i+1)
             table.rotate(angle)
             angle *= -1
