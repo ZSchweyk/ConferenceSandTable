@@ -34,7 +34,6 @@
 <!--    <h2>Name: {{ user.first_name }} {{ user.last_name }}</h2>-->
     <h2>Equation {{ eq_num }}</h2>
     <h1>{{ equation }}</h1>
-    <br>
 
     {% if form %}
     <form class="centered" action="{{ url_for('equations', user_flast=session['flast'], eq_num=eq_num) }}" method="POST">
