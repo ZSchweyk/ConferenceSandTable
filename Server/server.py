@@ -186,14 +186,19 @@ def equations(user_flast, eq_num=1):
             if not is_connected_to_table:
                 table = ConferenceSandTable()
                 is_connected_to_table = True
-            table.home()
-            info = table.draw_equation(
-                equation,
-                form.theta_max.data * pi,
-                theta_speed=form.theta_speed.data,
-                scale_factor=form.scale_factor.data,
-                sleep=.005
-            )
+
+            try:
+                table.home()
+                info = table.draw_equation(
+                    equation,
+                    form.theta_max.data * pi,
+                    theta_speed=form.theta_speed.data,
+                    scale_factor=form.scale_factor.data,
+                    sleep=.005
+                )
+            except:
+                pass
+
             print("About to redirect back to this page...")
             return redirect(url_for("equations", user_flast=session["flast"], eq_num=eq_num))
 

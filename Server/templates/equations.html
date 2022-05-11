@@ -35,7 +35,7 @@
     <h2>Equation {{ eq_num }}</h2>
     <h1>{{ equation }}</h1>
 
-    {% if form %}
+
     <form class="centered" action="{{ url_for('equations', user_flast=session['flast'], eq_num=eq_num) }}" method="POST">
         {{ form.hidden_tag() }}
         <div class="form-floating">
@@ -55,7 +55,7 @@
 
         {{ form.submit(class="w-100 btn btn-lg btn-primary") }}
     </form>
-    {% endif %}
+
 
 
 
