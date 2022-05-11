@@ -200,7 +200,8 @@ def equations(user_flast, eq_num=1):
                     scale_factor=form.scale_factor.data,
                     sleep=.005
                 )
-            except:
+            except Exception as e:
+                print(e)
                 pass
 
             print("About to redirect back to this page...")

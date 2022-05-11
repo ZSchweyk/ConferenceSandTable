@@ -207,7 +207,6 @@ class ConferenceSandTable:
 
         self.theta_motor.set_vel(0)
         # print(np.diff(previous_thetas))
-        print("\n" * 5)
         method_end_time = time.perf_counter()
         return {
             "Time Taken": method_end_time - method_start_time,  # seconds
@@ -294,7 +293,6 @@ class ConferenceSandTable:
 
         self.theta_motor.set_vel(0)
         # print(np.diff(previous_thetas))
-        print("\n" * 5)
         method_end_time = time.perf_counter()
         return {
             "Time Taken": method_end_time - method_start_time,  # seconds
