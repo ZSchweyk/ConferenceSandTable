@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append("~/projects/ConferenceSandTable/Table")
 
 import time
@@ -25,6 +26,7 @@ app.permanent_session_lifetime = timedelta(minutes=10)
 # Initialize the Database
 db = SQLAlchemy(app)
 from models import *  # models imports db above, explaining why I have this import here. It avoids circular import
+
 # errors.
 
 table = None
@@ -109,7 +111,8 @@ def signup():
         session.permanent = True  # create a permanent session with a lifetime of app.permanent_session_lifetime
         session["user_id"] = new_user.id  # create a cookie that stores the user's id
         # create a cookie that stores the user's flast, mainly to just display in the url
-        session["flast"] = new_user.first_name[0].upper() + new_user.last_name[0].upper() + new_user.last_name[1:].lower()
+        session["flast"] = new_user.first_name[0].upper() + new_user.last_name[0].upper() + new_user.last_name[
+                                                                                            1:].lower()
         # log the newly created user in, so that they don't have to retype in all their credentials to log in, after
         # creating an account.
         return redirect(url_for("home", user_flast=session["flast"]))
@@ -188,6 +191,7 @@ def equations(user_flast, eq_num=1):
                 is_connected_to_table = True
 
             try:
+                flash("Drawing... Close this to stop.")
                 table.home()
                 info = table.draw_equation(
                     equation,
@@ -204,7 +208,7 @@ def equations(user_flast, eq_num=1):
 
         rows = Equations.query.filter_by(id=user.id).all()
         if 0 < eq_num <= len(rows):
-            equation = rows[eq_num-1].equation
+            equation = rows[eq_num - 1].equation
             return render_template("equations.html", user=user, equation=equation, eq_num=eq_num, form=form)
         return "Please add at least 1 equation"
     return redirect(url_for("login"))
@@ -213,6 +217,7 @@ def equations(user_flast, eq_num=1):
 @app.route("/<user_flast>/edit-equation")
 def edit_equation(user_flast):
     pass
+
 
 @app.route("/<user_flast>/home/draw-equation")
 def draw_equation(user_flast):
