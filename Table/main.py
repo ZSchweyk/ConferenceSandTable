@@ -12,7 +12,7 @@ if __name__ == "__main__":
     table = ConferenceSandTable()
     try:
         table.home()
-        table.draw_equation("4 * sin(4 * theta)", 1*pi, theta_speed=.6, scale_factor=1, sleep=.005)
+        table.draw_equation("4 * sin(4 * theta)", 2*pi, theta_speed=.6, scale_factor=1, sleep=.005)
         # angle = pi/4
         # for i in range(10):
         #     print(i+1)

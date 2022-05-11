@@ -11,6 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.urls import url_encode
+import pickle
 
 from flask_forms import *
 from useful_functions import *
@@ -177,21 +178,19 @@ def equations(user_flast, eq_num=1):
         user_id = session["user_id"]
         user = Users.query.filter_by(id=user_id).first()
         args = request.args
-        print(args)
         # the default parameter ensures that if the argument can't be converted into an int, it defaults to 1.
         eq_num = args.get("eq_num", default=eq_num, type=int)
-        print("Equation Number:", eq_num)
 
         if form.validate_on_submit():
-            print("Call draw_equation method to draw!")
             rows = Equations.query.filter_by(id=user.id).all()
             equation = rows[eq_num - 1].equation
+
             if not is_connected_to_table:
+                print("CREATING A TABLE OBJECT!!!")
                 table = ConferenceSandTable()
                 is_connected_to_table = True
 
             try:
-                flash("Drawing... Close this to stop.")
                 table.home()
                 info = table.draw_equation(
                     equation,
@@ -202,7 +201,6 @@ def equations(user_flast, eq_num=1):
                 )
             except Exception as e:
                 print(e)
-                pass
 
             print("About to redirect back to this page...")
             return redirect(url_for("equations", user_flast=session["flast"], eq_num=eq_num))
