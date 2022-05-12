@@ -24,9 +24,9 @@ class ThetaServer:
         self.s.open_server()
         self.s.wait_for_connection()
 
-    def send_to_radius_server(self, info):
+    def send_to_radius_client(self, info):
         self.s.send_packet(PacketType.COMMAND2, pickle.dumps(info))
-        assert pickle.loads(self.s.recv_packet()[1]) == "Received", "Could not send packet"
+        assert pickle.loads(self.s.recv_packet()[1]) == info, "Could not send packet"
 
         # self.s.send_packet(PacketType.COMMAND2, pickle.dumps("Complete"))
 
