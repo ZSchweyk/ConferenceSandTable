@@ -13,7 +13,9 @@ class PacketType(enum.Enum):
 c = Client("192.168.178.1", 5001, PacketType)
 c.connect()
 
-print(pickle.loads(c.recv_packet()[1]))
-c.send_packet(PacketType.COMMAND1, pickle.dumps("Hello from the Client!"))
+while True:
+    val_from_server = pickle.loads(c.recv_packet()[1])
+    c.send_packet(PacketType.COMMAND1, pickle.dumps("Received " + str(val_from_server ** 2)))
+
 
 c.close_connection()
