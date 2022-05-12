@@ -48,10 +48,10 @@ class RadiusClient:
 
 
 
-r = RadiusClient()
+c = RadiusClient()
 is_running = True
 while is_running:
-    is_running = r.start_listening()
+    is_running = c.start_listening()
 
 print("Client finished running")
 
