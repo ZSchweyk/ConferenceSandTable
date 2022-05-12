@@ -2,21 +2,52 @@ import validation
 from settings import *
 from math import *
 import numpy as np
+import odrive
+import usb.core
 import sys
 sys.path.append("~/projects/ConferenceSandTable/TwoPis")
+import TwoPis.ODrive_Ease_Lib as ODrive_Ease_Lib
 from server import ThetaServer
 
 
 
+class ConferenceSandTable:
+    def __init__(self):
+        self.theta_board = odrive.find_any(serial_number="388937553437")
+        print("Connected to theta board")
+
+        # Make sure that everything is okay with the brake resistors
+        assert self.theta_board.config.enable_brake_resistor, "Check for faulty theta brake resistor."
+
+        self.theta_board.clear_errors()
+
+        self.theta_motor = ODrive_Ease_Lib.ODrive_Axis(self.theta_board.axis0, current_lim=30, vel_lim=30)
+
+        while not self.theta_motor.is_calibrated():
+            self.theta_motor.calibrate_encoder()
+            # self.theta_board.reboot()
+            print("Calibrated theta")
+        print("Theta Board Finished Calibrating")
+
+        self.radius_motors_homed = False
+
+        self.server = ThetaServer()
+
+    def home_radius_motors(self):
+        self.server.send_to_radius_client("home")
 
 
-s = ThetaServer()
-for i in range(1, 101):
-    s.send_to_radius_client(i)
 
-s.send_to_radius_client("Close Connection")
 
-s.close_server()
+
+
+# s = ThetaServer()
+# for i in range(1, 101):
+#     s.send_to_radius_client(i)
+#
+# s.send_to_radius_client("Close Connection")
+#
+# s.close_server()
 
 
 
