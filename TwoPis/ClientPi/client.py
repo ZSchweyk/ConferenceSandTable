@@ -16,13 +16,14 @@ class RadiusClient:
         self.c = Client("172.17.21.1", 5001, PacketType)
         self.c.connect()
         self.is_listening = False
+        self.packet_transfer_completed_message = "Complete"
 
     def start_listening(self):
         self.is_listening = True
         while self.is_listening:
             info_received = self.receive_from_theta_server()
             self.send_to_theta_server(info_received)
-            if info_received == "":
+            if info_received == "Complete":
                 self.is_listening = False
             # Process info_received
 
