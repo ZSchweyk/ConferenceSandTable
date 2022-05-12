@@ -27,7 +27,7 @@ class ConferenceSandTable:
             self.theta_motor.calibrate_encoder()
             # self.theta_board.reboot()
             print("Calibrated theta")
-        print("Theta Board Finished Calibrating")
+        print("Finished Calibrating Theta Board")
 
         self.radius_motors_homed = False
 
