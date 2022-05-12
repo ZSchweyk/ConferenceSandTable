@@ -21,6 +21,8 @@ s.close_connection()
 s.close_server()
 ```
 """
+import sys
+sys.path.append("~/projects/ConferenceSandTable/TwoPis")
 from TwoPis.common import *
 import socket
 

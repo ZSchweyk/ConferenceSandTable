@@ -1,6 +1,5 @@
 import enum
 import pickle
-sys.path.append("~/projects/ConferenceSandTable/TwoPis")
 from client_class import Client
 
 
@@ -14,18 +13,29 @@ class RadiusClient:
     def __init__(self):
         #         |Bind IP       |Port |Packet enum
         self.c = Client("172.17.21.1", 5001, PacketType)
-        self.c.connect()
+        while True:
+            try:
+                self.c.connect()
+                break
+            except ConnectionRefusedError:
+                pass
         self.is_listening = False
-        self.packet_transfer_completed_message = "Complete"
+        self.packet_transfer_completed_message = "Stop Listening"
+        self.close_connection_message = "Close Connection"
 
     def start_listening(self):
         self.is_listening = True
         while self.is_listening:
-            info_received = self.receive_from_theta_server()
-            self.send_to_theta_server(info_received)
-            if info_received == "Complete":
+            info_received = self.receive_from_theta_server()  # Grab info sent from server
+            self.send_to_theta_server(info_received)  # Send it back to confirm that it was received properly
+            print("Received " + str(info_received))
+            if info_received == self.packet_transfer_completed_message:
                 self.is_listening = False
+            if info_received == self.close_connection_message:
+                self.close_connection()
+                return False  # Stop the main while True loop outside of this class
             # Process info_received
+        return True  # Keep the main while True loop outside of this class going
 
     def send_to_theta_server(self, info):
         self.c.send_packet(PacketType.COMMAND1, pickle.dumps(info))
@@ -37,16 +47,11 @@ class RadiusClient:
         self.c.close_connection()
 
 
-#         |Server IP     |Port |Packet enum
-c = Client("172.17.21.1", 5001, PacketType)
-c.connect()
 
-while True:
-    val_from_server = pickle.loads(c.recv_packet()[1])
-    if val_from_server == "Complete":
-        break
-    print(val_from_server)
-    c.send_packet(PacketType.COMMAND1, pickle.dumps("Received"))
+r = RadiusClient()
+is_running = True
+while is_running:
+    is_running = r.start_listening()
 
+print("Client finished running")
 
-c.close_connection()
