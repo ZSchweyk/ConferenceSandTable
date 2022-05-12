@@ -10,12 +10,15 @@ class PacketType(enum.Enum):
 
 
 #         |Server IP     |Port |Packet enum
-c = Client("192.168.178.1", 5001, PacketType)
+c = Client("172.17.21.1", 5001, PacketType)
 c.connect()
 
 while True:
     val_from_server = pickle.loads(c.recv_packet()[1])
-    c.send_packet(PacketType.COMMAND1, pickle.dumps("Received " + str(val_from_server ** 2)))
+    if val_from_server == "Complete":
+        break
+    print(val_from_server)
+    c.send_packet(PacketType.COMMAND1, pickle.dumps("Received"))
 
 
 c.close_connection()
