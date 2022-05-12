@@ -23,11 +23,17 @@ class RadiiMotors:
             print("Calibrated r1 and r2")
         print("Finished Calibrating r1 and r2")
 
+    def home(self):
+        pass
 
 
-c = RadiusClient()
-is_running = True
-while is_running:
-    is_running = c.start_listening()
+method_list = [attribute for attribute in dir(RadiiMotors) if callable(getattr(RadiiMotors, attribute)) and not attribute.startswith('__')]
+print(method_list)
 
-print("Client finished running")
+
+# c = RadiusClient()
+# is_running = True
+# while is_running:
+#     is_running = c.start_listening()
+#
+# print("Client finished running")
