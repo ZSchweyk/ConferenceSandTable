@@ -1,6 +1,9 @@
 import enum
 import pickle
+import sys
+sys.path.append("~/projects/ConferenceSandTable/TwoPis")
 from server_class import Server
+import validation
 
 
 class PacketType(enum.Enum):
@@ -10,6 +13,10 @@ class PacketType(enum.Enum):
 
 
 def run_server(equation: str, period, theta_speed=.75, scale_factor=1, sleep=.005):
+    assert validation.is_equation_valid(equation), "Invalid Equation"
+    assert 0 <= theta_speed <= 1, "Incorrect theta_speed bounds. Must be between 0 and 1."
+
+
     #         |Bind IP       |Port |Packet enum
     s = Server("172.17.21.1", 5001, PacketType)
     s.open_server()
