@@ -10,9 +10,9 @@ class PacketType(enum.Enum):
 
 
 class ThetaServer:
-    def __init__(self):
+    def __init__(self, ip_address):
         #         |Bind IP       |Port |Packet enum
-        self.s = Server("172.17.21.1", 5001, PacketType)
+        self.s = Server(ip_address, 5001, PacketType)
         self.s.open_server()
         self.s.wait_for_connection()
 

@@ -1,6 +1,3 @@
-import sys
-sys.path.append("~/projects/ConferenceSandTable/TwoPis")
-from client import RadiusClient
 import odrive
 import usb.core
 import ODrive_Ease_Lib
@@ -24,16 +21,6 @@ class RadiiMotors:
         print("Finished Calibrating r1 and r2")
 
     def home(self):
-        pass
+        print("Executed home method")
 
 
-method_list = [attribute for attribute in dir(RadiiMotors) if callable(getattr(RadiiMotors, attribute)) and not attribute.startswith('__')]
-print(method_list)
-
-
-# c = RadiusClient()
-# is_running = True
-# while is_running:
-#     is_running = c.start_listening()
-#
-# print("Client finished running")
