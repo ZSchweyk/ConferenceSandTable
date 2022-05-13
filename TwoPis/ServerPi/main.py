@@ -1,14 +1,9 @@
-import time
-from server import ThetaServer
+from conference_sand_table_class import ConferenceSandTable
+from math import pi
 
-server = ThetaServer("172.17.21.1")
-time.sleep(5)
 
-for i in range(10000):
-    server.send_to_radius_client(i)
+table = ConferenceSandTable()
+table.draw_equation("10 * sin(6 * theta)", 2*pi, .75, 1, sleep=.005)
 
-server.send_to_radius_client("Stop Listening")
 
-server.close_server()
-print("Server closed")
 

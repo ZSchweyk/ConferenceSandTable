@@ -20,7 +20,7 @@
       <paths name="pi@conference-sand-table-v2-radius-pi.local:22 agent">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/pi/projects/CST_Client" local="$PROJECT_DIR$" />
+            <mapping deploy="/home/pi/projects/ConferenceSandTable" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>

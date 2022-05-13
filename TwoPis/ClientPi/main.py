@@ -8,7 +8,7 @@ from client import RadiusClient
 
 # radius_motors = RadiiMotors()
 
-client = RadiusClient("172.17.21.1")
+client = RadiusClient("172.17.21.3")
 
 while True:
     info_received = client.receive_from_theta_server()  # Grab info sent from server
@@ -25,7 +25,7 @@ while True:
             print("go to point")
         elif info_type == "points":
             # info_received[info_type] has the format [(r1, pos1), (r1, pos1)]
-            print("go to points")
+            print(info_received[info_type])
 
     elif isinstance(info_received, str):
         if info_received == client.packet_transfer_completed_message:
