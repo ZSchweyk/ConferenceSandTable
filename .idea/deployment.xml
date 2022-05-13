@@ -10,6 +10,13 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="pi@172.17.21.2:22 password (1)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/pi/projects/ConferenceSandTable" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
     </serverData>
     <option name="myAutoUpload" value="ALWAYS" />
   </component>

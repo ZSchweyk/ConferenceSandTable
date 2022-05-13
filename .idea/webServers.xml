@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d0f663e7-2914-4240-b948-149aaa253539" name="Conference-Sand-Table-V2-Radius-pi.local">
+        <fileTransfer accessType="SFTP" host="conference-sand-table-v2-radius-pi.local" port="22" sshConfigId="ee8944fa-bd64-444c-9d8d-9bcff518d450" sshConfig="pi@conference-sand-table-v2-radius-pi.local:22 agent" authAgent="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

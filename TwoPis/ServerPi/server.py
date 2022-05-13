@@ -1,7 +1,5 @@
 import enum
 import pickle
-import sys
-sys.path.append("~/projects/ConferenceSandTable/TwoPis")
 from server_class import Server
 
 

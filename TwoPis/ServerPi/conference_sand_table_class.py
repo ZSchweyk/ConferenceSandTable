@@ -4,9 +4,7 @@ from math import *
 import numpy as np
 import odrive
 import usb.core
-import sys
-sys.path.append("~/projects/ConferenceSandTable/TwoPis")
-import TwoPis.ODrive_Ease_Lib as ODrive_Ease_Lib
+import ODrive_Ease_Lib as ODrive_Ease_Lib
 from server import ThetaServer
 
 

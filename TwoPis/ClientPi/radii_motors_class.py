@@ -3,7 +3,7 @@ sys.path.append("~/projects/ConferenceSandTable/TwoPis")
 from client import RadiusClient
 import odrive
 import usb.core
-import TwoPis.ODrive_Ease_Lib as ODrive_Ease_Lib
+import ODrive_Ease_Lib
 
 
 
