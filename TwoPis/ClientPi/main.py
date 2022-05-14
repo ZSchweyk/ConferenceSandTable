@@ -29,8 +29,7 @@ while True:
 
     elif isinstance(info_received, str):
         if info_received == client.packet_transfer_completed_message:
-            while client.receive_from_theta_server() != "Stop Listening":
-                pass
+            continue
         elif info_received == client.close_connection_message:
             client.close_connection()
             print("Client closed")
