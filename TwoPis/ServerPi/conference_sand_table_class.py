@@ -20,7 +20,7 @@ class ConferenceSandTable:
     rotations_from_center = 2  # TODO: test out making this smaller (1.5 maybe)
     homing_speed = 5
 
-    def __init__(self):
+    def __init__(self, server_ip):
         print("Attempting to connect to theta board")
         self.theta_board = odrive.find_any(serial_number="386637773437")
         print("Connected to theta board")
@@ -41,7 +41,7 @@ class ConferenceSandTable:
 
         self.radius_motors_homed = False
 
-        self.server = ThetaServer("172.17.21.3")
+        self.server = ThetaServer(server_ip)
         print("Theta Server going")
 
     def home_radius_motors(self):
@@ -124,7 +124,9 @@ class ConferenceSandTable:
 
         time_intervals = [sleep + .04]
         self.theta_motor.set_home()
+        print("theta motor homed")
         self.theta_motor.set_vel(theta_speed)
+        print("set vel to theta motor")
         max_rotations = self.gear_ratio * .5 * period / (2 * pi)
         previous_thetas = [0]
         while self.theta_motor.get_pos() < max_rotations:

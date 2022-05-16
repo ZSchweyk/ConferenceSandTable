@@ -8,32 +8,29 @@ from client import RadiusClient
 
 # radius_motors = RadiiMotors()
 
-client = RadiusClient("172.17.21.3")
+client = RadiusClient("localhost")
 
-while True:
-    info_received = client.receive_from_theta_server()  # Grab info sent from server
-    client.send_to_theta_server(info_received)  # Send it back to confirm that it was received properly
+try:
+    while True:
+        info_received = client.receive_from_theta_server()  # Grab info sent from server
+        client.send_to_theta_server(info_received)  # Send it back to confirm that it was received properly
 
-    if isinstance(info_received, dict):
-        info_type = list(info_received.keys())[0]
-        print(info_received[info_type])
-        if info_type == "method":
-            # getattr(radius_motors, info_received[info_type])(args)
-            print("call a method")
-        elif info_type == "point":
-            # info_received[info_type] has the format [Rn, Position]
-            print("go to point")
-        elif info_type == "points":
-            # info_received[info_type] has the format [(r1, pos1), (r1, pos1)]
+        if isinstance(info_received, dict):
+            info_type = list(info_received.keys())[0]
             print(info_received[info_type])
+            if info_type == "method":
+                # getattr(radius_motors, info_received[info_type])(args)
+                print("call a method")
+            elif info_type == "point":
+                # info_received[info_type] has the format [Rn, Position]
+                print("go to point")
+            elif info_type == "points":
+                # info_received[info_type] has the format [(r1, pos1), (r1, pos1)]
+                print(info_received[info_type])
 
-    elif isinstance(info_received, str):
-        if info_received == client.packet_transfer_completed_message:
-            continue
-        elif info_received == client.close_connection_message:
-            client.close_connection()
-            print("Client closed")
-            break
-
-        # print(info_received)
+        elif isinstance(info_received, str):
+            if info_received == client.close_connection_message:
+                break
+finally:
+    client.close_connection()
 
