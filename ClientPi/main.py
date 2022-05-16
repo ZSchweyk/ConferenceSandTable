@@ -6,7 +6,7 @@ from client import RadiusClient
 # method_list = [attribute for attribute in dir(RadiiMotors) if callable(getattr(RadiiMotors, attribute)) and not attribute.startswith('__')]
 # print(method_list)
 
-# radius_motors = RadiiMotors()
+radius_motors = RadiiMotors()
 
 client = RadiusClient("172.17.21.2")
 
@@ -19,14 +19,19 @@ try:
             info_type = list(info_received.keys())[0]
             print(info_received[info_type])
             if info_type == "method":
-                # getattr(radius_motors, info_received[info_type])(args)
                 print("call a method")
+                getattr(radius_motors, info_received[info_type])()
             elif info_type == "point":
                 # info_received[info_type] has the format [Rn, Position]
                 print("go to point")
             elif info_type == "points":
                 # info_received[info_type] has the format [(r1, pos1), (r1, pos1)]
                 print(info_received[info_type])
+                r1_data, r2_data = info_received[info_type]
+                r1_pos, r1_bandwidth = r1_data
+                r2_pos, r2_bandwidth = r2_data
+                radius_motors.r1.set_pos_filter(r1_pos, r1_bandwidth)
+                radius_motors.r2.set_pos_filter(r2_pos, r2_bandwidth)
 
         elif isinstance(info_received, str):
             if info_received == client.close_connection_message:

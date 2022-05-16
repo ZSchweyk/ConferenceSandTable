@@ -45,7 +45,7 @@ class ConferenceSandTable:
         print("Theta Server going")
 
     def home_radius_motors(self):
-        self.server.send_to_radius_client("home")
+        self.server.send_to_radius_client({"method": "home"})
 
     @staticmethod
     def is_equation_valid(equation):
