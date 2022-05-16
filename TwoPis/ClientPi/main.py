@@ -35,3 +35,5 @@ while True:
             print("Client closed")
             break
 
+        # print(info_received)
+

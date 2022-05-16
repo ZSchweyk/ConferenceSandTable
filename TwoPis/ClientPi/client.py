@@ -15,6 +15,7 @@ class RadiusClient:
         self.c = Client(server_ip_address, 5001, PacketType)
         while True:
             try:
+                print("trying")
                 self.c.connect()
                 break
             except ConnectionRefusedError:
@@ -43,7 +44,7 @@ class RadiusClient:
 
     def receive_from_theta_server(self):
         val_to_return = pickle.loads(self.c.recv_packet()[1])
-        self.send_to_theta_server(val_to_return)
+        # self.send_to_theta_server(val_to_return)
         return val_to_return
 
     def close_connection(self):

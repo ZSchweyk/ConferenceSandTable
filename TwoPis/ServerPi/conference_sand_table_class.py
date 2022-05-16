@@ -21,6 +21,7 @@ class ConferenceSandTable:
     homing_speed = 5
 
     def __init__(self):
+        print("Attempting to connect to theta board")
         self.theta_board = odrive.find_any(serial_number="386637773437")
         print("Connected to theta board")
 
@@ -32,8 +33,8 @@ class ConferenceSandTable:
         self.theta_motor = ODrive_Ease_Lib.ODrive_Axis(self.theta_board.axis0, current_lim=30, vel_lim=30)
 
         while not self.theta_motor.is_calibrated():
-            self.theta_motor.calibrate_encoder()
-            # self.theta_motor.calibrate()
+            # self.theta_motor.calibrate_encoder()
+            self.theta_motor.calibrate()
             # self.theta_board.reboot()
             print("Calibrated theta")
         print("Finished Calibrating Theta Board")
@@ -41,6 +42,7 @@ class ConferenceSandTable:
         self.radius_motors_homed = False
 
         self.server = ThetaServer("172.17.21.3")
+        print("Theta Server going")
 
     def home_radius_motors(self):
         self.server.send_to_radius_client("home")
