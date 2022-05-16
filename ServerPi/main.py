@@ -1,10 +1,7 @@
-import time
 import ODrive_Ease_Lib
 
 from conference_sand_table_class import ConferenceSandTable
 from math import pi
-from server import ThetaServer
-
 
 
 def draw_equation(equation, theta_range, theta_speed, scale_factor):

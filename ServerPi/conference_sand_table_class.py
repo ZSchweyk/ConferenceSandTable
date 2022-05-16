@@ -1,10 +1,8 @@
-import validation
 import time
 from settings import *
 from math import *
 import numpy as np
 import odrive
-import usb.core
 import ODrive_Ease_Lib as ODrive_Ease_Lib
 from server import ThetaServer
 

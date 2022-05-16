@@ -1,5 +1,4 @@
 import odrive
-import usb.core
 import ODrive_Ease_Lib
 
 
