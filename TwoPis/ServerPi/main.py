@@ -6,13 +6,15 @@ from math import pi
 from server import ThetaServer
 
 
-try:
-    table = ConferenceSandTable("localhost")
-    table.draw_equation("10 * sin(6 * theta)", 2*pi, theta_speed=.4, scale_factor=1, sleep=.005)
-finally:
-    table.theta_motor.idle()
-    ODrive_Ease_Lib.dump_errors(table.theta_board)
-    table.theta_motor.clear_errors()
-    table.server.close_server()
+
+def draw_equation(equation, theta_range, theta_speed, scale_factor):
+    try:
+        table = ConferenceSandTable("localhost")
+        table.draw_equation(equation, theta_range, theta_speed=theta_speed, scale_factor=scale_factor, sleep=.005)
+    finally:
+        table.theta_motor.idle()
+        ODrive_Ease_Lib.dump_errors(table.theta_board)
+        table.theta_motor.clear_errors()
+        table.server.close_server()
 
 
