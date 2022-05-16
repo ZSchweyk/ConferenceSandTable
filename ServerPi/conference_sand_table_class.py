@@ -20,7 +20,7 @@ class ConferenceSandTable:
 
     def __init__(self, server_ip):
         print("Attempting to connect to theta board")
-        self.theta_board = odrive.find_any(serial_number="386637773437")
+        self.theta_board = odrive.find_any(serial_number="388937553437")
         print("Connected to theta board")
 
         # Make sure that everything is okay with the brake resistors

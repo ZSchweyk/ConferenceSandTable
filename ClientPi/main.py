@@ -8,7 +8,7 @@ from client import RadiusClient
 
 # radius_motors = RadiiMotors()
 
-client = RadiusClient("localhost")
+client = RadiusClient("172.17.21.2")
 
 try:
     while True:
