@@ -78,24 +78,36 @@ class ConferenceSandTable:
 
         assert 0 <= theta_speed <= 1, "Incorrect theta_speed bounds. Must be between 0 and 1."
 
+    @staticmethod
+    def get_theta_range(equation, count_accuracy=10):
+        theta = 0
+        theta_increment = pi / 100
+        cartesian_coordinates = []
+        count = 0
+        while True:
+            r = eval(equation)
+            x, y = r * cos(theta), r * sin(theta)
+            if (x, y) in cartesian_coordinates:
+                count += 1
+            else:
+                count = 0
+
+            if count == count_accuracy:
+                return theta
+
+            cartesian_coordinates.append((x, y))
+            theta += theta_increment
+
+
     def draw_equation(self, equation: str, period, theta_speed=.75, scale_factor=1, sleep=.005):
         method_start_time = time.perf_counter()
         self.pre_check(equation, theta_speed)
-
-
-
-
 
         theta_speed = theta_speed * (
                 self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
         # because I don't want to lose connection to the motor
 
         scale_factor = max(min(scale_factor, 1), 0)  # This bounds scale_factor between 0 and 1
-
-
-
-
-
 
         # Find min and max radii for r1 and r2 to scale properly below.
         all_r1_values = []
