@@ -171,6 +171,8 @@ class ConferenceSandTable:
         self.theta_motor.set_vel(0)
         # print(np.diff(previous_thetas))
         method_end_time = time.perf_counter()
+        self.server.send_to_radius_client("Disconnect")
+        self.theta_motor.idle()
         return {
             "Time Taken": method_end_time - method_start_time,  # seconds
             "Average Time Difference": np.mean(time_intervals),
