@@ -39,6 +39,8 @@ class ConferenceSandTable:
             print("Calibrated theta")
         print("Finished Calibrating Theta Board")
 
+        self.theta_motor.axis.controller.config.enable_overspeed_error = False
+
         self.radius_motors_homed = False
 
         self.server = ThetaServer(server_ip)
@@ -172,7 +174,7 @@ class ConferenceSandTable:
         # print(np.diff(previous_thetas))
         method_end_time = time.perf_counter()
         self.server.send_to_radius_client("Disconnect")
-        self.theta_motor.idle()
+
         return {
             "Time Taken": method_end_time - method_start_time,  # seconds
             "Average Time Difference": np.mean(time_intervals),
