@@ -14,7 +14,9 @@ def draw_equation(equation, theta_range, theta_speed, scale_factor):
         table.theta_motor.idle()
         ODrive_Ease_Lib.dump_errors(table.theta_board)
         table.theta_motor.clear_errors()
+        time.sleep(3)
         table.server.close_server()
+        print("Server has been stopped")
 
 
 draw_equation("10 * sin(6 * theta)", 2 * pi, .6, 1)

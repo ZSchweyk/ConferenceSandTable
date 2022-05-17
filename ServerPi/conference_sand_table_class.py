@@ -42,7 +42,8 @@ class ConferenceSandTable:
         self.radius_motors_homed = False
 
         self.server = ThetaServer(server_ip)
-        print("Theta Server going")
+        print("Client connected")
+
 
     def home_radius_motors(self):
         self.server.send_to_radius_client({"method": "home"})
@@ -103,7 +104,7 @@ class ConferenceSandTable:
         method_start_time = time.perf_counter()
         self.pre_check(equation, theta_speed)
         print("Waiting...")
-        time.sleep(10)
+        time.sleep(5)
 
         theta_speed = theta_speed * (
                 self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed

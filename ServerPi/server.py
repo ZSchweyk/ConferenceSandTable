@@ -26,7 +26,7 @@ class ThetaServer:
     def close_server(self):
         self.s.close_connection()
         self.s.close_server()
-        print("Server has been stopped")
+
 
 
 
