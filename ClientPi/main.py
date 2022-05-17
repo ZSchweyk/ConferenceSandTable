@@ -21,6 +21,7 @@ try:
             if info_type == "method":
                 print("call a method")
                 getattr(radius_motors, info_received[info_type])()
+                print("method called!")
             elif info_type == "point":
                 # info_received[info_type] has the format [Rn, Position]
                 print("go to point")

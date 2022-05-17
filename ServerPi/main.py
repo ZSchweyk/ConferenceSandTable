@@ -1,5 +1,4 @@
 import ODrive_Ease_Lib
-
 from conference_sand_table_class import ConferenceSandTable
 from math import pi
 
