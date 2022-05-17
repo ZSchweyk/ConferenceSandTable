@@ -179,7 +179,7 @@ class ConferenceSandTable:
 
         self.theta_motor.set_vel(0)
         method_end_time = time.perf_counter()
-        self.server.send_to_radius_client("Disconnect")
+        # self.server.send_to_radius_client("Disconnect")
 
         return {
             "Time Taken": method_end_time - method_start_time,  # seconds
@@ -245,7 +245,7 @@ class ConferenceSandTable:
 
         self.theta_motor.set_vel(0)
         method_end_time = time.perf_counter()
-        self.server.send_to_radius_client("Disconnect")
+        # self.server.send_to_radius_client("Disconnect")
 
         return {
             "Time Taken": method_end_time - method_start_time,  # seconds
