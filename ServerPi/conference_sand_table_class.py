@@ -109,10 +109,6 @@ class ConferenceSandTable:
         print("Waiting...")
         time.sleep(1)
 
-        theta_speed = theta_speed * (
-                self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
-        # because I don't want to lose connection to the motor
-
         scale_factor = max(min(scale_factor, 1), 0)  # This bounds scale_factor between 0 and 1
 
         # Find min and max radii for r1 and r2 to scale properly below.
@@ -136,6 +132,10 @@ class ConferenceSandTable:
 
         smallest_r1, largest_r1 = min(all_r1_values), max(all_r1_values)
         smallest_r2, largest_r2 = min(all_r2_values), max(all_r2_values)
+
+        theta_speed = theta_speed * (
+                self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
+        # because I don't want to lose connection to the motor
 
         time_intervals = [.044]
         self.theta_motor.set_home()

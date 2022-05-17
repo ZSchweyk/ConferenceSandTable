@@ -17,10 +17,10 @@ def draw_equation(equation, theta_range, theta_speed, scale_factor):
         table.theta_motor.clear_errors()
         time.sleep(6)
         table.server.close_server()
-        print("Webserver closed")
+        print("Server closed")
 
 
-draw_equation("10 * sin(6 * theta)", 2 * pi, .6, 1)
+draw_equation(equation="10 * sin(6.2 * theta)", theta_range=5 * pi, theta_speed=.6, scale_factor=1)
 
 
 
