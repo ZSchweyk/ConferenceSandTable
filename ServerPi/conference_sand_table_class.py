@@ -107,7 +107,7 @@ class ConferenceSandTable:
         method_start_time = time.perf_counter()
         self.pre_check(equation, theta_speed)
         print("Waiting...")
-        time.sleep(5)
+        time.sleep(1)
 
         theta_speed = theta_speed * (
                 self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
@@ -181,10 +181,12 @@ class ConferenceSandTable:
                 # self.r2.set_pos_filter(r1, bandwidth)
 
             self.server.send_to_radius_client(dict_of_points)
+            if self.server.receive_from_radius_client() == "Finished writing this point":
+                pass
             # self.r2.wait() Does not work with set_pos_filter
             # time.sleep(sleep)
             end = time.perf_counter()
-            print("time interval:", end-start)
+            # print("time interval:", end-start)
             time_intervals.append(end - start)
             # print("Duration:", end - start)
 

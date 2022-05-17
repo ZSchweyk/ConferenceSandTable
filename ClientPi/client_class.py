@@ -9,7 +9,7 @@ class PacketType(enum.Enum):
     COMMAND1 = 1
     COMMAND2 = 2
 
-#         |Server IP     |Port |Packet enum
+#         |Webserver IP     |Port |Packet enum
 c = Client("172.17.21.2", 5001, PacketType)
 c.connect()
 

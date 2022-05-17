@@ -20,7 +20,7 @@ finally:
 
 
 # import enum
-# from server_class import Server
+# from server_class import Webserver
 # import pickle
 #
 #
@@ -30,7 +30,7 @@ finally:
 #     COMMAND2 = 2
 #
 #
-# server = Server("localhost", 5001, PacketType)
+# server = Webserver("localhost", 5001, PacketType)
 # server.open_server()
 # server.wait_for_connection()
 #

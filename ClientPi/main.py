@@ -30,9 +30,11 @@ try:
                 r1_data, r2_data = info_received[info_type]
                 r1_pos, r1_bandwidth = r1_data[1:3]
                 r2_pos, r2_bandwidth = r2_data[1:3]
-                radius_motors.r1.set_pos_filter(r1_pos, 60)
-                radius_motors.r2.set_pos_filter(r2_pos, 60)
-                # time.sleep(.005)
+                print("r1_bandwidth:", r1_bandwidth)
+                radius_motors.r1.set_pos_filter(r1_pos, r1_bandwidth)
+                radius_motors.r2.set_pos_filter(r2_pos, r1_bandwidth)
+                time.sleep(.005)
+                client.send_to_theta_server("Finished writing this point")
 
         elif isinstance(info_received, str):
             if info_received == client.close_connection_message:

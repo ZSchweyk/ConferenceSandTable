@@ -1,5 +1,5 @@
 """
-This module contains the Server class that manages a dpea-p2p server.
+This module contains the Webserver class that manages a dpea-p2p server.
 
 General usage looks like this:
 
@@ -10,7 +10,7 @@ class PacketType(enum.Enum):
     COMMAND2 = 2
 
 #         |Bind IP       |Port |Packet enum
-s = Server("172.17.21.2", 5001, PacketType)
+s = Webserver("172.17.21.2", 5001, PacketType)
 s.open_server()
 s.wait_for_connection()
 
@@ -45,7 +45,7 @@ class Server(object):
         :param bind_ip: The IP address to bind to.
         :param port: The port to bind to.
         :param packet_enum: The enum containing the packet types.
-        :returns: A new Server object.
+        :returns: A new Webserver object.
         """
         self.bind_ip = bind_ip
         self.port = port
