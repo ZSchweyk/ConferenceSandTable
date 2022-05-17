@@ -171,27 +171,20 @@ class ConferenceSandTable:
                 r1 = max(r1, self.rotations_from_center)
                 r2 = max(r2, self.rotations_from_center)
                 dict_of_points["points"] = [("r1", -r1, bandwidth), ("r2", -r2, bandwidth)]
-                # self.r1.set_pos_filter(-r1, bandwidth)
-                # self.r2.set_pos_filter(-r2, bandwidth)
             else:
                 r1 = min(r1, -self.rotations_from_center)
                 r2 = min(r2, -self.rotations_from_center)
                 dict_of_points["points"] = [("r1", r2, bandwidth), ("r2", r1, bandwidth)]
-                # self.r1.set_pos_filter(r2, bandwidth)
-                # self.r2.set_pos_filter(r1, bandwidth)
 
             self.server.send_to_radius_client(dict_of_points)
             if self.server.receive_from_radius_client() == "Finished writing this point":
                 pass
             # self.r2.wait() Does not work with set_pos_filter
-            # time.sleep(sleep)
             end = time.perf_counter()
             # print("time interval:", end-start)
             time_intervals.append(end - start)
-            # print("Duration:", end - start)
 
         self.theta_motor.set_vel(0)
-        # print(np.diff(previous_thetas))
         method_end_time = time.perf_counter()
         self.server.send_to_radius_client("Disconnect")
 
