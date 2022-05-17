@@ -190,6 +190,7 @@ class ConferenceSandTable:
         }
 
 
+
     def draw_equation_with_1_motor(self, equation: str, period, theta_speed=.75, scale_factor=1):
         method_start_time = time.perf_counter()  # start timing how long the method takes
         self.pre_check(equation, theta_speed)  # validate inputs
