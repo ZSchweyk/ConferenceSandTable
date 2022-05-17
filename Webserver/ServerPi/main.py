@@ -1,7 +1,7 @@
 import time
 
-import ODrive_Ease_Lib
-from conference_sand_table_class import ConferenceSandTable
+import ServerPi.ODrive_Ease_Lib as ODrive_Ease_Lib
+from ServerPi.conference_sand_table_class import ConferenceSandTable
 from math import pi
 
 
@@ -14,11 +14,12 @@ def draw_equation(table: ConferenceSandTable, equation, theta_range, theta_speed
         ODrive_Ease_Lib.dump_errors(table.theta_board)
         table.theta_motor.clear_errors()
         time.sleep(6)
-        table.server.close_server()
-        print("Server closed")
+        # table.server.close_server()
 
 
-draw_equation(equation="10 * sin(6.2 * theta)", theta_range=5 * pi, theta_speed=.6, scale_factor=1)
+if __name__ == "__main__":
+    table = ConferenceSandTable("172.17.21.2")
+    draw_equation(table=table, equation="10 * sin(6.2 * theta)", theta_range=1 * pi, theta_speed=.6, scale_factor=1)
 
 
 

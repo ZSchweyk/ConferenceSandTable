@@ -5,7 +5,7 @@ from wtforms import StringField, SubmitField, PasswordField, BooleanField, Integ
 from wtforms.validators import InputRequired, EqualTo, ValidationError, NumberRange
 import sys
 sys.path.insert(0, "/home/pi/projects/ConferenceSandTable/Table")
-from conference_sand_table_class import ConferenceSandTable
+from ServerPi.conference_sand_table_class import ConferenceSandTable
 
 
 class EquationForm(FlaskForm):

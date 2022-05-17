@@ -18,7 +18,7 @@ class RadiusClient:
                 print("trying")
                 self.c.connect()
                 break
-            except ConnectionRefusedError:
+            except:
                 pass
         self.is_listening = False
         self.packet_transfer_completed_message = "Stop Listening"

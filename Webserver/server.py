@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.urls import url_encode
 import pickle
+from threading import Thread
 
 from flask_forms import *
 from useful_functions import *
@@ -186,18 +187,23 @@ def equations(user_flast, eq_num=1):
             rows = Equations.query.filter_by(id=user.id).all()
             equation = rows[eq_num - 1].equation
 
+            def run_client():
+                os.system('sshpass -p dpea7266! ssh pi@conference-sand-table-v2-radius-pi.local "python3 ~/projects/ConferenceSandTable/ClientPi/main.py"')
+
+            Thread(target=run_client).start()
+
             if not is_connected_to_table:
                 print("CREATING A TABLE OBJECT!!!")
                 table = ConferenceSandTable("172.17.21.2")
                 is_connected_to_table = True
 
-                draw_equation(
-                    table=table,
-                    equation=equation,
-                    theta_range=form.theta_max.data * pi,
-                    theta_speed=form.theta_speed.data,
-                    scale_factor=form.scale_factor.data
-                )
+            draw_equation(
+                table=table,
+                equation=equation,
+                theta_range=form.theta_max.data * pi,
+                theta_speed=form.theta_speed.data,
+                scale_factor=form.scale_factor.data
+            )
 
             print("About to redirect back to this page...")
             return redirect(url_for("equations", user_flast=session["flast"], eq_num=eq_num))
@@ -215,9 +221,9 @@ def edit_equation(user_flast):
     pass
 
 
-@app.route("/<user_flast>/home/draw-equation")
-def draw_equation(user_flast):
-    pass
+# @app.route("/<user_flast>/home/draw-equation")
+# def draw_equation(user_flast):
+#     pass
 
 
 @app.route("/<user_flast>/home/delete-equation")

@@ -21,7 +21,7 @@ s.close_connection()
 s.close_server()
 ```
 """
-from common import *
+from ServerPi.common import *
 import socket
 
 

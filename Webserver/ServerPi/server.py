@@ -1,6 +1,6 @@
 import enum
 import pickle
-from server_class import Server
+from ServerPi.server_class import Server
 
 
 class PacketType(enum.Enum):

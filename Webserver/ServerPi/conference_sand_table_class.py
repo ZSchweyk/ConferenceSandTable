@@ -1,10 +1,10 @@
 import time
-from settings import *
+from ServerPi.settings import *
 from math import *
 import numpy as np
 import odrive
-import ODrive_Ease_Lib as ODrive_Ease_Lib
-from server import ThetaServer
+import ServerPi.ODrive_Ease_Lib as ODrive_Ease_Lib
+from ServerPi.server import ThetaServer
 
 
 def scale(value, v_min, v_max, r_min, r_max):
