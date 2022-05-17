@@ -36,7 +36,9 @@ try:
                 radius_motors.r2.set_pos_filter(r2_pos, r2_bandwidth)
 
         elif isinstance(info_received, str):
-            if info_received == client.close_connection_message:
+            if info_received == "test packet":
+                client.send_to_theta_server("test packet")
+            elif info_received == client.close_connection_message:
                 break
 finally:
     client.close_connection()
