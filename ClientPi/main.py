@@ -32,7 +32,7 @@ try:
                 print("r1_bandwidth:", r1_bandwidth)
                 radius_motors.r1.set_pos_filter(r1_pos, r1_bandwidth)
                 radius_motors.r2.set_pos_filter(r2_pos, r2_bandwidth)
-                time.sleep(.005)
+                # time.sleep(.005) Not sure if I need this???
                 client.send_to_theta_server("Finished writing this point")
 
         elif isinstance(info_received, str):

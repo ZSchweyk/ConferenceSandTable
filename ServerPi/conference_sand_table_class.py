@@ -140,14 +140,13 @@ class ConferenceSandTable:
         # print("smallest_r2", smallest_r2)
         # print("largest_r2", largest_r2)
 
-        time_intervals = [sleep + .04]
+        time_intervals = [.044]
         self.theta_motor.set_home()
         print("theta motor homed")
         self.theta_motor.set_vel(theta_speed)
         print("set vel to theta motor")
         max_rotations = self.gear_ratio * .5 * period / (2 * pi)
         previous_thetas = [0]
-        # skip = False
         while self.theta_motor.get_pos() < max_rotations:
             start = time.perf_counter()
             percent_complete = self.theta_motor.get_pos() / max_rotations
@@ -181,7 +180,7 @@ class ConferenceSandTable:
                 pass
             # self.r2.wait() Does not work with set_pos_filter
             end = time.perf_counter()
-            # print("time interval:", end-start)
+            print("time interval:", end-start)
             time_intervals.append(end - start)
 
         self.theta_motor.set_vel(0)
