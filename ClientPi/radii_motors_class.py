@@ -23,7 +23,6 @@ class RadiiMotors:
             print("Calibrated r1 and r2")
         print("Finished Calibrating r1 and r2")
 
-        self.radius_motors_homed = False
 
     def home(self):
         self.r1.set_vel(self.homing_speed)
@@ -42,6 +41,5 @@ class RadiiMotors:
         self.r2.set_home()
 
         time.sleep(1)
-        self.radius_motors_homed = True
 
 

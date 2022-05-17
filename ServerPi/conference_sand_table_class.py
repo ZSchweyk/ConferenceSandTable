@@ -46,6 +46,8 @@ class ConferenceSandTable:
 
     def home_radius_motors(self):
         self.server.send_to_radius_client({"method": "home"})
+        if self.server.receive_from_radius_client() == "Finished homing":
+            self.radius_motors_homed = True
 
     @staticmethod
     def is_equation_valid(equation):
@@ -100,6 +102,8 @@ class ConferenceSandTable:
     def draw_equation(self, equation: str, period, theta_speed=.75, scale_factor=1, sleep=.005):
         method_start_time = time.perf_counter()
         self.pre_check(equation, theta_speed)
+        print("Waiting...")
+        time.sleep(10)
 
         theta_speed = theta_speed * (
                 self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed

@@ -22,6 +22,7 @@ try:
                 print("call a method")
                 getattr(radius_motors, info_received[info_type])()
                 print("method called!")
+                client.send_to_theta_server("Finished homing")
             elif info_type == "point":
                 # info_received[info_type] has the format [Rn, Position]
                 print("go to point")
@@ -29,8 +30,8 @@ try:
                 # info_received[info_type] has the format [(r1, pos1), (r1, pos1)]
                 print(info_received[info_type])
                 r1_data, r2_data = info_received[info_type]
-                r1_pos, r1_bandwidth = r1_data
-                r2_pos, r2_bandwidth = r2_data
+                r1_pos, r1_bandwidth = r1_data[1:3]
+                r2_pos, r2_bandwidth = r2_data[1:3]
                 radius_motors.r1.set_pos_filter(r1_pos, r1_bandwidth)
                 radius_motors.r2.set_pos_filter(r2_pos, r2_bandwidth)
 

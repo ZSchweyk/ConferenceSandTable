@@ -20,6 +20,9 @@ class ThetaServer:
         self.s.send_packet(PacketType.COMMAND2, pickle.dumps(info))
         # assert pickle.loads(self.s.recv_packet()[1]) == info, "Could not send packet"
 
+    def receive_from_radius_client(self):
+        return pickle.loads(self.s.recv_packet()[1])
+
     def close_server(self):
         self.s.close_connection()
         self.s.close_server()
