@@ -25,8 +25,7 @@ try:
                 # info_received[info_type] has the format [Rn, Position]
                 print("go to point")
             elif info_type == "points":
-                # info_received[info_type] has the format [(r1, pos1), (r1, pos1)]
-                # print(info_received[info_type])
+                # info_received[info_type] has the format [(r1, pos1, bandwidth1), (r1, pos1, bandwidth2)]
                 r1_data, r2_data = info_received[info_type]
                 r1_pos, r1_bandwidth = r1_data[1:3]
                 r2_pos, r2_bandwidth = r2_data[1:3]
