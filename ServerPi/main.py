@@ -10,13 +10,14 @@ def draw_equation(equation, theta_range, theta_speed, scale_factor):
     try:
         table = ConferenceSandTable("172.17.21.2")
         table.draw_equation(equation, theta_range, theta_speed=theta_speed, scale_factor=scale_factor, sleep=.005)
+        print("Finished sending over equation values")
     finally:
         table.theta_motor.idle()
         ODrive_Ease_Lib.dump_errors(table.theta_board)
         table.theta_motor.clear_errors()
-        time.sleep(3)
+        time.sleep(6)
         table.server.close_server()
-        print("Server has been stopped")
+        print("Server closed")
 
 
 draw_equation("10 * sin(6 * theta)", 2 * pi, .6, 1)

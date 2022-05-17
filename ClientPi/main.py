@@ -13,11 +13,9 @@ client = RadiusClient("172.17.21.2")
 try:
     while True:
         info_received = client.receive_from_theta_server()  # Grab info sent from server
-        client.send_to_theta_server(info_received)  # Send it back to confirm that it was received properly
 
         if isinstance(info_received, dict):
             info_type = list(info_received.keys())[0]
-            print(info_received[info_type])
             if info_type == "method":
                 print("call a method")
                 getattr(radius_motors, info_received[info_type])()
@@ -28,12 +26,13 @@ try:
                 print("go to point")
             elif info_type == "points":
                 # info_received[info_type] has the format [(r1, pos1), (r1, pos1)]
-                print(info_received[info_type])
+                # print(info_received[info_type])
                 r1_data, r2_data = info_received[info_type]
                 r1_pos, r1_bandwidth = r1_data[1:3]
                 r2_pos, r2_bandwidth = r2_data[1:3]
-                radius_motors.r1.set_pos_filter(r1_pos, 50)
-                radius_motors.r2.set_pos_filter(r2_pos, 50)
+                radius_motors.r1.set_pos_filter(r1_pos, 60)
+                radius_motors.r2.set_pos_filter(r2_pos, 60)
+                # time.sleep(.005)
 
         elif isinstance(info_received, str):
             if info_received == client.close_connection_message:
@@ -45,4 +44,5 @@ finally:
     radius_motors.r1.clear_errors()
     radius_motors.r2.clear_errors()
     client.close_connection()
+    print("Client closed")
 

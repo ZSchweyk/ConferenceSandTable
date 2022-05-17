@@ -47,7 +47,10 @@ class ConferenceSandTable:
 
     def home_radius_motors(self):
         self.server.send_to_radius_client({"method": "home"})
-        if self.server.receive_from_radius_client() == "Finished homing":
+        message = self.server.receive_from_radius_client()
+        print("Message from client is:", message)
+        if message == "Finished homing":
+            print("Entered body")
             self.radius_motors_homed = True
 
     @staticmethod
@@ -144,6 +147,7 @@ class ConferenceSandTable:
         print("set vel to theta motor")
         max_rotations = self.gear_ratio * .5 * period / (2 * pi)
         previous_thetas = [0]
+        # skip = False
         while self.theta_motor.get_pos() < max_rotations:
             start = time.perf_counter()
             percent_complete = self.theta_motor.get_pos() / max_rotations
@@ -178,7 +182,7 @@ class ConferenceSandTable:
 
             self.server.send_to_radius_client(dict_of_points)
             # self.r2.wait() Does not work with set_pos_filter
-            time.sleep(sleep)
+            # time.sleep(sleep)
             end = time.perf_counter()
             print("time interval:", end-start)
             time_intervals.append(end - start)
