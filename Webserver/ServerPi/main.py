@@ -2,13 +2,11 @@ import time
 
 import ODrive_Ease_Lib
 from conference_sand_table_class import ConferenceSandTable
-from server import ThetaServer
 from math import pi
 
 
-def draw_equation(equation, theta_range, theta_speed, scale_factor):
+def draw_equation(table: ConferenceSandTable, equation, theta_range, theta_speed, scale_factor):
     try:
-        table = ConferenceSandTable("172.17.21.2")
         table.draw_equation(equation, theta_range, theta_speed=theta_speed, scale_factor=scale_factor)
         print("Finished sending over equation values")
     finally:

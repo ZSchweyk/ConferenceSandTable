@@ -16,7 +16,8 @@ import pickle
 from flask_forms import *
 from useful_functions import *
 
-from conference_sand_table_class import ConferenceSandTable
+from ServerPi.conference_sand_table_class import ConferenceSandTable
+from ServerPi.main import draw_equation
 
 app = Flask(__name__)
 app.secret_key = "my super secret key that no one is supposed to know"
@@ -187,20 +188,16 @@ def equations(user_flast, eq_num=1):
 
             if not is_connected_to_table:
                 print("CREATING A TABLE OBJECT!!!")
-                table = ConferenceSandTable()
+                table = ConferenceSandTable("172.17.21.2")
                 is_connected_to_table = True
 
-            try:
-                table.home()
-                info = table.draw_equation(
-                    equation,
-                    form.theta_max.data * pi,
+                draw_equation(
+                    table=table,
+                    equation=equation,
+                    theta_range=form.theta_max.data * pi,
                     theta_speed=form.theta_speed.data,
-                    scale_factor=form.scale_factor.data,
-                    sleep=.005
+                    scale_factor=form.scale_factor.data
                 )
-            except Exception as e:
-                print(e)
 
             print("About to redirect back to this page...")
             return redirect(url_for("equations", user_flast=session["flast"], eq_num=eq_num))
