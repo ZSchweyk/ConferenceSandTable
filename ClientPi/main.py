@@ -21,19 +21,26 @@ try:
                 getattr(radius_motors, info_received[info_type])()
                 print("method called!")
                 client.send_to_theta_server("Finished homing")
-            elif info_type == "point":
+            elif info_type == "point (set_pos)":
                 # info_received[info_type] has the format [Rn, Position]
-                print("go to point")
-            elif info_type == "points":
+                r_num, pos = info_received[info_type]
+                getattr(radius_motors, r_num).set_pos(pos)
+            elif info_type == "set_pos_filter":
                 # info_received[info_type] has the format [(r1, pos1, bandwidth1), (r1, pos1, bandwidth2)]
-                r1_data, r2_data = info_received[info_type]
-                r1_pos, r1_bandwidth = r1_data[1:3]
-                r2_pos, r2_bandwidth = r2_data[1:3]
-                print("r1_bandwidth:", r1_bandwidth)
-                radius_motors.r1.set_pos_filter(r1_pos, r1_bandwidth)
-                radius_motors.r2.set_pos_filter(r2_pos, r2_bandwidth)
-                # time.sleep(.005) Not sure if I need this???
+                if len(info_received[info_type]) == 2:
+                    r1_data, r2_data = info_received[info_type]
+                    r1_num, r1_pos, r1_bandwidth = r1_data
+                    r2_num, r2_pos, r2_bandwidth = r2_data
+                    print("r1_bandwidth:", r1_bandwidth)
+                    getattr(radius_motors, r1_num).set_pos_filter(r1_pos, r1_bandwidth)
+                    getattr(radius_motors, r2_num).set_pos_filter(r2_pos, r2_bandwidth)
+                    # time.sleep(.005) Not sure if I need this???
+                elif len(info_received[info_type]) == 1:
+                    r_num, r_pos, r_bandwidth = info_received[info_type][0]
+                    getattr(radius_motors, r_num).set_pos_filter(r_pos, r_bandwidth)
+
                 client.send_to_theta_server("Finished writing this point")
+
 
         elif isinstance(info_received, str):
             if info_received == client.close_connection_message:

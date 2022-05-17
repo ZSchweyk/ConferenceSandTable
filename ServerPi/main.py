@@ -9,7 +9,7 @@ from math import pi
 def draw_equation(equation, theta_range, theta_speed, scale_factor):
     try:
         table = ConferenceSandTable("172.17.21.2")
-        table.draw_equation(equation, theta_range, theta_speed=theta_speed, scale_factor=scale_factor, sleep=.005)
+        table.draw_equation(equation, theta_range, theta_speed=theta_speed, scale_factor=scale_factor)
         print("Finished sending over equation values")
     finally:
         table.theta_motor.idle()
