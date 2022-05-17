@@ -1,5 +1,5 @@
 import time
-
+import ODrive_Ease_Lib
 from radii_motors_class import RadiiMotors
 from client import RadiusClient
 
@@ -32,14 +32,17 @@ try:
                 r1_data, r2_data = info_received[info_type]
                 r1_pos, r1_bandwidth = r1_data[1:3]
                 r2_pos, r2_bandwidth = r2_data[1:3]
-                radius_motors.r1.set_pos_filter(r1_pos, 60)
-                radius_motors.r2.set_pos_filter(r2_pos, 60)
+                radius_motors.r1.set_pos_filter(r1_pos, 70)
+                radius_motors.r2.set_pos_filter(r2_pos, 70)
 
         elif isinstance(info_received, str):
-            if info_received == "test packet":
-                client.send_to_theta_server("test packet")
-            elif info_received == client.close_connection_message:
+            if info_received == client.close_connection_message:
                 break
 finally:
+    radius_motors.r1.idle()
+    radius_motors.r2.idle()
+    ODrive_Ease_Lib.dump_errors(radius_motors.radius_board)
+    radius_motors.r1.clear_errors()
+    radius_motors.r2.clear_errors()
     client.close_connection()
 
