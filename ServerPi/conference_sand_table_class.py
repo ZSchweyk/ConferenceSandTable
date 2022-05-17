@@ -137,8 +137,6 @@ class ConferenceSandTable:
         # print("smallest_r2", smallest_r2)
         # print("largest_r2", largest_r2)
 
-
-
         time_intervals = [sleep + .04]
         self.theta_motor.set_home()
         print("theta motor homed")
@@ -182,6 +180,7 @@ class ConferenceSandTable:
             # self.r2.wait() Does not work with set_pos_filter
             time.sleep(sleep)
             end = time.perf_counter()
+            print("time interval:", end-start)
             time_intervals.append(end - start)
             # print("Duration:", end - start)
 
