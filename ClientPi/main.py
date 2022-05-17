@@ -32,8 +32,8 @@ try:
                 r1_data, r2_data = info_received[info_type]
                 r1_pos, r1_bandwidth = r1_data[1:3]
                 r2_pos, r2_bandwidth = r2_data[1:3]
-                radius_motors.r1.set_pos_filter(r1_pos, 70)
-                radius_motors.r2.set_pos_filter(r2_pos, 70)
+                radius_motors.r1.set_pos_filter(r1_pos, 50)
+                radius_motors.r2.set_pos_filter(r2_pos, 50)
 
         elif isinstance(info_received, str):
             if info_received == client.close_connection_message:
