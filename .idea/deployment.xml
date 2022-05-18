@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="pi@conference-sand-table-v2-radius-pi.local:22 agent" exclude=".svn;.cvs;.idea;.DS_Store;.hg;*.hprof;*.pyc" confirmBeforeUploading="false" showAutoUploadSettingsWarning="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="pi@conference-sand-table-v2-pi.local:22 agent" exclude=".svn;.cvs;.idea;.DS_Store;.hg;*.hprof;*.pyc" confirmBeforeUploading="false" showAutoUploadSettingsWarning="false">
     <option name="confirmBeforeUploading" value="false" />
     <serverData>
-      <paths name="pi@172.17.21.2:22 password">
+      <paths name="pi@172.17.21.2:22 password (1)">
         <serverdata>
           <mappings>
             <mapping deploy="/home/pi/projects/ConferenceSandTable" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="pi@172.17.21.2:22 password (1)">
+      <paths name="pi@conference-sand-table-v2-pi.local:22 agent">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/pi/projects/ConferenceSandTable" local="$PROJECT_DIR$" />
+            <mapping deploy="/var/www/FLASKAPPS/ConferenceSandTable" local="$PROJECT_DIR$/Webserver" />
           </mappings>
         </serverdata>
       </paths>

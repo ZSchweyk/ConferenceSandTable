@@ -18,6 +18,7 @@
           </settings>
         </remote-mappings>
         <remote-mappings server-id="python@sftp://pi@conference-sand-table-v2-radius-pi.local:22/usr/bin/python3" />
+        <remote-mappings server-id="python@sftp://pi@conference-sand-table-v2-pi.local:22/home/pi/packages/Flask/bin/python3" />
       </list>
     </list>
   </component>
