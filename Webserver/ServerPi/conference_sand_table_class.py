@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, "/home/pi/.local/lib/python3.7/site-packages")
+
 import time
 from ServerPi.settings import *
 from math import *

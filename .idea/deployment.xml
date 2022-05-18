@@ -13,7 +13,7 @@
       <paths name="pi@conference-sand-table-v2-pi.local:22 agent">
         <serverdata>
           <mappings>
-            <mapping deploy="/var/www/FLASKAPPS/ConferenceSandTable" local="$PROJECT_DIR$/Webserver" />
+            <mapping deploy="/home/pi/projects/ConferenceSandTable" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
