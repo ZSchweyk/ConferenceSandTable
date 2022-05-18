@@ -7,15 +7,16 @@ def get_theta_range(equation, count_accuracy=10):
     cartesian_coordinates = []
     count = 0
     while True:
-        # print(theta / pi)
         r = eval(equation)
-        # print(r)
-        x, y = round(r * cos(theta), 3), round(r * sin(theta), 3)
-        print((x, y))
-        if (x, y) in cartesian_coordinates:
-            print((x, y), "already exists")
-            count += 1
-        else:
+        x, y = r * cos(theta), r * sin(theta)
+        reset_count = True
+        for xc, yc in cartesian_coordinates:
+            if abs(xc - x) <= .001 and abs(yc-y) <= .001:
+                print((x, y), "already exists")
+                count += 1
+                reset_count = False
+                break
+        if reset_count:
             count = 0
 
         if count == count_accuracy:
