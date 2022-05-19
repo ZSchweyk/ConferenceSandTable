@@ -1,3 +1,6 @@
+with open("/home/pi/projects/log.txt", "w") as file:
+    file.write("")
+
 from datetime import datetime
 
 with open("/home/pi/projects/log.txt", "a") as file:
