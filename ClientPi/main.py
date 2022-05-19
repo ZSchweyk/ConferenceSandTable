@@ -1,5 +1,9 @@
-import time
 from datetime import datetime
+
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Created file at " + datetime.now().strftime("%Y-%m-%d %I:%M:%S %p"))
+
+import time
 import ODrive_Ease_Lib
 from radii_motors_class import RadiiMotors
 from client import RadiusClient
@@ -8,7 +12,7 @@ from client import RadiusClient
 # print(method_list)
 
 with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Created file at " + datetime.now().strftime("%Y-%m-%d %I:%M:%S %p"))
+    file.write("Creating RadiiMotors object")
 
 radius_motors = RadiiMotors()
 
