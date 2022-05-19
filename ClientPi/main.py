@@ -31,6 +31,8 @@ radius_motors = RadiiMotors()
 
 LOG("Finished passing through RadiiMotors' constructor")
 
+time.sleep(60)
+
 LOG("Starting up RadiusClient")
 client = RadiusClient("172.17.21.2")
 LOG("Connected to ThetaServer")
