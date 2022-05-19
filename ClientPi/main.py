@@ -44,7 +44,15 @@ with open("/home/pi/projects/log.txt", "a") as file:
     file.write("Connected to ThetaServer\n")
 
 try:
+    count = 1
     while True:
+
+        with open("/home/pi/projects/log.txt", "a") as file:
+            file.write(str(count))
+            file.write("\n")
+
+        count += 1
+
         info_received = client.receive_from_theta_server()  # Grab info sent from server
 
         if isinstance(info_received, dict):
