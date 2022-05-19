@@ -1,6 +1,7 @@
+# import sys
+# sys.path.insert(0, "/home/pi/.local/lib/python3.7/site-packages")
 import sys
-sys.path.insert(0, "/home/pi/.local/lib/python3.7/site-packages")
-
+print("Python version:", sys.version)
 import time
 from ServerPi.settings import *
 from math import *
