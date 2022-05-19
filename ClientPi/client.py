@@ -1,6 +1,7 @@
 import enum
 import pickle
 from client_class import Client
+from logging_func import LOG
 
 
 class PacketType(enum.Enum):
@@ -15,7 +16,7 @@ class RadiusClient:
         self.c = Client(server_ip_address, 5001, PacketType)
         while True:
             try:
-                print("trying")
+                LOG("Trying to connect to server")
                 self.c.connect()
                 break
             except:

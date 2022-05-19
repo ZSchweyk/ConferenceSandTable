@@ -1,59 +1,47 @@
-with open("/home/pi/projects/log.txt", "w") as file:
-    file.write("")
+from logging_func import LOG, CLEAR_LOG
+
+CLEAR_LOG()
 
 from datetime import datetime
 
-with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Created file at " + datetime.now().strftime("%Y-%m-%d %I:%M:%S %p") + "\n")
+LOG("Created file at " + datetime.now().strftime("%Y-%m-%d %I:%M:%S %p"))
 
 import time
 
-with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Imported time module\n")
+LOG("Imported time module")
 
 import ODrive_Ease_Lib
 
-with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Imported ODrive_Ease_Lib module\n")
+LOG("Imported ODrive_Ease_Lib module")
 
 from radii_motors_class import RadiiMotors
 
-with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Imported RadiiMotors module\n")
+LOG("Imported RadiiMotors module")
 
 from client import RadiusClient
 
-with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Imported RadiusClient module\n")
+LOG("Imported RadiusClient module")
 
 # method_list = [attribute for attribute in dir(RadiiMotors) if callable(getattr(RadiiMotors, attribute)) and not attribute.startswith('__')]
 # print(method_list)
 
-with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Creating RadiiMotors object\n")
+LOG("Creating RadiiMotors object")
 
 radius_motors = RadiiMotors()
 
-with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Finished passing through RadiiMotors' constructor\n")
-    file.write("Starting up RadiusClient\n")
+LOG("Finished passing through RadiiMotors' constructor")
 
+LOG("Starting up RadiusClient")
 client = RadiusClient("172.17.21.2")
-
-with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Connected to ThetaServer\n")
+LOG("Connected to ThetaServer")
 
 try:
     count = 1
     while True:
 
-        with open("/home/pi/projects/log.txt", "a") as file:
-            file.write(str(count))
-            file.write("\n")
-
-        count += 1
-
         info_received = client.receive_from_theta_server()  # Grab info sent from server
+        LOG("Processing packet " + str(count))
+        count += 1
 
         if isinstance(info_received, dict):
             info_type = list(info_received.keys())[0]
@@ -90,6 +78,7 @@ try:
                 ODrive_Ease_Lib.dump_errors(radius_motors.radius_board)
                 radius_motors.r1.clear_errors()
                 radius_motors.r2.clear_errors()
+                count = 1
             elif info_received == client.close_connection_message:
                 break
 finally:
