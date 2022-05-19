@@ -36,12 +36,12 @@ client = RadiusClient("172.17.21.2")
 LOG("Connected to ThetaServer")
 
 try:
-    count = 1
+    # count = 1
     while True:
 
         info_received = client.receive_from_theta_server()  # Grab info sent from server
-        LOG("Processing packet " + str(count))
-        count += 1
+        # LOG("Processing packet " + str(count))
+        # count += 1
 
         if isinstance(info_received, dict):
             info_type = list(info_received.keys())[0]
@@ -78,7 +78,7 @@ try:
                 ODrive_Ease_Lib.dump_errors(radius_motors.radius_board)
                 radius_motors.r1.clear_errors()
                 radius_motors.r2.clear_errors()
-                count = 1
+                # count = 1
             elif info_received == client.close_connection_message:
                 break
 finally:
