@@ -4,9 +4,24 @@ with open("/home/pi/projects/log.txt", "a") as file:
     file.write("Created file at " + datetime.now().strftime("%Y-%m-%d %I:%M:%S %p"))
 
 import time
+
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Imported time module")
+
 import ODrive_Ease_Lib
+
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Imported ODrive_Ease_Lib module")
+
 from radii_motors_class import RadiiMotors
+
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Imported RadiiMotors module")
+
 from client import RadiusClient
+
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Imported RadiusClient module")
 
 # method_list = [attribute for attribute in dir(RadiiMotors) if callable(getattr(RadiiMotors, attribute)) and not attribute.startswith('__')]
 # print(method_list)
