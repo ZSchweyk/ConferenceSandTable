@@ -3,7 +3,7 @@
 def LOG(string: str):
     with open("/home/pi/projects/log.txt", "a") as file:
         file.write(string)
-        file.write("")
+        file.write("\n")
 
 
 def CLEAR_LOG():
