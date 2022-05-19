@@ -32,8 +32,8 @@ from models import *  # models imports db above, explaining why I have this impo
 
 # errors.
 
-table = None
-is_connected_to_table = False
+print("CREATING A TABLE OBJECT!!!")
+table = ConferenceSandTable("172.17.21.2")
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -173,8 +173,7 @@ def modify_query(**new_values):
 
 @app.route("/<user_flast>/equations", methods=["POST", "GET"])
 def equations(user_flast, eq_num=1):
-    global table
-    global is_connected_to_table
+
     if "user_id" in session:
         form = DrawEquationForm()
         user_id = session["user_id"]
@@ -187,16 +186,12 @@ def equations(user_flast, eq_num=1):
             rows = Equations.query.filter_by(id=user.id).all()
             equation = rows[eq_num - 1].equation
 
-            def run_client():
-                os.system('sshpass -p dpea7266! ssh pi@conference-sand-table-v2-radius-pi.local "python3 ~/projects/ConferenceSandTable/ClientPi/main.py"')
+            # def run_client():
+            #     os.system('sshpass -p dpea7266! ssh pi@conference-sand-table-v2-radius-pi.local "python3 ~/projects/ConferenceSandTable/ClientPi/main.py"')
+            #
+            # Thread(target=run_client).start()
 
-            Thread(target=run_client).start()
-
-            if not is_connected_to_table:
-                print("CREATING A TABLE OBJECT!!!")
-                table = ConferenceSandTable("172.17.21.2")
-                is_connected_to_table = True
-
+            global table
             draw_equation(
                 table=table,
                 equation=equation,
