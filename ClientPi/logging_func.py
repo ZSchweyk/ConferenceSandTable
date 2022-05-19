@@ -8,6 +8,6 @@ def LOG(string: str):
 
 def CLEAR_LOG():
     with open("/home/pi/projects/log.txt", "w") as file:
-        file.write("")
+        file.write("\n")
 
 
