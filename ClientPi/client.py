@@ -21,7 +21,7 @@ class RadiusClient:
             except:
                 pass
         self.is_listening = False
-        self.packet_transfer_completed_message = "Stop Listening"
+        self.packet_transfer_completed_message = "Finished Drawing Equation"
         self.close_connection_message = "Disconnect"
 
     def start_listening(self):

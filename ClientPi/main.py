@@ -43,7 +43,13 @@ try:
 
 
         elif isinstance(info_received, str):
-            if info_received == client.close_connection_message:
+            if info_received == client.packet_transfer_completed_message:
+                radius_motors.r1.idle()
+                radius_motors.r2.idle()
+                ODrive_Ease_Lib.dump_errors(radius_motors.radius_board)
+                radius_motors.r1.clear_errors()
+                radius_motors.r2.clear_errors()
+            elif info_received == client.close_connection_message:
                 break
 finally:
     radius_motors.r1.idle()
