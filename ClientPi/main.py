@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 import ODrive_Ease_Lib
 from radii_motors_class import RadiiMotors
 from client import RadiusClient
@@ -6,9 +7,19 @@ from client import RadiusClient
 # method_list = [attribute for attribute in dir(RadiiMotors) if callable(getattr(RadiiMotors, attribute)) and not attribute.startswith('__')]
 # print(method_list)
 
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Created file at " + datetime.now().strftime("%Y-%m-%d %I:%M:%S %p"))
+
 radius_motors = RadiiMotors()
 
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Finished passing through RadiiMotors' constructor")
+    file.write("Starting up RadiusClient")
+
 client = RadiusClient("172.17.21.2")
+
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Connected to ThetaServer")
 
 try:
     while True:
