@@ -4,44 +4,44 @@ with open("/home/pi/projects/log.txt", "w") as file:
 from datetime import datetime
 
 with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Created file at " + datetime.now().strftime("%Y-%m-%d %I:%M:%S %p"))
+    file.write("Created file at " + datetime.now().strftime("%Y-%m-%d %I:%M:%S %p") + "\n")
 
 import time
 
 with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Imported time module")
+    file.write("Imported time module\n")
 
 import ODrive_Ease_Lib
 
 with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Imported ODrive_Ease_Lib module")
+    file.write("Imported ODrive_Ease_Lib module\n")
 
 from radii_motors_class import RadiiMotors
 
 with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Imported RadiiMotors module")
+    file.write("Imported RadiiMotors module\n")
 
 from client import RadiusClient
 
 with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Imported RadiusClient module")
+    file.write("Imported RadiusClient module\n")
 
 # method_list = [attribute for attribute in dir(RadiiMotors) if callable(getattr(RadiiMotors, attribute)) and not attribute.startswith('__')]
 # print(method_list)
 
 with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Creating RadiiMotors object")
+    file.write("Creating RadiiMotors object\n")
 
 radius_motors = RadiiMotors()
 
 with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Finished passing through RadiiMotors' constructor")
-    file.write("Starting up RadiusClient")
+    file.write("Finished passing through RadiiMotors' constructor\n")
+    file.write("Starting up RadiusClient\n")
 
 client = RadiusClient("172.17.21.2")
 
 with open("/home/pi/projects/log.txt", "a") as file:
-    file.write("Connected to ThetaServer")
+    file.write("Connected to ThetaServer\n")
 
 try:
     while True:
