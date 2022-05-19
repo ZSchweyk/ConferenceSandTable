@@ -1,10 +1,32 @@
 import time
+
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Imported time module\n")
+
 import logging
 
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Imported logging module\n")
+
 import odrive
+
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Imported odrive module\n")
+
 import odrive.configuration
+
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Imported odrive.configuration module\n")
+
 import usb.core
+
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Imported usb.core module\n")
+
 from odrive.enums import *
+
+with open("/home/pi/projects/log.txt", "a") as file:
+    file.write("Imported odrive.enums module\n")
 
 # For use with ODrive version 0.5.3
 # Credit to Blake Lazarine for originally creating this library
