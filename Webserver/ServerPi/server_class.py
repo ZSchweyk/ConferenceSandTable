@@ -23,6 +23,7 @@ s.close_server()
 """
 from ServerPi.common import *
 import socket
+import socketserver
 
 
 class Server(object):
@@ -53,6 +54,8 @@ class Server(object):
 
         self.server = None
         self.connection = None
+        # socketserver.TCPServer.allow_reuse_address = True
+
 
     # Connection helpers
 
