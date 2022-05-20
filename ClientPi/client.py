@@ -23,6 +23,7 @@ class RadiusClient:
                 pass
         self.is_listening = False
         self.packet_transfer_completed_message = "Finished Drawing Equation"
+        self.reboot_pi_message = "Reboot Sequence"
         self.close_connection_message = "Disconnect"
 
     def start_listening(self):

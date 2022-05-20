@@ -1,3 +1,5 @@
+import os
+
 from logging_func import LOG, CLEAR_LOG
 
 CLEAR_LOG()
@@ -81,6 +83,11 @@ try:
                 radius_motors.r1.clear_errors()
                 radius_motors.r2.clear_errors()
                 # count = 1
+            elif info_received == client.reboot_pi_message:
+                client.close_connection()
+                client.send_to_theta_server("close server and reboot server pi")
+                assert client.receive_from_theta_server() == "Reboot", "Received packet incorrectly"
+                os.system("sudo reboot")
             elif info_received == client.close_connection_message:
                 break
 finally:

@@ -161,6 +161,17 @@ def home(user_flast):
         return redirect(url_for("login"))  # redirect the user to the login page
 
 
+@app.route("/<user_flast>/restart")
+def restart(user_flast):
+    # Reboot client pi, then server pi
+    global table
+    table.server.send_to_radius_client("Reboot Sequence")
+    assert table.server.receive_from_radius_client() == "close server and reboot server pi", "Received packet incorrectly"
+    table.server.close_server()
+    table.server.send_to_radius_client("Reboot")
+    os.system("sudo reboot")
+
+
 @app.template_global()
 def modify_query(**new_values):
     args = request.args.copy()
