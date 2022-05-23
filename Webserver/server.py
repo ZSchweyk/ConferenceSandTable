@@ -240,7 +240,7 @@ def edit_equation(user_flast):
 
 
 @app.route("/<user_flast>/home/delete-equation")
-def delete_equation(user_flast, eq_num):
+def delete_equation(user_flast, eq_num=1):
     if "user_id" in session:
         user_id = session["user_id"]
         user = Users.query.filter_by(id=user_id).first()
