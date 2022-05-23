@@ -33,7 +33,11 @@ radius_motors = RadiiMotors()
 
 LOG("Finished passing through RadiiMotors' constructor")
 
-time.sleep(60)
+from threading import Thread
+
+Thread(target=lambda: os.system("wget 10.107.200.19")).start()
+
+time.sleep(5)
 
 LOG("Starting up RadiusClient")
 client = RadiusClient("172.17.21.2")
