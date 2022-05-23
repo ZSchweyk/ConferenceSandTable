@@ -239,11 +239,14 @@ def edit_equation(user_flast):
 #     pass
 
 
-@app.route("/<user_flast>/home/delete-equation")
+@app.route("/<user_flast>/home/delete-equation", methods=["POST", "GET"])
 def delete_equation(user_flast, eq_num=1):
     if "user_id" in session:
         user_id = session["user_id"]
         user = Users.query.filter_by(id=user_id).first()
+        args = request.args
+        # the default parameter ensures that if the argument can't be converted into an int, it defaults to 1.
+        eq_num = args.get("eq_num", default=eq_num, type=int)
         rows = Equations.query.filter_by(id=user.id).all()
         equation = rows[eq_num - 1].equation
         Equations.query.filter_by(id=user.id, equation=equation).delete()
