@@ -183,7 +183,7 @@ def modify_query(**new_values):
 
 
 @app.route("/<user_flast>/equations", methods=["POST", "GET"])
-def equations(user_flast, eq_num=1, delete_equation=False):
+def equations(user_flast, eq_num=1):
 
     if "user_id" in session:
         form = DrawEquationForm()
@@ -193,12 +193,12 @@ def equations(user_flast, eq_num=1, delete_equation=False):
         # the default parameter ensures that if the argument can't be converted into an int, it defaults to 1.
         eq_num = args.get("eq_num", default=eq_num, type=int)
 
-        if delete_equation:
-            rows = Equations.query.filter_by(id=user.id).all()
-            equation = rows[eq_num - 1].equation
-            Equations.query.filter_by(id=user.id, equation=equation).delete()
-            db.session.commit()
-            return redirect(url_for("home", user_flast=session["flast"]))
+        # if delete_equation:
+        #     rows = Equations.query.filter_by(id=user.id).all()
+        #     equation = rows[eq_num - 1].equation
+        #     Equations.query.filter_by(id=user.id, equation=equation).delete()
+        #     db.session.commit()
+        #     return redirect(url_for("home", user_flast=session["flast"]))
 
         if form.validate_on_submit():
             rows = Equations.query.filter_by(id=user.id).all()
@@ -240,8 +240,15 @@ def edit_equation(user_flast):
 
 
 @app.route("/<user_flast>/home/delete-equation")
-def delete_equation(user_flast):
-    pass
+def delete_equation(user_flast, eq_num):
+    if "user_id" in session:
+        user_id = session["user_id"]
+        user = Users.query.filter_by(id=user_id).first()
+        rows = Equations.query.filter_by(id=user.id).all()
+        equation = rows[eq_num - 1].equation
+        Equations.query.filter_by(id=user.id, equation=equation).delete()
+        db.session.commit()
+        return redirect(url_for("home", user_flast=session["flast"]))
 
 
 @app.route("/<user_flast>/logout")
