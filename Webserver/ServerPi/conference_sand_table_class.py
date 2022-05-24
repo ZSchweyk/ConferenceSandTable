@@ -138,8 +138,8 @@ class ConferenceSandTable:
             all_r1_values.append(r1)
             all_r2_values.append(r2)
 
-        smallest_r1, largest_r1 = min(all_r1_values), max(all_r1_values)
-        smallest_r2, largest_r2 = min(all_r2_values), max(all_r2_values)
+        smallest_r1, largest_r1 = min(min(all_r1_values), 0), max(all_r1_values)
+        smallest_r2, largest_r2 = min(min(all_r2_values), 0), max(all_r2_values)
 
         theta_speed = theta_speed * (
                 self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
@@ -213,7 +213,7 @@ class ConferenceSandTable:
         all_r_values = [eval(equation) for theta in np.arange(0, period, pi / 100)]  # calculate all r values
 
         # find the range of the r values to later deal with scaling them properly.
-        smallest_r, largest_r = min(all_r_values), max(all_r_values)
+        smallest_r, largest_r = min(min(all_r_values), 0), max(all_r_values)
 
         time_intervals = [.044]
         self.theta_motor.set_home()
