@@ -238,6 +238,14 @@ def edit_equation(user_flast):
 # def draw_equation(user_flast):
 #     pass
 
+@app.route("/<user_flast>/home/delete-equation", methods=["POST", "GET"])
+def stop_drawing(user_flast):
+    global table
+    table.ENABLED = False
+    time.sleep(.2)
+    table.ENABLED = True
+    return redirect(url_for("home", user_flast=session["flast"]))
+
 
 @app.route("/<user_flast>/home/delete-equation", methods=["POST", "GET"])
 def delete_equation(user_flast, eq_num=1):

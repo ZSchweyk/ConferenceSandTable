@@ -49,6 +49,8 @@ class ConferenceSandTable:
         self.server = ThetaServer(server_ip)
         print("Client connected")
 
+        self.ENABLED = True
+
 
     def home_radius_motors(self):
         self.server.send_to_radius_client({"method": "home"})
@@ -150,7 +152,7 @@ class ConferenceSandTable:
         print("set vel to theta motor")
         max_rotations = self.gear_ratio * .5 * period / (2 * pi)
         previous_thetas = [0]
-        while self.theta_motor.get_pos() < max_rotations:
+        while self.theta_motor.get_pos() < max_rotations and self.ENABLED:
             start = time.perf_counter()
             percent_complete = self.theta_motor.get_pos() / max_rotations
             print("Percent Complete: " + str(round(percent_complete * 100, 2)) + "%")
@@ -183,6 +185,7 @@ class ConferenceSandTable:
             end = time.perf_counter()
             time_intervals.append(end - start)
 
+        self.ENABLED = True
         self.theta_motor.set_vel(0)
         method_end_time = time.perf_counter()
         self.server.send_to_radius_client("Finished Drawing Equation")
@@ -218,7 +221,7 @@ class ConferenceSandTable:
         max_rotations = self.gear_ratio * period / (2 * pi)
         previous_thetas = [0]
         self.server.send_to_radius_client({"point (set_pos)": ("r2", 0)})
-        while self.theta_motor.get_pos() < max_rotations:
+        while self.theta_motor.get_pos() < max_rotations and self.ENABLED:
             start = time.perf_counter()
 
             percent_complete = self.theta_motor.get_pos() / max_rotations
@@ -249,6 +252,7 @@ class ConferenceSandTable:
             end = time.perf_counter()
             time_intervals.append(end - start)
 
+        self.ENABLED = True
         self.theta_motor.set_vel(0)
         method_end_time = time.perf_counter()
         self.server.send_to_radius_client("Finished Drawing Equation")
