@@ -63,6 +63,7 @@ class ConferenceSandTable:
         builtin_restrictions = {
             "min": min,
             "max": max,
+            "abs": abs,
         }
         other_restrictions = {
             "sqrt": sqrt,
