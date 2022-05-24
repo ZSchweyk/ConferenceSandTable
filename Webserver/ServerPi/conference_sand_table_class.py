@@ -142,6 +142,8 @@ class ConferenceSandTable:
                 self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
         # because I don't want to lose connection to the motor
 
+        period = max(min(period, 12), 0)
+
         time_intervals = [.044]
         self.theta_motor.set_home()
         print("theta motor homed")
@@ -200,6 +202,8 @@ class ConferenceSandTable:
         method_start_time = time.perf_counter()  # start timing how long the method takes
         self.pre_check(equation, theta_speed)  # validate inputs
 
+        period = max(min(period, 12), 0)
+
         theta_speed = theta_speed * (
                 self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
         # because I don't want to lose connection to the motor
@@ -216,7 +220,10 @@ class ConferenceSandTable:
         self.theta_motor.set_vel(theta_speed)
         max_rotations = self.gear_ratio * period / (2 * pi)
         previous_thetas = [0]
-        self.server.send_to_radius_client({"point (set_pos)": ("r2", 0)})
+        self.server.send_to_radius_client({"set_pos_traj": [("r2", 0, 5, 8, 5)]})
+        if self.server.receive_from_radius_client() == "Finished writing this point":
+            pass
+
         while self.theta_motor.get_pos() < max_rotations:
             start = time.perf_counter()
 
