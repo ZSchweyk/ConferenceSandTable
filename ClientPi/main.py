@@ -94,6 +94,7 @@ try:
                     r_num, r_pos, r_accel, r_vel, r_decel = r_data
                     getattr(radius_motors, r_num).set_pos_traj(r_pos, r_accel, r_vel, r_decel)
 
+                time.sleep(10)
                 client.send_to_theta_server("Finished writing this point")
 
 

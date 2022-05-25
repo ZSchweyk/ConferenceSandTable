@@ -154,9 +154,9 @@ class ConferenceSandTable:
         r2 = scale(initial_r2, smallest_r2, largest_r2, -self.radius_motor_max_rotations * scale_factor,
                    self.radius_motor_max_rotations * scale_factor)
 
-        accel = 1
-        vel = 2
-        decel = 1
+        accel = 2
+        vel = 3
+        decel = 2
 
         dict_of_points = {}
         if r1 >= 0:
@@ -265,9 +265,9 @@ class ConferenceSandTable:
                    self.radius_motor_max_rotations * scale_factor)
         print(r)
 
-        accel = 1
-        vel = 2
-        decel = 1
+        accel = 2
+        vel = 3
+        decel = 2
 
         dict_of_points = {}
         if r >= 0:
