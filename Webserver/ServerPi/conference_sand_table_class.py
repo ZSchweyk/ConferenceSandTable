@@ -146,17 +146,17 @@ class ConferenceSandTable:
 
 
         ##################### GO TO FIRST POINT (THIS COULD BE FAR AWAY) #########################
-        initial_r1 = eval(equation.replace("theta", 0))
-        initial_r2 = eval(equation.replace("theta", pi))
+        initial_r1 = eval(equation.replace("theta", "0"))
+        initial_r2 = eval(equation.replace("theta", "pi"))
 
         r1 = scale(initial_r1, smallest_r1, largest_r1, -self.radius_motor_max_rotations * scale_factor,
                    self.radius_motor_max_rotations * scale_factor)
         r2 = scale(initial_r2, smallest_r2, largest_r2, -self.radius_motor_max_rotations * scale_factor,
                    self.radius_motor_max_rotations * scale_factor)
 
-        accel = 5
-        vel = 8
-        decel = 5
+        accel = 1
+        vel = 2
+        decel = 1
 
         dict_of_points = {}
         if r1 >= 0:
@@ -259,14 +259,15 @@ class ConferenceSandTable:
 
 
         ##################### GO TO FIRST POINT (THIS COULD BE FAR AWAY) #########################
-        initial_r = eval(equation.replace("theta", 0))
+        initial_r = eval(equation.replace("theta", "0"))
 
         r = scale(initial_r, smallest_r, largest_r, -self.radius_motor_max_rotations * scale_factor,
                    self.radius_motor_max_rotations * scale_factor)
+        print(r)
 
-        accel = 5
-        vel = 8
-        decel = 5
+        accel = 1
+        vel = 2
+        decel = 1
 
         dict_of_points = {}
         if r >= 0:
@@ -276,9 +277,10 @@ class ConferenceSandTable:
             r = min(r, -self.rotations_from_center)
             dict_of_points["set_pos_traj"] = [("r2", r, accel, vel, decel)]
 
+        print("sending to client")
         self.server.send_to_radius_client(dict_of_points)
         if self.server.receive_from_radius_client() == "Finished writing this point":
-            pass
+            print("client finished")
 
         ##########################################################################################
 

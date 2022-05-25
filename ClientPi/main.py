@@ -90,7 +90,7 @@ try:
                     getattr(radius_motors, r1_num).set_pos_traj(r1_pos, r1_accel, r1_vel, r1_decel)
                     getattr(radius_motors, r2_num).set_pos_traj(r2_pos, r2_accel, r2_vel, r2_decel)
                 elif len(info_received[info_type]) == 1:
-                    r_data = info_received[info_type]
+                    r_data = info_received[info_type][0]
                     r_num, r_pos, r_accel, r_vel, r_decel = r_data
                     getattr(radius_motors, r_num).set_pos_traj(r_pos, r_accel, r_vel, r_decel)
 
