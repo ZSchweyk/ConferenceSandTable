@@ -13,8 +13,7 @@ def draw_equation(table: ConferenceSandTable, equation, theta_range, theta_speed
         table.theta_motor.idle()
         ODrive_Ease_Lib.dump_errors(table.theta_board)
         table.theta_motor.clear_errors()
-        time.sleep(6)
-        # table.server.close_server()
+        time.sleep(1)
 
 
 if __name__ == "__main__":
