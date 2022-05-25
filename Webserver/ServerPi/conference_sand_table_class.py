@@ -141,6 +141,44 @@ class ConferenceSandTable:
         smallest_r1, largest_r1 = min(min(all_r1_values), 0), max(all_r1_values)
         smallest_r2, largest_r2 = min(min(all_r2_values), 0), max(all_r2_values)
 
+
+
+
+
+        ##################### GO TO FIRST POINT (THIS COULD BE FAR AWAY) #########################
+        initial_r1 = eval(equation.replace("theta", 0))
+        initial_r2 = eval(equation.replace("theta", pi))
+
+        r1 = scale(initial_r1, smallest_r1, largest_r1, -self.radius_motor_max_rotations * scale_factor,
+                   self.radius_motor_max_rotations * scale_factor)
+        r2 = scale(initial_r2, smallest_r2, largest_r2, -self.radius_motor_max_rotations * scale_factor,
+                   self.radius_motor_max_rotations * scale_factor)
+
+        accel = 5
+        vel = 8
+        decel = 5
+
+        dict_of_points = {}
+        if r1 >= 0:
+            r1 = max(r1, self.rotations_from_center)
+            r2 = max(r2, self.rotations_from_center)
+            dict_of_points["set_pos_traj"] = [("r1", -r1, accel, vel, decel), ("r2", -r2, accel, vel, decel)]
+        else:
+            r1 = min(r1, -self.rotations_from_center)
+            r2 = min(r2, -self.rotations_from_center)
+            dict_of_points["set_pos_traj"] = [("r1", r2, accel, vel, decel), ("r2", r1, accel, vel, decel)]
+
+        self.server.send_to_radius_client(dict_of_points)
+        if self.server.receive_from_radius_client() == "Finished writing this point":
+            pass
+
+        ##########################################################################################
+
+
+
+
+
+
         theta_speed = theta_speed * (
                 self.theta_motor.get_vel_limit() * CAP_THETA_VELOCITY_AT)  # capped max vel to 85% of max speed
         # because I don't want to lose connection to the motor
@@ -215,12 +253,45 @@ class ConferenceSandTable:
         # find the range of the r values to later deal with scaling them properly.
         smallest_r, largest_r = min(min(all_r_values), 0), max(all_r_values)
 
+
+
+
+
+
+        ##################### GO TO FIRST POINT (THIS COULD BE FAR AWAY) #########################
+        initial_r = eval(equation.replace("theta", 0))
+
+        r = scale(initial_r, smallest_r, largest_r, -self.radius_motor_max_rotations * scale_factor,
+                   self.radius_motor_max_rotations * scale_factor)
+
+        accel = 5
+        vel = 8
+        decel = 5
+
+        dict_of_points = {}
+        if r >= 0:
+            r = max(r, self.rotations_from_center)
+            dict_of_points["set_pos_traj"] = [("r1", -r, accel, vel, decel)]
+        else:
+            r = min(r, -self.rotations_from_center)
+            dict_of_points["set_pos_traj"] = [("r2", r, accel, vel, decel)]
+
+        self.server.send_to_radius_client(dict_of_points)
+        if self.server.receive_from_radius_client() == "Finished writing this point":
+            pass
+
+        ##########################################################################################
+
+
+
+
+
         time_intervals = [.044]
         self.theta_motor.set_home()
         self.theta_motor.set_vel(theta_speed)
         max_rotations = self.gear_ratio * period / (2 * pi)
         previous_thetas = [0]
-        self.server.send_to_radius_client({"point (set_pos)": ("r2", 0)})
+        # self.server.send_to_radius_client({"point (set_pos)": ("r2", 0)})
         while self.theta_motor.get_pos() < max_rotations and self.ENABLED:
             start = time.perf_counter()
 

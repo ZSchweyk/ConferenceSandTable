@@ -82,6 +82,19 @@ try:
                     getattr(radius_motors, r_num).set_pos_filter(r_pos, r_bandwidth)
 
                 client.send_to_theta_server("Finished writing this point")
+            elif info_type == "set_pos_traj":
+                if len(info_received[info_type]) == 2:
+                    r1_data, r2_data = info_received[info_type]
+                    r1_num, r1_pos, r1_accel, r1_vel, r1_decel = r1_data
+                    r2_num, r2_pos, r2_accel, r2_vel, r2_decel = r2_data
+                    getattr(radius_motors, r1_num).set_pos_traj(r1_pos, r1_accel, r1_vel, r1_decel)
+                    getattr(radius_motors, r2_num).set_pos_traj(r2_pos, r2_accel, r2_vel, r2_decel)
+                elif len(info_received[info_type]) == 1:
+                    r_data = info_received[info_type]
+                    r_num, r_pos, r_accel, r_vel, r_decel = r_data
+                    getattr(radius_motors, r_num).set_pos_traj(r_pos, r_accel, r_vel, r_decel)
+
+                client.send_to_theta_server("Finished writing this point")
 
 
         elif isinstance(info_received, str):
