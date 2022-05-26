@@ -34,6 +34,11 @@ Notes for future maintainers:
       10. sudo chmod ugo+x database.db
    3. Once you've finished typing all these commands in the terminal, reboot both RaspberryPis with "sudo reboot", starting with the ServerPi. Be sure to not leave a very long delay between reboots. You could also just shut them down with "sudo shutdown now", and power cycle the project.
 3. If you'd like to learn more about how Apache is running on the ServerPi, open /etc/apache2/sites-available/conferencesandtable.com.conf with you favorite editor. For example, type in "sudo nano /etc/apache2/sites-available/conferencesandtable.com.conf". This is the file where I tell Apache where the Flask application I want to run is. I also specify the virtual environment I'm using with the python-home flag, and associate a few domain names with the Pi's IP address. NOTE: these domain names only work if you open a browser on the Raspberry Pi itself. If you want to set them up such that they are accessible from the LAN, you need to set up a local DNS server. If you'd like to do that, follow the instructions here: https://serverfault.com/questions/101822/how-to-make-local-domain-name-available-to-people-on-lan#:~:text=I-,strongly%20recommend,-to%20use%20DNS
-4. 
-5. The code for the table itself is pretty much done... The web aspect could be improved.
+4. Here are some helpful web server commands to use that help deploy a Flask app to Apache. https://docs.google.com/document/d/1TVO4eFgKt67rHBJfX1SHweImXI8MTxCv4Zn9oLcH6D0/edit?pli=1
+5. If you'd like to familiarize yourself with Flask, follow Codemy tutorials on YouTube by building your own personl Flask app: https://www.youtube.com/playlist?list=PLCC34OHNcOtolz2Vd9ZSeSXWc8Bq23yEz
+6. If you'd like to run code without the web server, disable Apache and run test code in the Table directory.
+7. If, for any reason, you decide to change the directory structure of the project, please proceed with caution. If you do so, you'll also have to modify the Apache configuration files.
+
+
+If you have any questions whatsoever, please reach out to me through email at zschweyk@gmail.com. I'd be more than happy to help! (:
 
