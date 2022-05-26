@@ -39,6 +39,8 @@ Notes for future maintainers:
 6. If you'd like to run code without the web server, disable Apache and run test code in the Table directory.
 7. If, for any reason, you decide to change the directory structure of the project, please proceed with caution. If you do so, you'll also have to modify the Apache configuration files.
 
+Also, here is my blog on my Weebly Portfolio for this project: https://2022mechatronicszeynschweyk.weebly.com/conference-sand-table/archives/02-2022
 
 If you have any questions whatsoever, please reach out to me through email at zschweyk@gmail.com. I'd be more than happy to help! (:
+
 
