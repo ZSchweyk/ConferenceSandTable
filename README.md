@@ -42,7 +42,8 @@ Notes for future maintainers. I know this is long, but it is all very useful inf
    1. Email: asdf@gmail.com
    2. Password: asdf
 9. The database I'm using is SQLite. It is a small database that is all in one file, so you could easily copy and paste it anywhere. I, honestly, prefer using the sqlite3 module and using real SQL, but I decided to use Flask's SQLAlchemy because I realize that not everyone knows about SQL as a language. If you are interested in using pure SQL, please email me (contact info is below) and I'd be happy to help!
-10. Here's an interesting idea that I thought of last minute, but didn't have the time to implement. Create a slider(s) on the web app that allows the user to control the motion of the radii motors. Make another one that controls theta's speed. This will probably make it more interactive!
+10. Figure out how to enable index calibration. Basically, if the motors are on the outside of the table, when they calibrate on boot up, they need to go even farther to do so, which is not possible. This will result in the motors not calibrating at all, and just getting stuck. So far, I've just had to make sure that the radius motors end either in the middle or the center before the project turns off.
+11. Here's an interesting idea that I thought of last minute, but didn't have the time to implement. Create a slider(s) on the web app that allows the user to control the motion of the radii motors. Make another one that controls theta's speed. This will probably make it more interactive!
 
 Also, here is my blog on my Weebly Portfolio for this project: https://2022mechatronicszeynschweyk.weebly.com/conference-sand-table/archives/02-2022
 
