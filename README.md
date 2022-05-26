@@ -38,6 +38,11 @@ Notes for future maintainers:
 5. If you'd like to familiarize yourself with Flask, follow Codemy tutorials on YouTube by building your own personl Flask app: https://www.youtube.com/playlist?list=PLCC34OHNcOtolz2Vd9ZSeSXWc8Bq23yEz
 6. If you'd like to run code without the web server, disable Apache and run test code in the Table directory.
 7. If, for any reason, you decide to change the directory structure of the project, please proceed with caution. If you do so, you'll also have to modify the Apache configuration files.
+8. IMPORTANT: I've set all the login passwords to automatically be hashed when they are written into the database. For testing use the following credentials or create your own. Note, if you update the files from your local computer and put them on the Pi, the information in the database will be erased, and you'll have to recreate a test account:
+   1. Email: asdf@gmail.com
+   2. Password: asdf
+9. The database I'm using is SQLite. It is a small database that is all in one file, so you could easily copy and paste it anywhere. I, honestly, prefer using the sqlite3 module and using real SQL, but I decided to use Flask's SQLAlchemy because I realize that not everyone knows about SQL as a language. If you are interested in using pure SQL, please email me (contact info is below) and I'd be happy to help!
+
 
 Also, here is my blog on my Weebly Portfolio for this project: https://2022mechatronicszeynschweyk.weebly.com/conference-sand-table/archives/02-2022
 
