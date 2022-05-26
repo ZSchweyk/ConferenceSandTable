@@ -32,6 +32,8 @@ Notes for future maintainers:
       8. sudo chmod -R ugo+rw ConferenceSandTable/
       9. cd ConferenceSandTable/Webserver/
       10. sudo chmod ugo+x database.db
-   3. Once you've finished typing all these commands in the terminal, ssh into pi@conference-sand-table-v2-radius-pi.local
-3. The code for the table itself is pretty much done... The web aspect could be improved.
+   3. Once you've finished typing all these commands in the terminal, reboot both RaspberryPis with "sudo reboot", starting with the ServerPi. Be sure to not leave a very long delay between reboots. You could also just shut them down with "sudo shutdown now", and power cycle the project.
+3. If you'd like to learn more about how Apache is running on the ServerPi, open /etc/apache2/sites-available/conferencesandtable.com.conf with you favorite editor. For example, type in "sudo nano /etc/apache2/sites-available/conferencesandtable.com.conf". This is the file where I tell Apache where the Flask application I want to run is. I also specify the virtual environment I'm using with the python-home flag, and associate a few domain names with the Pi's IP address. NOTE: these domain names only work if you open a browser on the Raspberry Pi itself. If you want to set them up such that they are accessible from the LAN, you need to set up a local DNS server. If you'd like to do that, follow the instructions here: https://serverfault.com/questions/101822/how-to-make-local-domain-name-available-to-people-on-lan#:~:text=I-,strongly%20recommend,-to%20use%20DNS
+4. 
+5. The code for the table itself is pretty much done... The web aspect could be improved.
 
