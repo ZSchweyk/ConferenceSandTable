@@ -17,7 +17,7 @@ The order that Apache, the Flask application, the Server, and the Client all sta
 
 Interestingly, when the ClientPi boots up, it runs "wget" in the terminal, on a thread, to start code execution in the Flask application. Immediately after this, the ClientPi sleeps for a few seconds to give Flask the chance to import required modules, connect to and calibrate the theta motor, start up the Server, and attempt to connect to a client. When the ClientPi finishes its sleep, it establishes a connection to the Server as a Client.
 
-Notes for future maintainers. I know this is long, but it is all very useful information and, believe it or not, there is so much more I could tell you. If you think it's easier, please connect with me (contact info below) and I'd love to set up a call or Zoom meeting to discuss it:
+Notes for future maintainers. I know this is long, but it is all very useful information:
 1. When testing the Flask app before deploying it for Apache to run, follow all the commented and non-commented instructions in startup.bash to run Flask. They will allow you to connect to the Flask app via the Pi's IP address on port 5000 (type 10.107.200.19:5000 in the browser), as long as you're connected to the same LAN.
 2. In order to deploy code to the Webserver and Client Pis, copy and paste the commands in copy_Webserver_commands.sh and copy_ClientPi_commands, respectively, in the terminal.
    1. For the ClientPi, make sure that the main file you want it to run on startup is called main.py and is in /home/pi/projects/ConferenceSandTable/ClientPi/
